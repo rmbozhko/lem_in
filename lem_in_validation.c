@@ -72,9 +72,9 @@ static	int 	ft_hash_case(char *line, t_validation *valid, t_lemin *farmer)
 	if (SNG_HASH_CMNT && (ft_strstr(line, "start") || ft_strstr(line, "end")))
 	{
 		printf("lines:%s\n", line);
-		if (ft_strcmp(line, "#start"))
+		if (ft_strcmp(line, "#start") == 0)
 		{
-			printf("HERE:%s\n", line);
+			printf("HERE_OPACHA:%s\n", line);
 			valid->start_point += 1;
 			if ((farmer->start_room = get_in_out_rooms(farmer, valid)) == NULL)
 			{
@@ -87,7 +87,7 @@ static	int 	ft_hash_case(char *line, t_validation *valid, t_lemin *farmer)
 				return (0);
 			}
 		}
-		else if (ft_strcmp(line, "#end"))
+		else if (ft_strcmp(line, "#end") == 0)
 		{
 			printf("HERE:%s\n", line);
 			valid->end_point += 1;
@@ -174,11 +174,14 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer)
 	}
 	if (ERRORS)
 	{
-		printf("valid->errors: %d\n", valid->errors);
-		printf("errors:%zu\n", ft_strlen(farmer->end_room));
+		printf("TADA!\n");
 		return (0);
 	}
 	else
+	{
+		printf("valid->errors: %d\n", valid->end_point);
+		printf("errors:%d\n", valid->start_point);
 		return (1);
+	}
 	// return ((ERRORS) ? 0 : 1);
 }

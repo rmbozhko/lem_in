@@ -3,7 +3,7 @@
 void		ft_errors_handling(int flag)
 {
 	if (flag)
-		perror("ERROR\n");
+		ft_putstr("ERROR\n");
 	else
 		ft_putstr(strerror(errno));
 	exit(0);
@@ -30,6 +30,8 @@ int					main(void)
 	t_lemin 		farmer;
 	t_validation	valid;
 
+	valid.start_point = 0;
+	valid.end_point = 0;
 	farmer.ants_num = -1;
 	farmer.start_room = ft_strdup("\0");
 	farmer.end_room = ft_strdup("\0");
