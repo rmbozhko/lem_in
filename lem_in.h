@@ -31,7 +31,8 @@ typedef	struct s_validation
 # define NO_ENTRY_ROOMS (ft_strlen(farmer->start_room) == 0 && ft_strlen(farmer->end_room) == 0)
 # define ERRORS (status == -1 || NO_ENTRY_ROOMS || farmer->ants_num == -1 || NO_ENTRY_POINTS)
 
-void			ft_errors_handling(int flag);
+void				ft_errors_handling(int flag);
 int				lem_in_validation(t_validation *valid, t_lemin *farmer);
 int				get_next_line(const int fd, char **line, t_validation *valid);
+void				ft_putbidstr(char **temp);
 #endif
