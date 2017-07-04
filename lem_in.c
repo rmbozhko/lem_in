@@ -37,6 +37,7 @@ int					main(void)
 	farmer.end_room = ft_strdup("\0");
 	farmer.rooms_arr = (char**)malloc(sizeof(char*));
 	farmer.rooms_arr[0] = NULL;
+	farmer.adj_matrix[0] = NULL;
 	valid.file = ft_strdup("\0");
 	ft_help_ants(&farmer, &valid);
 	return (0);
