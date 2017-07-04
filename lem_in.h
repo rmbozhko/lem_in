@@ -12,6 +12,7 @@ typedef	struct 	s_lemin
 	char		*start_room;
 	char		*end_room;
 	char		**rooms_arr;
+	char		**adj_matrix;
 }				t_lemin;
 
 typedef	struct s_validation
