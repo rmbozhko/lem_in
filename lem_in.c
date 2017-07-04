@@ -29,7 +29,9 @@ int					main(void)
 {
 	t_lemin 		farmer;
 	t_validation	valid;
-
+	
+	valid.errors = 0;
+	valid.file = ft_strdup("\0");
 	valid.start_point = 0;
 	valid.end_point = 0;
 	farmer.ants_num = -1;
@@ -39,7 +41,6 @@ int					main(void)
 	farmer.rooms_arr[0] = NULL;
 	//farmer.adj_matrix = (char**)malloc(sizeof(char*));
 	farmer.adj_matrix[0] = NULL;
-	valid.file = ft_strdup("\0");
 	ft_help_ants(&farmer, &valid);
 	return (0);
 }
