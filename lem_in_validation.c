@@ -1,5 +1,18 @@
 #include "lem_in.h"
 
+void		ft_putbidstr(char **temp)
+{
+	size_t		y;
+	
+	y  = 0;
+	while (temp[y])
+	{
+		ft_putstr(temp[y]);
+		y++;
+	}
+		
+}
+
 static	int 	ft_str_num(char *str)
 {
 	int 		i;
