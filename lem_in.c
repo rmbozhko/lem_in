@@ -16,7 +16,7 @@ static	void		ft_help_ants(t_lemin *farmer, t_validation *valid)
 	if ((res = lem_in_validation(valid, farmer)))
 	{
 		printf("Hura! Now we can print out everything we have read.");
-		// GO ON !!
+		ft_putbidstr(valid->file);
 	}
 	else
 	{
