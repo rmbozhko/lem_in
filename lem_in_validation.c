@@ -147,6 +147,8 @@ static	int	ft_push_link(char *link1, char *link2, t_lemin *farmer)
 	
 	if (ft_bidlen(farmer->rooms_arr) == 0)
 	{
+		if (!ft_strlen(farmer->start_room) || !ft_strlen(farmer->end_room)) // if start_end_rooms are not defined yet.
+			return (1);
 		farmer->rooms_arr[0] = farmer->start_room;
 		farmer->rooms_arr[ft_bidlen(farmer->rooms_arr)] = farmer->end_room;
 		free(farmer->adj_matrix);
@@ -154,7 +156,7 @@ static	int	ft_push_link(char *link1, char *link2, t_lemin *farmer)
 	}
 	x = ft_get_rooms_coord(link1, farmer->rooms_arr);
 	y = ft_get_rooms_coord(link2, farmer->rooms_arr);
-	if (farmer->adj_matrix[x][y] = '1' || farmer->adj_matrix[y][x] = '1') // handling repeating links
+	if (farmer->adj_matrix[x][y] == '1' || farmer->adj_matrix[y][x] == '1') // handling repeating links
 		return (1);
 	farmer->adj_matrix[x][y] = '1';
 	farmer->adj_matrix[y][x] = '1';
