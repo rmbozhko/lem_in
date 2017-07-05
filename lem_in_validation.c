@@ -58,7 +58,7 @@ static	int 	ft_push_new_rooms(char **temp, t_lemin *farmer, int flag)
 	counter = 0;
 	if (ft_str_num(temp[1]) && ft_str_num(temp[2]))
 	{
-		i = 0;
+		i = 1; // as the i = 0; is reserved for start_room
 		while (farmer->rooms_arr[i] != NULL)
 		{
 			if (CHECKING_ROOMS(0) == 0)
