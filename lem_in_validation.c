@@ -126,6 +126,7 @@ static	char	**ft_create_adjecent_matrix(size_t size, char c)
 	temp = (char**)malloc(sizeof(char*) * size + 1);
 	while (y < size)
 	{
+		temp[y] = (char*)malloc(sizeof(char) * size + 1);
 		x = 0;
 		while (x <  size)
 		{
@@ -139,7 +140,7 @@ static	char	**ft_create_adjecent_matrix(size_t size, char c)
 	return (temp);
 }
 
-static	void	ft_push_link(char *link1, char *link2, t_lemin *farmer)
+static	int	ft_push_link(char *link1, char *link2, t_lemin *farmer)
 {
 	size_t		x;
 	size_t		y;
@@ -153,8 +154,11 @@ static	void	ft_push_link(char *link1, char *link2, t_lemin *farmer)
 	}
 	x = ft_get_rooms_coord(link1, farmer->rooms_arr);
 	y = ft_get_rooms_coord(link2, farmer->rooms_arr);
+	if (farmer->adj_matrix[x][y] = '1' || farmer->adj_matrix[y][x] = '1') // handling repeating links
+		return (1);
 	farmer->adj_matrix[x][y] = '1';
 	farmer->adj_matrix[y][x] = '1';
+	return (0);
 }
 
 static	int 	ft_find_rooms(char **temp, t_lemin *farmer)
@@ -170,7 +174,7 @@ static	int 	ft_find_rooms(char **temp, t_lemin *farmer)
 			counter++;
 		i++;
 	}
-	(counter == 2) ? ft_push_link(temp[0], temp[1], farmer) : 0;
+	counter += (counter == 2) ? ft_push_link(temp[0], temp[1], farmer) : 0;
 	free(temp[1]);
 	free(temp[0]);
 	free(temp);
