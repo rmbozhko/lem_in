@@ -12,31 +12,29 @@
 
 #include "lem_in.h"
 
-static t_node	*ft_create(int fd)
+static t_node	*ft_create(void)
 {
 	t_node	*temp;
 
 	temp = (t_node*)malloc(sizeof(t_node));
-	(fd >= 0) ? temp->fd = fd : 0;
 	temp->str = ft_strnew(0);
-	temp->next = NULL;
 	return (temp);
 }
 
-static t_node	*ft_cmp_fd(int fd, t_node *demo)
-{
-	t_node	*temp;
+// static t_node	*ft_cmp_fd(int fd, t_node *demo)
+// {
+// 	t_node	*temp;
 
-	temp = demo;
-	while (temp)
-	{
-		if (temp->fd == fd)
-			break ;
-		(!(temp->next)) ? temp->next = ft_create(fd) : 0;
-		temp = temp->next;
-	}
-	return (temp);
-}
+// 	temp = demo;
+// 	while (temp)
+// 	{
+// 		if (temp->fd == fd)
+// 			break ;
+// 		(!(temp->next)) ? temp->next = ft_create(fd) : 0;
+// 		temp = temp->next;
+// 	}
+// 	return (temp);
+// }
 
 static int		ft_rtn_line(t_node *temp, char buff[], char **line, t_validation *valid)
 {
@@ -66,8 +64,8 @@ int				get_next_line(const int fd, char **line, t_validation *valid)
 
 	if (IF_FP || IF_SP)
 		return (-1);
-	!(head) ? head = ft_create(fd) : 0;
-	temp = ft_cmp_fd(fd, head);
+	!(head) ? head = ft_create() : 0;
+	temp = head;
 	while ((bytes = read(fd, buff, BUFF_SIZE)) >= 0)
 	{
 		(bytes < BUFF_SIZE) ? buff[bytes] = '\0' : 0;

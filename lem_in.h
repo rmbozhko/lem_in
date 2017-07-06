@@ -8,9 +8,7 @@
 
 typedef	struct	s_node
 {
-	int				fd;
 	char			*str;
-	struct s_node	*next;
 }				t_node;
 
 typedef	struct 	s_lemin
@@ -40,9 +38,9 @@ typedef	struct s_validation
 # define SNG_HASH_CMNT (line[0] == '#' && line[1] != '#')
 # define RESV_COMMD (line[0] == '#' && line[1] == '#')
 # define TRPL_HASH_CMNT (line[0] == '#' && line[1] == '#' && line[2] == '#')
-# define NO_ENTRY_POINTS (valid->start_point != 1 || valid->end_point != 1 || !ft_any_links(farmer->adj_matrix, '1'))
+# define NO_ENTRY_POINTS (valid->start_point != 1 || valid->end_point != 1)
 # define NO_ENTRY_ROOMS (ft_strlen(farmer->start_room) == 0 && ft_strlen(farmer->end_room) == 0)
-# define ERRORS (status == -1 || NO_ENTRY_ROOMS || farmer->ants_num == -1 || NO_ENTRY_POINTS)
+# define ERRORS (status == -1 || NO_ENTRY_ROOMS || farmer->ants_num == -1 || NO_ENTRY_POINTS || ft_any_links(farmer->adj_matrix, '1') == 0)
 
 void				ft_errors_handling(int flag);
 int					lem_in_validation(t_validation *valid, t_lemin *farmer);

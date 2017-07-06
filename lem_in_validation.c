@@ -36,11 +36,12 @@ static	size_t	ft_bidlen(char **temp)
 	return (i);
 }
 
-static	size_t	ft_get_rooms_coord(char *room, char **temp)
+static	int	ft_get_rooms_coord(char *room, char **temp)
 {
 	size_t		i;
 	
 	i = 0;
+
 	while (temp[i])
 	{
 		if (ft_strcmp(room, temp[i]) == 0)
@@ -55,7 +56,7 @@ static	int 	ft_push_new_rooms(char **temp, t_lemin *farmer, int flag)
 	size_t		i;
 	int 		counter;
 
-	counter = 0;
+	counter = 1;
 	if (ft_str_num(temp[1]) && ft_str_num(temp[2]))
 	{
 		i = 1;
@@ -66,8 +67,9 @@ static	int 	ft_push_new_rooms(char **temp, t_lemin *farmer, int flag)
 			i++;
 		}
 		if (flag == 1)
-			counter += (!(farmer->rooms_arr[i] = ft_strdup(temp[0]))) ? 1 : 0;
-		(flag == 1) ? farmer->rooms_arr[i + 1] = NULL : 0;
+			counter = (!(farmer->rooms_arr[i] = ft_strdup(temp[0]))) ? 1 : 0;
+		if (flag == 1)
+			farmer->rooms_arr[i + 1] = NULL;
 	}
 	free(temp[2]);
 	free(temp[1]);
@@ -142,25 +144,11 @@ static	char	**ft_create_adjecent_matrix(size_t size, char c)
 
 static	int	ft_push_link(char *link1, char *link2, t_lemin *farmer)
 {
-	size_t		x;
-	size_t		y;
-	
-	// if (ft_bidlen(farmer->adj_matrix) == 0)
-	// {
-	// 	if ((ft_strlen(farmer->start_room) == 0) || (ft_strlen(farmer->end_room) == 0)) // if start_end_rooms are not defined yet.
-	// 	{
-	// 		printf("THIS!\n");
-	// 		return (1);
-	// 	}
-	// 	farmer->rooms_arr[0] = farmer->start_room;
-	// 	farmer->rooms_arr[ft_bidlen(farmer->rooms_arr)] = farmer->end_room;
-	// 	free(farmer->adj_matrix);
-	// 	farmer->adj_matrix = ft_create_adjecent_matrix(ft_bidlen(farmer->rooms_arr), '0');
-	// }
+	int		x;
+	int		y;
+
 	x = ft_get_rooms_coord(link1, farmer->rooms_arr);
 	y = ft_get_rooms_coord(link2, farmer->rooms_arr);
-	// if (farmer->adj_matrix[x][y] == '1' || farmer->adj_matrix[y][x] == '1') // handling repeating links
-		// return (1);
 	farmer->adj_matrix[x][y] = '1';
 	farmer->adj_matrix[y][x] = '1';
 	return (0);
@@ -168,13 +156,10 @@ static	int	ft_push_link(char *link1, char *link2, t_lemin *farmer)
 
 static	int		ft_initialize_adj_matrix(t_lemin *farmer)
 {
-	if ((ft_strlen(farmer->start_room) == 0) || (ft_strlen(farmer->end_room) == 0))
-	{
-		printf("THIS!\n");
-		return (1);
-	}
+	free(farmer->rooms_arr[0]);
 	farmer->rooms_arr[0] = ft_strdup(farmer->start_room);
 	farmer->rooms_arr[ft_bidlen(farmer->rooms_arr)] = ft_strdup(farmer->end_room);
+	farmer->rooms_arr[ft_bidlen(farmer->rooms_arr) + 1] = NULL;
 	free(farmer->adj_matrix);
 	farmer->adj_matrix = ft_create_adjecent_matrix(ft_bidlen(farmer->rooms_arr), '0');
 	return (0);
@@ -186,7 +171,8 @@ static	int 	ft_find_rooms(char **temp, t_lemin *farmer)
 	int 		counter;
 
 	i = 0;
-	counter = (ft_bidlen(farmer->adj_matrix) == 0) ? ft_initialize_adj_matrix(farmer) : 0;
+	counter = 0;
+	counter += ((ft_bidlen(farmer->adj_matrix)) == 0) ? ft_initialize_adj_matrix(farmer) : 0;
 	while (farmer->rooms_arr[i])
 	{
 		if (!CHECKING_ROOMS(0) || !CHECKING_ROOMS(1))
@@ -205,7 +191,7 @@ static	int 	ft_validate_ants_num(char *line, t_lemin *farmer)
 	int		temp;
 
 	temp = ft_atoi(line);
-	if (temp > 0 && temp < 2147483647)
+	if (temp >= 1 && temp <= 2147483647)
 	{
 		farmer->ants_num = temp;
 		return (0);
@@ -221,29 +207,18 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer)
 	line = ft_strdup("\0");
 	while ((status = get_next_line(0, &line, valid)) > 0)
 	{
-		printf("LINE:%s\n", line);
 		if (ft_str_num(line))
 			valid->errors += (farmer->ants_num != -1) ? 1 : ft_validate_ants_num(line, farmer);
 		else if (line[0] == '#')
 			valid->errors += ft_hash_case(line + 1, valid, farmer);
 		else if (ft_words_count(line, ' ') == 3)
 			valid->errors += ft_push_new_rooms(ft_strsplit(line, ' '), farmer, 1);
-		else if (ft_words_count(line, '-') == 2)
+		else if (ft_words_count(line, '-') == 2 && !NO_ENTRY_ROOMS)
 			valid->errors += ft_find_rooms(ft_strsplit(line, '-'), farmer);
 		else
-		{
 			valid->errors += 1;
-		}
 		if (valid->errors != 0)
-		{
 			return (0);
-		}
 	}
-	if (ERRORS)
-	{
-		printf("HEER!\n");
-		return (0);
-	}
-	return (1);
-	// return ((ERRORS) ? 0 : 1);
+	return ((ERRORS) ? 0 : 1);
 }

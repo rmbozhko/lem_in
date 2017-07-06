@@ -1,4 +1,4 @@
-NAME = lem_in
+NAME = lem-in
 CC = gcc
 
 SRC = lem_in.c lem_in_validation.c get_next_line.c

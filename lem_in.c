@@ -29,15 +29,15 @@ int		ft_any_links(char **link, char c)
 		}
 		y++;
 	}
-	return ((!(counter % 2)) ? 1 : 0);
+	return (((counter % 2 == 0) && counter != 0) ? 1 : 0);
 }
 
 static	void		ft_help_ants(t_lemin *farmer, t_validation *valid)
 {
 	if (lem_in_validation(valid, farmer))
 	{
-		printf("Hura! Now we can print out everything we have read.");
-		//ft_putstr(valid->file);
+		// printf("HEE!\n");
+		// ft_putstr(valid->file);
 	}
 	else
 	{
@@ -57,10 +57,10 @@ int					main(void)
 	farmer.ants_num = -1;
 	farmer.start_room = ft_strdup("\0");
 	farmer.end_room = ft_strdup("\0");
-	farmer.rooms_arr = (char**)malloc(sizeof(char*) * 2);
+	farmer.rooms_arr = (char**)malloc(sizeof(char*) * 1000000);
 	farmer.rooms_arr[0] = ft_strdup("\0");
 	farmer.rooms_arr[1] = NULL;
-	farmer.adj_matrix = (char**)malloc(sizeof(char*));
+	farmer.adj_matrix = (char**)malloc(sizeof(char*) * 1000000);
 	farmer.adj_matrix[0] = NULL;
 	ft_help_ants(&farmer, &valid);
 	return (0);

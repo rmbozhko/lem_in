@@ -1,1 +1,1 @@
-make re && ./lem_in < tests/test1
+make re && ./lem-in < tests/err_no_linked_path
