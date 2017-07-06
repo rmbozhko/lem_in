@@ -18,11 +18,12 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $<
 
 clean:
-	make clean -C libft
-	rm -rf $(OBJ)
+	@make clean -C libft
+	@rm -rf $(OBJ)
+	@echo "Cleaned ..."
 
 fclean: clean
-	make fclean -C libft
-	rm -rf $(NAME)
+	@make fclean -C libft
+	@rm -rf $(NAME)
 
 re: fclean all

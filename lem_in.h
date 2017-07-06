@@ -6,6 +6,13 @@
 # include <string.h>
 # include <stdio.h>
 
+typedef	struct	s_node
+{
+	int				fd;
+	char			*str;
+	struct s_node	*next;
+}				t_node;
+
 typedef	struct 	s_lemin
 {
 	int			ants_num;
@@ -23,6 +30,12 @@ typedef	struct s_validation
 	int			end_point;
 }				t_validation;
 
+# define BUFF_SIZE 9999
+# define NL_CODE ft_strchr(temp->str, 10)
+# define S_C_SUB (NL_CODE - temp->str)
+# define IF_FP ((fd < 0 || fd > 4096) || ((read(fd, buff, 0)) == -1 && !(head)))
+# define IF_SP (!(line) || !(ft_memset(buff, 0, BUFF_SIZE + 1)))
+
 # define CHECKING_ROOMS(x) ft_strcmp(temp[x], farmer->rooms_arr[i])
 # define SNG_HASH_CMNT (line[0] == '#' && line[1] != '#')
 # define RESV_COMMD (line[0] == '#' && line[1] == '#')
@@ -32,7 +45,8 @@ typedef	struct s_validation
 # define ERRORS (status == -1 || NO_ENTRY_ROOMS || farmer->ants_num == -1 || NO_ENTRY_POINTS)
 
 void				ft_errors_handling(int flag);
-int				lem_in_validation(t_validation *valid, t_lemin *farmer);
-int				get_next_line(const int fd, char **line, t_validation *valid);
+int					lem_in_validation(t_validation *valid, t_lemin *farmer);
+int					get_next_line(const int fd, char **line, t_validation *valid);
 void				ft_putbidstr(char **temp);
+int					ft_any_links(char **link, char c);
 #endif

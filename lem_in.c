@@ -34,16 +34,13 @@ int		ft_any_links(char **link, char c)
 
 static	void		ft_help_ants(t_lemin *farmer, t_validation *valid)
 {
-	int 		res;
-
-	if ((res = lem_in_validation(valid, farmer)))
+	if (lem_in_validation(valid, farmer))
 	{
 		printf("Hura! Now we can print out everything we have read.");
-		ft_putbidstr(valid->file);
+		//ft_putstr(valid->file);
 	}
 	else
 	{
-		printf("%d\n", res);
 		ft_errors_handling(1);
 	}
 }
@@ -63,7 +60,7 @@ int					main(void)
 	farmer.rooms_arr = (char**)malloc(sizeof(char*) * 2);
 	farmer.rooms_arr[0] = ft_strdup("\0");
 	farmer.rooms_arr[1] = NULL;
-	//farmer.adj_matrix = (char**)malloc(sizeof(char*));
+	farmer.adj_matrix = (char**)malloc(sizeof(char*));
 	farmer.adj_matrix[0] = NULL;
 	ft_help_ants(&farmer, &valid);
 	return (0);

@@ -1,0 +1,19 @@
+2
+#comm
+###comme
+2 1 4
+##start
+#comm
+0 4 2
+#com
+1 6 4
+#comme
+##end
+#comm
+#comm
+3 1 4
+0-1
+1-2
+2-3
+0-3
+1-3
