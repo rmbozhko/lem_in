@@ -8,6 +8,7 @@ void		ft_putbidstr(char **temp)
 	while (temp[y])
 	{
 		ft_putstr(temp[y]);
+		ft_putstr("\n");
 		y++;
 	}
 		
@@ -26,7 +27,7 @@ static	int 	ft_str_num(char *str)
 	return (1);
 }
 
-static	size_t	ft_bidlen(char **temp)
+size_t	ft_bidlen(char **temp)
 {
 	size_t		i;
 	
@@ -36,7 +37,7 @@ static	size_t	ft_bidlen(char **temp)
 	return (i);
 }
 
-static	int	ft_get_rooms_coord(char *room, char **temp)
+int	ft_get_rooms_coord(char *room, char **temp)
 {
 	size_t		i;
 	
@@ -59,6 +60,7 @@ static	int 	ft_push_new_rooms(char **temp, t_lemin *farmer, int flag)
 	counter = 1;
 	if (ft_str_num(temp[1]) && ft_str_num(temp[2]))
 	{
+		counter = 0;
 		i = 1;
 		while (farmer->rooms_arr[i] != NULL)
 		{
@@ -94,7 +96,9 @@ static	char	*get_in_out_rooms(t_lemin *farmer, t_validation *valid)
 			return (NULL);
 		}
 		else
+		{
 			return (NULL);
+		}
 	}
 	return (NULL);
 }
@@ -208,17 +212,36 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer)
 	while ((status = get_next_line(0, &line, valid)) > 0)
 	{
 		if (ft_str_num(line))
+		{
+			// printf("OLA!\n");
 			valid->errors += (farmer->ants_num != -1) ? 1 : ft_validate_ants_num(line, farmer);
+		}
 		else if (line[0] == '#')
+		{
+			// printf("HEY!\n");
 			valid->errors += ft_hash_case(line + 1, valid, farmer);
+			// printf("%d\n", valid->errors);
+		}
 		else if (ft_words_count(line, ' ') == 3)
+		{
+			// printf("WTF?!\n");
 			valid->errors += ft_push_new_rooms(ft_strsplit(line, ' '), farmer, 1);
+		}
 		else if (ft_words_count(line, '-') == 2 && !NO_ENTRY_ROOMS)
+		{
+			// printf("GRINGO!\n");
 			valid->errors += ft_find_rooms(ft_strsplit(line, '-'), farmer);
+		}
 		else
+		{
+			// printf("FUCK OFF!\n");
 			valid->errors += 1;
+		}
 		if (valid->errors != 0)
+		{
+			// printf("HERE!\n");
 			return (0);
+		}
 	}
-	return ((ERRORS) ? 0 : 1);
+	return ((ERRORS) ? 0 : dfs(farmer));
 }

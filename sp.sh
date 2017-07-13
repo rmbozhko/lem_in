@@ -1,1 +1,2 @@
-make re && ./lem-in < tests/err_no_linked_path
+make re && ./lem-in < tests/test3
+##make re && ./lem-in < tests/test4

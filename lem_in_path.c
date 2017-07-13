@@ -1,32 +1,43 @@
  #include "lem_in.h"
 
-static int			ft_dfs_visit(t_ants *farmer, int vertex, int i)
+static int			ft_dfs_visit(t_lemin *farmer, int vertex, int counter)
 {
 	char		*str;
+	int			i;
 
+	i = 0;
 	str = farmer->adj_matrix[vertex];
-	while (ft_strchr(str, '1'))
+	while (ft_strchr((str + i), '1'))
 	{
-		if (ft_get_rooms_coord(farmer->visited_roms, farmer->rooms_arr[ft_strchr(str, '1') - str]) == -1)
+		if (ft_get_rooms_coord(farmer->rooms_arr[ft_strchr(str + i, '1') - str], farmer->visited_rooms) == -1)
 		{
-			farmer->visited_rooms[i] = farmer->rooms_arr[ft_strchr(str, '1') - str];
-			if (ft_get_rooms_coord(farmer->visited_rooms, farmer->rooms_arr[ft_bidlen(farmer->rooms_arr)]) != -1)
+			farmer->visited_rooms[counter] = farmer->rooms_arr[ft_strchr(str + i, '1') - str];
+			if (ft_get_rooms_coord(farmer->rooms_arr[ft_bidlen(farmer->rooms_arr) - 1], farmer->visited_rooms) != -1)
 			    return (1);
 			return (ft_dfs_visit(farmer,
-				ft_get_rooms_coord(farmer->rooms_arr[ft_strchr(str, '1') - str], farmer->rooms_arr), ++i));
+				ft_get_rooms_coord(farmer->rooms_arr[ft_strchr(str + i, '1') - str], farmer->rooms_arr), ++counter));
 		}
-		str = ft_strchr(str, '1') - str + 1; // whether it returns the exact postion or position after the found char.
+		if (ft_strchr(str + 1 + i, '1') != NULL)
+			i =  ft_strchr(str + 1 + i, '1') - str;
+		else
+			break ;
 	}
 	return (0);
 }
 
-int			dfs(t_ants *farmer)
+int			dfs(t_lemin *farmer)
 {
 	if (ft_strchr(farmer->adj_matrix[0], '1'))
 	{
+		farmer->visited_rooms = (char**)malloc(sizeof(char*) * ft_bidlen(farmer->rooms_arr) + 1);
 		farmer->visited_rooms[0] = farmer->rooms_arr[0];
-		return (ft_dfs_visit(farmer, 0, 1));
+		if (ft_dfs_visit(farmer, 0, 1))
+		{
+			printf("YO!\n");
+			//ft_memdel((void**)&farmer->visited_rooms);
+			return (1);
+		}
 	}
-	else
-		return (0);
+	printf("WTF?!\n");
+	return (0);
 }
