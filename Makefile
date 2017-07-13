@@ -1,7 +1,7 @@
 NAME = lem-in
 CC = gcc
 
-SRC = lem_in.c lem_in_validation.c get_next_line.c
+SRC = lem_in.c lem_in_validation.c get_next_line.c lem_in_path.c
 
 OBJ = $(SRC:.c=.o)
 CFLAGS = -c 
