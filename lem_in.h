@@ -11,6 +11,12 @@ typedef	struct	s_node
 	char			*str;
 }				t_node;
 
+typedef	struct 	s_graph
+{
+	char			*path_str;
+	size_t			path_len;
+}				t_graph;
+
 typedef	struct 	s_lemin
 {
 	int			ants_num;
@@ -18,7 +24,8 @@ typedef	struct 	s_lemin
 	char		*end_room;
 	char		**rooms_arr;
 	char		**adj_matrix;
-	char            **visited_rooms;
+	char        **visited_rooms;
+	t_graph		**paths;
 }				t_lemin;
 
 typedef	struct s_validation
@@ -48,5 +55,8 @@ int					lem_in_validation(t_validation *valid, t_lemin *farmer);
 int					get_next_line(const int fd, char **line, t_validation *valid);
 void				ft_putbidstr(char **temp);
 int					ft_any_links(char **link, char c);
-int			        dfs(t_ants *farmer);
+// int			        dfs(t_lemin *farmer);
+int					dfs_iter(t_lemin *farmer);
+int					ft_get_rooms_coord(char *room, char **temp);
+size_t				ft_bidlen(char **temp);
 #endif

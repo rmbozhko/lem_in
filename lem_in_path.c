@@ -33,11 +33,9 @@ int			dfs(t_lemin *farmer)
 		farmer->visited_rooms[0] = farmer->rooms_arr[0];
 		if (ft_dfs_visit(farmer, 0, 1))
 		{
-			printf("YO!\n");
 			//ft_memdel((void**)&farmer->visited_rooms);
 			return (1);
 		}
 	}
-	printf("WTF?!\n");
 	return (0);
 }
