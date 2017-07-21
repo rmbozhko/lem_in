@@ -243,5 +243,5 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer)
 			return (0);
 		}
 	}
-	return ((ERRORS) ? 0 : dfs_iter(farmer));
+	return ((ERRORS) ? 0 : dfs_iter(farmer, 0, 0));
 }

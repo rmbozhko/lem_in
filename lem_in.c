@@ -36,8 +36,8 @@ static	void		ft_help_ants(t_lemin *farmer, t_validation *valid)
 {
 	if (lem_in_validation(valid, farmer))
 	{
-		printf("path:%s\n", farmer->paths[0]->path_str);
-		printf("\n");
+		printf("path_1:%s\n", farmer->paths[0]->path_str);
+		printf("path_2:%s\n", farmer->paths[1]->path_str);
 		ft_putstr(valid->file);
 	}
 	else
@@ -55,6 +55,7 @@ int					main(void)
 	valid.file = ft_strdup("\0");
 	valid.start_point = 0;
 	valid.end_point = 0;
+	farmer.rooms_counter = 0;
 	farmer.ants_num = -1;
 	farmer.start_room = ft_strdup("\0");
 	farmer.end_room = ft_strdup("\0");
