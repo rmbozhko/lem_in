@@ -59,4 +59,5 @@ int					ft_any_links(char **link, char c);
 int					dfs_iter(t_lemin *farmer, int i, int j);
 int					ft_get_rooms_coord(char *room, char **temp);
 size_t				ft_bidlen(char **temp);
+void                ants_travel(t_lemin *farmer);
 #endif

@@ -19,8 +19,8 @@ void	ft_putnbr(int nb)
 	int		tempnb;
 
 	tempnb = nb;
-	if (nb == -2147483648)
-		nb = -214748364;
+	//if (nb == (-2147483647 - 1))
+	//	nb = -214748364;
 	i = 0;
 	if (tempnb < 0)
 		nb = -nb;
@@ -35,6 +35,6 @@ void	ft_putnbr(int nb)
 		rev[++i] = '-';
 	while (i >= 0)
 		ft_putchar(rev[i--]);
-	if (tempnb == -2147483648)
-		ft_putchar('8');
+	//if (tempnb == (-2147483647 - 1))
+	//	ft_putchar('8');
 }

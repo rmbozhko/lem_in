@@ -36,9 +36,11 @@ static	void		ft_help_ants(t_lemin *farmer, t_validation *valid)
 {
 	if (lem_in_validation(valid, farmer))
 	{
-		printf("path_1:%s\n", farmer->paths[0]->path_str);
-		printf("path_2:%s\n", farmer->paths[1]->path_str);
+		//printf("path_1:%s\n", farmer->paths[0]->path_str);
+		//printf("path_2:%s\n", farmer->paths[1]->path_str);
 		ft_putstr(valid->file);
+		ft_putstr("\n");
+		ants_travel(farmer);
 	}
 	else
 	{

@@ -1,10 +1,11 @@
+#include "lem_in.h"
+
 static void      ft_free_ndarr(void **arr, size_t i)
 {
-  while (arr[i] != NULL)
-    ft_memdel(arr[i++]);
+  
 }
 
-void      ft_determine_best_path(t_lemin *farmer, size_t len) //  len = ft_bidlen(farmer->paths)
+static void      ft_determine_best_path(t_lemin *farmer, size_t len)
 {
   size_t      i;
   char        *path;
@@ -26,7 +27,9 @@ void      ft_determine_best_path(t_lemin *farmer, size_t len) //  len = ft_bidle
     else
       i++;
   }
-  ft_free_ndarr(farmer->paths, 1);
+  //i = 1;
+  //while (farmer->paths[i] != NULL)
+    //ft_memdel(farmer->paths[i++]);
 }
 
 char        **ft_init_ants(char *path, int ants_num)
@@ -47,30 +50,61 @@ size_t          ft_update_ants_arr(char **arr)
     size_t      i;
     
     i = 0;
-    while (arr[i] == NULL)
+    while (ft_strcmp(arr[i], "\0") == 0)//== NULL)
         i++;
     return (i);
-}       
+}     
 
-void            ft_mv_ants(char **ants_arr, size_t ant_num)
+size_t      ft_count_unfinished(char **arr)
+{
+    size_t      i;
+    size_t      counter;
+    
+    counter = 0;
+    i = 0;
+    while (arr[i])
+    {
+        if (ft_strcmp(arr[i], "\0") != 0)
+            counter++;
+        i++;
+    }
+    return (counter);
+}      
+
+void            ft_mv_ants(char **ants_arr, size_t ant_num, int flag)
 {
   size_t      temp;
   size_t      j;
   
   j = ft_update_ants_arr(ants_arr);
   temp = 0;
-  while (temp <= ant_num)
+  (flag == 1) ? ant_num += j - 1 : 0;
+  while (j <= ant_num)
   {
     ft_putchar('L');
-    ft_putstr(ft_itoa(temp + 1));
+    ft_putstr(ft_itoa(j + 1));
     ft_putchar('-');
     ants_arr[j] += 2;
-    ft_putchar(&ants_arr[j]);
-    (ants_arr[j][1] == '\0') ? ft_memdel((void**)&ants_arr[j]) : 0;
-    ((++temp) <= ant_num) ? ft_putchar(' ') : 0;
-    j++;
+    ft_putchar(ants_arr[j][0]);
+    if (ants_arr[j][1] == '\0')
+    {
+        //free(ants_arr[j]);
+        ants_arr[j] = "\0";//NULL;
+        //ft_memdel((void**)&ants_arr[j]);
+    }
+    ((++j) <= ant_num) ? ft_putchar(' ') : 0;
   }
   ft_putchar('\n');
+}
+
+size_t      ft_paths_len(void **temp)
+{
+	size_t		i;
+	
+	i = 0;
+	while (temp[i])
+		i++;
+	return (i);
 }
 
 void      ants_travel(t_lemin *farmer)
@@ -78,10 +112,12 @@ void      ants_travel(t_lemin *farmer)
   size_t    ants_num;
   char      **ants_arr;
   
+  ft_determine_best_path(farmer, ft_paths_len((void**)farmer->paths));
   ants_num = 0;
-  ants_arr = ft_init_ants(farmer->path[0]->path_str, farmer->ants_num);
+  ants_arr = ft_init_ants(farmer->paths[0]->path_str, farmer->ants_num);
   while (ants_num < farmer->ants_num)
-  {
-      ft_mv_ants(ants_arr, ants_num++);
-  }
+      ft_mv_ants(ants_arr, ants_num++, 0);
+  ants_num = ft_count_unfinished(ants_arr);
+  while (ants_num != 0)
+    ft_mv_ants(ants_arr, ants_num--, 1);
 }
