@@ -11,6 +11,14 @@ typedef	struct	s_node
 	char			*str;
 }				t_node;
 
+typedef   struct    s_bonus
+{
+  int         cerror;
+  int         cmap;
+  int         cants;
+  char        **color_arr;
+}					t_bonus;
+
 typedef	struct 	s_graph
 {
 	char			*path_str;
@@ -52,7 +60,7 @@ typedef	struct s_validation
 # define ERRORS (status == -1 || NO_ENTRY_ROOMS || farmer->ants_num == -1 || NO_ENTRY_POINTS || ft_any_links(farmer->adj_matrix, '1') == 0)
 
 void				ft_errors_handling(int flag);
-int					lem_in_validation(t_validation *valid, t_lemin *farmer);
+int					lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus);
 int					get_next_line(const int fd, char **line, t_validation *valid);
 void				ft_putbidstr(char **temp);
 int					ft_any_links(char **link, char c);
@@ -60,4 +68,6 @@ int					dfs_iter(t_lemin *farmer, int i, int j);
 int					ft_get_rooms_coord(char *room, char **temp);
 size_t				ft_bidlen(char **temp);
 void                ants_travel(t_lemin *farmer);
+int           		ft_get_color(char *str);
+char      			**ft_init_colors_arr(void);
 #endif

@@ -103,10 +103,12 @@ static	char	*get_in_out_rooms(t_lemin *farmer, t_validation *valid)
 	return (NULL);
 }
 
-static	int 	ft_hash_case(char *line, t_validation *valid, t_lemin *farmer)
+static	int 	ft_hash_case(char *line, t_validation *valid, t_lemin *farmer, t_bonus *bonus)
 {
-	if (SNG_HASH_CMNT && (ft_strstr(line, "start") || ft_strstr(line, "end")))
+	if (SNG_HASH_CMNT && (ft_strstr(line, "start") || ft_strstr(line, "end")
+  || ft_strstr(line, "cmap_") || ft_strstr(line, "cants_") || ft_strstr(line, "cerror_")))
 	{
+		
 		if (ft_strcmp(line, "#start") == 0)
 		{
 			valid->start_point += 1;
@@ -117,6 +119,16 @@ static	int 	ft_hash_case(char *line, t_validation *valid, t_lemin *farmer)
 			valid->end_point += 1;
 			return (((farmer->end_room = get_in_out_rooms(farmer, valid)) == NULL) ? (1) : (0));
 		}
+	    else
+	    {
+	      if (ft_strstr(line, "#cmap_"))
+	      	bonus->cmap = ft_get_color(line + 6);
+	      else if (ft_strstr(line, "#cants_"))
+	        bonus->cants = ft_get_color(line + 7);
+	      else if (ft_strstr(line, "#cerror_"))
+	        bonus->cerror = ft_get_color(line + 8);
+	      return ((bonus->cerror == -1 || bonus->cants == -1 || bonus->cmap == -1) ? 1 : 0);
+	    }
 		return (1);
 	}
 	return (0);
@@ -132,15 +144,9 @@ static	char	**ft_create_adjecent_matrix(size_t size, char c)
 	temp = (char**)malloc(sizeof(char*) * size + 1);
 	while (y < size)
 	{
-		temp[y] = (char*)malloc(sizeof(char) * size + 1);
-		x = 0;
-		while (x <  size)
-		{
-			temp[y][x] = c;
-			x++;
-		}
-		temp[y][x] = '\0';
-		y++;
+		temp[y] = ft_strnew(sizeof(char) *  size + 1);
+		ft_memset(temp[y], (int)c, size);
+		temp[y++][size + 1] = '\0';
 	}
 	temp[y] = NULL;
 	return (temp);
@@ -203,7 +209,7 @@ static	int 	ft_validate_ants_num(char *line, t_lemin *farmer)
 	return (1);
 }
 
-int				lem_in_validation(t_validation *valid, t_lemin *farmer)
+int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus)
 {
 	char		*line;
 	int 		status;
@@ -212,36 +218,17 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer)
 	while ((status = get_next_line(0, &line, valid)) > 0)
 	{
 		if (ft_str_num(line))
-		{
-			// printf("OLA!\n");
 			valid->errors += (farmer->ants_num != -1) ? 1 : ft_validate_ants_num(line, farmer);
-		}
 		else if (line[0] == '#')
-		{
-			// printf("HEY!\n");
-			valid->errors += ft_hash_case(line + 1, valid, farmer);
-			// printf("%d\n", valid->errors);
-		}
+			valid->errors += ft_hash_case(line + 1, valid, farmer, bonus);
 		else if (ft_words_count(line, ' ') == 3)
-		{
-			// printf("WTF?!\n");
 			valid->errors += ft_push_new_rooms(ft_strsplit(line, ' '), farmer, 1);
-		}
 		else if (ft_words_count(line, '-') == 2 && !NO_ENTRY_ROOMS)
-		{
-			// printf("GRINGO!\n");
 			valid->errors += ft_find_rooms(ft_strsplit(line, '-'), farmer);
-		}
 		else
-		{
-			// printf("FUCK OFF!\n");
 			valid->errors += 1;
-		}
 		if (valid->errors != 0)
-		{
-			// printf("HERE!\n");
 			return (0);
-		}
 	}
 	return ((ERRORS) ? 0 : dfs_iter(farmer, 0, 0));
 }

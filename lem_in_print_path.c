@@ -1,11 +1,12 @@
 #include "lem_in.h"
 
-static void      ft_free_ndarr(void **arr, size_t i)
+static void      ft_free_ndarr(t_graph **arr, size_t i)
 {
-  
+  while (arr[i] != NULL)
+    ft_memdel(arr[i++]);
 }
 
-static void      ft_determine_best_path(t_lemin *farmer, size_t len)
+static void      ft_determine_best_path(t_lemin *farmer, int len)
 {
   size_t      i;
   char        *path;
@@ -27,9 +28,7 @@ static void      ft_determine_best_path(t_lemin *farmer, size_t len)
     else
       i++;
   }
-  //i = 1;
-  //while (farmer->paths[i] != NULL)
-    //ft_memdel(farmer->paths[i++]);
+  // ft_free_ndarr(farmer->paths, 1);  
 }
 
 char        **ft_init_ants(char *path, int ants_num)
@@ -97,22 +96,12 @@ void            ft_mv_ants(char **ants_arr, size_t ant_num, int flag)
   ft_putchar('\n');
 }
 
-size_t      ft_paths_len(void **temp)
-{
-	size_t		i;
-	
-	i = 0;
-	while (temp[i])
-		i++;
-	return (i);
-}
-
 void      ants_travel(t_lemin *farmer)
 {
   size_t    ants_num;
   char      **ants_arr;
   
-  ft_determine_best_path(farmer, ft_paths_len((void**)farmer->paths));
+  ft_determine_best_path(farmer, farmer->rooms_counter);
   ants_num = 0;
   ants_arr = ft_init_ants(farmer->paths[0]->path_str, farmer->ants_num);
   while (ants_num < farmer->ants_num)

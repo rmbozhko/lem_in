@@ -6,7 +6,6 @@ void		ft_errors_handling(int flag)
 		ft_putstr("ERROR\n");
 	else
 		ft_putstr(strerror(errno));
-	exit(0);
 }
 
 int		ft_any_links(char **link, char c)
@@ -32,19 +31,23 @@ int		ft_any_links(char **link, char c)
 	return (((counter % 2 == 0) && counter != 0) ? 1 : 0);
 }
 
-static	void		ft_help_ants(t_lemin *farmer, t_validation *valid)
+static	void		ft_help_ants(t_lemin *farmer, t_validation *valid, t_bonus *bonus)
 {
-	if (lem_in_validation(valid, farmer))
+	if (lem_in_validation(valid, farmer, bonus))
 	{
-		//printf("path_1:%s\n", farmer->paths[0]->path_str);
-		//printf("path_2:%s\n", farmer->paths[1]->path_str);
+		ft_putstr(bonus->color_arr[bonus->cmap]);
 		ft_putstr(valid->file);
-		ft_putstr("\n");
+		ft_putstr("\033[0m");
+		ft_putstr(bonus->color_arr[bonus->cants]);
 		ants_travel(farmer);
+		ft_putstr("\033[0m");
 	}
 	else
 	{
+		ft_putstr(bonus->color_arr[bonus->cerror]);
 		ft_errors_handling(1);
+		ft_putstr("\033[0m");
+		exit(0);
 	}
 }
 
@@ -52,7 +55,11 @@ int					main(void)
 {
 	t_lemin 		farmer;
 	t_validation	valid;
-	
+	t_bonus			bonus;
+
+	bonus.cerror = 0;
+	bonus.cants = 0;
+	bonus.cmap = 0;
 	valid.errors = 0;
 	valid.file = ft_strdup("\0");
 	valid.start_point = 0;
@@ -68,6 +75,7 @@ int					main(void)
 	farmer.adj_matrix[0] = NULL;
 	farmer.paths = (t_graph**)malloc(sizeof(t_graph**));
 	// farmer.paths[0] = NULL;
-	ft_help_ants(&farmer, &valid);
+	bonus.color_arr = ft_init_colors_arr();
+	ft_help_ants(&farmer, &valid, &bonus);
 	return (0);
 }
