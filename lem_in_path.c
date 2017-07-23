@@ -25,7 +25,7 @@ static int			ft_dfs_visit(t_lemin *farmer, int vertex, int counter)
 	return (0);
 }
 
-int			dfs(t_lemin *farmer)
+int			dfs_check(t_lemin *farmer)
 {
 	if (ft_strchr(farmer->adj_matrix[0], '1'))
 	{
@@ -33,7 +33,7 @@ int			dfs(t_lemin *farmer)
 		farmer->visited_rooms[0] = farmer->rooms_arr[0];
 		if (ft_dfs_visit(farmer, 0, 1))
 		{
-			//ft_memdel((void**)&farmer->visited_rooms);
+			ft_memdel((void**)&farmer->visited_rooms);
 			return (1);
 		}
 	}

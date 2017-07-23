@@ -230,5 +230,5 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus)
 		if (valid->errors != 0)
 			return (0);
 	}
-	return ((ERRORS) ? 0 : dfs_iter(farmer, 0, 0));
+	return ((ERRORS) ? 0 : dfs_check(farmer));
 }

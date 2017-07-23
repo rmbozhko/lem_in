@@ -70,4 +70,5 @@ size_t				ft_bidlen(char **temp);
 void                ants_travel(t_lemin *farmer);
 int           		ft_get_color(char *str);
 char      			**ft_init_colors_arr(void);
+int					dfs_check(t_lemin *farmer);
 #endif

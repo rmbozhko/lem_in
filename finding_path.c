@@ -84,8 +84,14 @@ static void			dfs(t_lemin *farmer, int i, char *str)
 	j = ft_update_room(farmer, str, i);
 	while (42)
 	{
-		if (ft_strstr(str, farmer->end_room))
+		// printf("char:%s\n", farmer->adj_matrix[i]);
+		if (ft_strstr(str, farmer->end_room) || (farmer->adj_matrix[i][ft_strlen(farmer->adj_matrix[i]) - 1] == '1'))
 		{
+			if (farmer->adj_matrix[i][ft_strlen(farmer->adj_matrix[i]) - 1] == '1')
+			{
+				str = ft_strjoin(str, " ");
+				str = ft_strjoin(str, farmer->end_room);
+			}
 			farmer->paths[farmer->rooms_counter++] = ft_create_path_node(str);
 			farmer->paths[farmer->rooms_counter] = NULL;
 			ft_memdel((void**)&str);

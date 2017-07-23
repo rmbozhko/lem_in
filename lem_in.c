@@ -38,6 +38,7 @@ static	void		ft_help_ants(t_lemin *farmer, t_validation *valid, t_bonus *bonus)
 		ft_putstr(bonus->color_arr[bonus->cmap]);
 		ft_putstr(valid->file);
 		ft_putstr("\033[0m");
+		dfs_iter(farmer, 0, 0);
 		ft_putstr(bonus->color_arr[bonus->cants]);
 		ants_travel(farmer);
 		ft_putstr("\033[0m");
