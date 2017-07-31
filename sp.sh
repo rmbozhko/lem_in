@@ -1,1 +1,1 @@
-make re && ./lem-in < tests/test2
+make re && ./lem-in < tests/test1

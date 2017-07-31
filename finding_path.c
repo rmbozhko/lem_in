@@ -119,11 +119,8 @@ static void			dfs(t_lemin *farmer, int i, char *str)
 	return ;
 }
 
-int			dfs_iter(t_lemin *farmer, int i, int j)
+int			dfs_iter(t_lemin *farmer, int i, int j, char *str)
 {
-	char 		*str;
-
-	str = ft_strnew(0);
 	while (ft_strchr(farmer->adj_matrix[i] + j, '1'))
 	{
 		str = ft_strjoin(str, farmer->rooms_arr[i]);

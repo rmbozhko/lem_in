@@ -2,8 +2,8 @@
 
 static void      ft_free_ndarr(t_graph **arr, size_t i)
 {
-  while (arr[i] != NULL)
-    ft_memdel(arr[i++]);
+  // while (arr[i] != NULL)
+  //   ft_memdel(arr[i++]);
 }
 
 static void      ft_determine_best_path(t_lemin *farmer, int len)
@@ -83,8 +83,10 @@ void            ft_mv_ants(char **ants_arr, size_t ant_num, int flag)
     ft_putchar('L');
     ft_putstr(ft_itoa(j + 1));
     ft_putchar('-');
+    // ants_arr[j] += ft_strchr(ants_arr[j], ' ') - ants_arr[j] + 1;//2;
     ants_arr[j] += 2;
     ft_putchar(ants_arr[j][0]);
+    // ft_putstr(ft_strsub(ants_arr[j], 0, ft_strchr(ants_arr[j], ' ') - ants_arr[j]));
     if (ants_arr[j][1] == '\0')
     {
         //free(ants_arr[j]);

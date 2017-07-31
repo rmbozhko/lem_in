@@ -6,7 +6,7 @@
 /*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 16:53:46 by rbozhko           #+#    #+#             */
-/*   Updated: 2017/01/08 15:44:29 by rbozhko          ###   ########.fr       */
+/*   Updated: 2017/07/31 11:34:52 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,5 @@ char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int				ft_strnequ(char const *s1, char const *s2, size_t n);
 int				ft_strequ(char const *s1, char const *s2);
 char			*ft_strnew(size_t size);
+int				ft_is_numeric(char *str);
 #endif

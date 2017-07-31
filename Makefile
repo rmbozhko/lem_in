@@ -12,18 +12,19 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	make -C libft
-	$(CC) $(OBJ) -L./libft -lft -o $(NAME)
+	@$(CC) $(OBJ) -L./libft -lft -o $(NAME)
+	@echo "lem-in is compiled"
 
 %.o : %.c $(HEADER)
-	$(CC) $(CFLAGS) $<
+	@$(CC) $(CFLAGS) $<
 
 clean:
 	@make clean -C libft
 	@rm -rf $(OBJ)
-	@echo "Cleaned ..."
 
 fclean: clean
 	@make fclean -C libft
 	@rm -rf $(NAME)
+	@echo "Cleaned ..."
 
 re: fclean all

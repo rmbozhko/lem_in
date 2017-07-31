@@ -35,20 +35,21 @@ static	void		ft_help_ants(t_lemin *farmer, t_validation *valid, t_bonus *bonus)
 {
 	if (lem_in_validation(valid, farmer, bonus))
 	{
-		ft_putstr(bonus->color_arr[bonus->cmap]);
+		// ft_putstr(bonus->color_arr[bonus->cmap]);
 		ft_putstr(valid->file);
-		ft_putstr("\033[0m");
-		dfs_iter(farmer, 0, 0);
-		ft_putstr(bonus->color_arr[bonus->cants]);
+		ft_putstr("\n");
+		// ft_putstr("\033[0m");
+		// ft_putstr(bonus->color_arr[bonus->cants]);
 		ants_travel(farmer);
-		ft_putstr("\033[0m");
+		// ft_putstr("\033[0m");
 	}
 	else
 	{
-		ft_putstr(bonus->color_arr[bonus->cerror]);
+		// ft_putstr(bonus->color_arr[bonus->cerror]);
 		ft_errors_handling(1);
-		ft_putstr("\033[0m");
-		exit(0);
+		// ft_putstr("\033[0m");
+		// exit(0);
+		return ;
 	}
 }
 
@@ -65,6 +66,9 @@ int					main(void)
 	valid.file = ft_strdup("\0");
 	valid.start_point = 0;
 	valid.end_point = 0;
+	valid.coords_arr = (char**)malloc(sizeof(char*) * 1000000);
+	valid.coords_arr[0] = ft_strdup("\0");
+	valid.coords_arr[1] = NULL;
 	farmer.rooms_counter = 0;
 	farmer.ants_num = -1;
 	farmer.start_room = ft_strdup("\0");

@@ -16,6 +16,8 @@ typedef   struct    s_bonus
   int         cerror;
   int         cmap;
   int         cants;
+  int 		  cpaths;
+  int 		  paths_num;
   char        **color_arr;
 }					t_bonus;
 
@@ -43,6 +45,7 @@ typedef	struct s_validation
 	int			errors;
 	int			start_point;
 	int			end_point;
+	char		**coords_arr;
 }				t_validation;
 
 # define BUFF_SIZE 9999
@@ -64,11 +67,11 @@ int					lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus);
 int					get_next_line(const int fd, char **line, t_validation *valid);
 void				ft_putbidstr(char **temp);
 int					ft_any_links(char **link, char c);
-int					dfs_iter(t_lemin *farmer, int i, int j);
+int					dfs_iter(t_lemin *farmer, int i, int j, char *str);
 int					ft_get_rooms_coord(char *room, char **temp);
 size_t				ft_bidlen(char **temp);
 void                ants_travel(t_lemin *farmer);
 int           		ft_get_color(char *str);
 char      			**ft_init_colors_arr(void);
-int					dfs_check(t_lemin *farmer);
+int 				ft_push_new_rooms(char **temp, t_lemin *farmer, int flag, t_validation *valid);
 #endif

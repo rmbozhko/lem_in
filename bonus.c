@@ -68,3 +68,34 @@ int           ft_get_color(char *str)
   else
     return (-1);
 }
+
+int            ft_get_path_num(t_bonus *bonus, char *line)
+{
+  intmax_t      arg;
+
+  if (ft_is_numeric(line) || (ft_strcmp(line, "all") == 0))
+  {
+    if (ft_is_numeric(line))
+    {
+      arg = ft_atoi(line);
+      bonus->paths_num = (arg >= 0) ? arg : bonus->paths_num;
+    }
+    else
+      bonus->paths_num = 0;
+    return (0);
+  }
+  return (1);
+}
+
+int            ft_set_colors(t_bonus *bonus, char *line)
+{
+  if (ft_strstr(line, "#cmap_"))
+    bonus->cmap = ft_get_color(line + 6);
+  else if (ft_strstr(line, "#cants_"))
+    bonus->cants = ft_get_color(line + 7);
+  else if (ft_strstr(line, "#cerror_"))
+    bonus->cerror = ft_get_color(line + 8);
+  else if (ft_strstr(line, "#cpaths_"))
+    bonus->cpaths = ft_get_color(line + 8);
+  return ((bonus->cerror == -1 || bonus->cants == -1 || bonus->cmap == -1 || bonus->cpaths == -1) ? 1 : 0);
+}
