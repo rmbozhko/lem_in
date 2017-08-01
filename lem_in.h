@@ -17,7 +17,6 @@ typedef   struct    s_bonus
   int         cmap;
   int         cants;
   int 		  cpaths;
-  int 		  paths_num;
   char        **color_arr;
 }					t_bonus;
 
@@ -58,20 +57,24 @@ typedef	struct s_validation
 # define SNG_HASH_CMNT (line[0] == '#' && line[1] != '#')
 # define RESV_COMMD (line[0] == '#' && line[1] == '#')
 # define TRPL_HASH_CMNT (line[0] == '#' && line[1] == '#' && line[2] == '#')
-# define NO_ENTRY_POINTS (valid->start_point != 1 || valid->end_point != 1)
-# define NO_ENTRY_ROOMS (ft_strlen(farmer->start_room) == 0 && ft_strlen(farmer->end_room) == 0)
-# define ERRORS (status == -1 || NO_ENTRY_ROOMS || farmer->ants_num == -1 || NO_ENTRY_POINTS || ft_any_links(farmer->adj_matrix, '1') == 0)
 
-void				ft_errors_handling(int flag);
-int					lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus);
+# define ENTRY_POINTS (valid->start_point == 1 && valid->end_point == 1)
+# define ENTRY_ROOMS (ft_strlen(farmer->start_room) > 0 && ft_strlen(farmer->end_room) > 0)
+# define NO_ERRORS (status != -1 || ENTRY_ROOMS || farmer->ants_num != -1 || ENTRY_POINTS || ft_any_links(farmer->adj_matrix, '1'))
+
+// # define NO_ENTRY_POINTS (valid->start_point != 1 || valid->end_point != 1)
+// # define NO_ENTRY_ROOMS (ft_strlen(farmer->start_room) == 0 && ft_strlen(farmer->end_room) == 0)
+// # define ERRORS (status == -1 || NO_ENTRY_ROOMS || farmer->ants_num == -1 || NO_ENTRY_POINTS || ft_any_links(farmer->adj_matrix, '1') == 0)
+
+void				ft_errors_handling(int flag, t_bonus *bonus);
+int					lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, char *line);
 int					get_next_line(const int fd, char **line, t_validation *valid);
-void				ft_putbidstr(char **temp);
 int					ft_any_links(char **link, char c);
 int					dfs_iter(t_lemin *farmer, int i, int j, char *str);
 int					ft_get_rooms_coord(char *room, char **temp);
-size_t				ft_bidlen(char **temp);
-void                ants_travel(t_lemin *farmer);
+void      			ants_travel(t_lemin *farmer, t_bonus *bonus);
 int           		ft_get_color(char *str);
 char      			**ft_init_colors_arr(void);
 int 				ft_push_new_rooms(char **temp, t_lemin *farmer, int flag, t_validation *valid);
+int            		ft_set_colors(t_bonus *bonus, char *line);
 #endif

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/22 15:58:24 by rbozhko           #+#    #+#             */
-/*   Updated: 2017/02/22 15:58:27 by rbozhko          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "lem_in.h"
 
 static	t_graph		*ft_create_path_node(char *str)
@@ -40,16 +28,15 @@ static int			ft_update_room(t_lemin *farmer, char *str, int i)
 	char 		*room;
 	int			j;
 
-	j = 0;
+	j = -1;
 	room = farmer->adj_matrix[i];
-	while (farmer->adj_matrix[i][j])
+	while (farmer->adj_matrix[i][++j])
 	{
 		if (farmer->adj_matrix[i][j] == '1')
 		{
 			if (!ft_strstr(str, farmer->rooms_arr[j]))
 				break ;
 		}
-		j++;
 	}
 	return (j);
 }
@@ -82,9 +69,8 @@ static void			dfs(t_lemin *farmer, int i, char *str)
 	int			j;
 
 	j = ft_update_room(farmer, str, i);
-	while (42)
+	while (42)//(ft_strchr(farmer->adj_matrix[i] + j , '1'))
 	{
-		// printf("char:%s\n", farmer->adj_matrix[i]);
 		if (ft_strstr(str, farmer->end_room) || (farmer->adj_matrix[i][ft_strlen(farmer->adj_matrix[i]) - 1] == '1'))
 		{
 			if (farmer->adj_matrix[i][ft_strlen(farmer->adj_matrix[i]) - 1] == '1')

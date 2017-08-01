@@ -37,7 +37,7 @@ int           ft_get_forground_color(char *str)
     return (9);
   else if ((ft_strcmp(str, "fcyan") == 0))
     return (11);
-  return (-1);
+  return (0);
 }
 
 int           ft_get_background_color(char *str)
@@ -54,7 +54,7 @@ int           ft_get_background_color(char *str)
     return (10);
   else if ((ft_strcmp(str, "bcyan") == 0))
     return (12);
-  return (-1);
+  return (0);
 }
 
 int           ft_get_color(char *str)
@@ -63,29 +63,27 @@ int           ft_get_color(char *str)
     return (ft_get_forground_color(str));
   else if (str[0] == 'b')
     return (ft_get_background_color(str));
-  else if (ft_strcmp(str, "normal") == 0)
-    return (0);
   else
-    return (-1);
-}
-
-int            ft_get_path_num(t_bonus *bonus, char *line)
-{
-  intmax_t      arg;
-
-  if (ft_is_numeric(line) || (ft_strcmp(line, "all") == 0))
-  {
-    if (ft_is_numeric(line))
-    {
-      arg = ft_atoi(line);
-      bonus->paths_num = (arg >= 0) ? arg : bonus->paths_num;
-    }
-    else
-      bonus->paths_num = 0;
     return (0);
-  }
-  return (1);
 }
+
+// int            ft_get_path_num(t_bonus *bonus, char *line)
+// {
+//   intmax_t      arg;
+
+//   if (ft_str_num(line) || (ft_strcmp(line, "all") == 0))
+//   {
+//     if (ft_str_num(line))
+//     {
+//       arg = ft_atoi_base(line);
+//       bonus->paths_num = (arg >= 0) ? arg : bonus->paths_num;
+//     }
+//     else
+//       bonus->paths_num = 0;
+//     return (0);
+//   }
+//   return (1);
+// }
 
 int            ft_set_colors(t_bonus *bonus, char *line)
 {
@@ -97,5 +95,5 @@ int            ft_set_colors(t_bonus *bonus, char *line)
     bonus->cerror = ft_get_color(line + 8);
   else if (ft_strstr(line, "#cpaths_"))
     bonus->cpaths = ft_get_color(line + 8);
-  return ((bonus->cerror == -1 || bonus->cants == -1 || bonus->cmap == -1 || bonus->cpaths == -1) ? 1 : 0);
+  return (0);
 }

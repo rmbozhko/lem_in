@@ -12,7 +12,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	make -C ../libft
 	@$(CC) $(OBJ) -L../libft -lft -o $(NAME)
-	@echo "lem-in bonus is compiled"
+	@echo "\033[0;33mLem-in bonus part is compiled\033[0m"
 
 %.o : %.c $(HEADER)
 	@$(CC) $(CFLAGS) $<

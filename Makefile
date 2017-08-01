@@ -11,9 +11,9 @@ HEADER = lem_in.h
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	make -C libft
+	@make -C libft
 	@$(CC) $(OBJ) -L./libft -lft -o $(NAME)
-	@echo "lem-in is compiled"
+	@echo "\033[0;37mLem-in is compiled\033[0m"
 
 %.o : %.c $(HEADER)
 	@$(CC) $(CFLAGS) $<
@@ -25,6 +25,6 @@ clean:
 fclean: clean
 	@make fclean -C libft
 	@rm -rf $(NAME)
-	@echo "Cleaned ..."
+	@echo "Lem-in is cleaned ..."
 
 re: fclean all

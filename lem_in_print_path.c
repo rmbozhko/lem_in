@@ -95,10 +95,9 @@ void            ft_mv_ants(char **ants_arr, size_t ant_num, int flag)
     }
     ((++j) <= ant_num) ? ft_putchar(' ') : 0;
   }
-  ft_putchar('\n');
 }
 
-void      ants_travel(t_lemin *farmer)
+void      ants_travel(t_lemin *farmer, t_bonus *bonus) // it doesn't work if names of rooms are words, not just int, and length of those is greater than one
 {
   size_t    ants_num;
   char      **ants_arr;
@@ -107,8 +106,16 @@ void      ants_travel(t_lemin *farmer)
   ants_num = 0;
   ants_arr = ft_init_ants(farmer->paths[0]->path_str, farmer->ants_num);
   while (ants_num < farmer->ants_num)
+  {
+      ft_putstr(bonus->color_arr[bonus->cants]);
       ft_mv_ants(ants_arr, ants_num++, 0);
+      ft_putstr("\033[0m\n");
+  }
   ants_num = ft_count_unfinished(ants_arr);
   while (ants_num != 0)
+  {
+    ft_putstr(bonus->color_arr[bonus->cants]);
     ft_mv_ants(ants_arr, ants_num--, 1);
+    ft_putstr("\033[0m\n");
+  }
 }

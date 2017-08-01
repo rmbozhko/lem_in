@@ -1,35 +1,69 @@
 #include "lem_in_bonus.h"
 
-static void    ft_handle_error(void)
+static	void		ft_handle_numbers(int num)
 {
-    first_line();
-    second_line();
-    third_line();
-    forth_line();
-    fifth_line();
+	if (num == '0')
+		printf("%c%c%c%c", 0x30, 0xE2, 0x83, 0xA3);
+	else if (num == '1')
+		printf("%c%c%c%c", 0x31, 0xE2, 0x83, 0xA3);
+	else if (num == '2')
+		printf("%c%c%c%c", 0x32, 0xE2, 0x83, 0xA3);
+	else if (num == '3')
+		printf("%c%c%c%c", 0x33, 0xE2, 0x83, 0xA3);
+	else if (num == '4')
+		printf("%c%c%c%c", 0x34, 0xE2, 0x83, 0xA3);
+	else if (num == '5')
+		printf("%c%c%c%c", 0x35, 0xE2, 0x83, 0xA3);
+	else if (num == '6')
+		printf("%c%c%c%c", 0x36, 0xE2, 0x83, 0xA3);
+	else if (num == '7')
+		printf("%c%c%c%c", 0x37, 0xE2, 0x83, 0xA3);
+	else if (num == '8')
+		printf("%c%c%c%c", 0x38, 0xE2, 0x83, 0xA3);
+	else if (num == '9')
+		printf("%c%c%c%c", 0x39, 0xE2, 0x83, 0xA3);
 }
 
-static void		ft_handle_rooms_ants(char *line, int flag)
-{
-	(flag == 0) ? printf("%c%c%c%c", 0xF0, 0x9F, 0x90, 0x9C) : 0;
-	(flag == 1) ? printf("%c%c%c%c", 0xF0, 0x9F, 0x8F, 0xA0) : 0;
-	printf("%s", line);
-	(flag == 0) ? printf("%c%c%c%c\n", 0xF0, 0x9F, 0x90, 0x9C) : 0;
-	(flag == 1) ? printf("%c%c%c%c\n", 0xF0, 0x9F, 0x8F, 0xA0) : 0;
-}
-
-static void		ft_handle_linkage(char *line)
+static	void		ft_print_line(char *line)
 {
 	int			i;
 
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '-')
-			printf("%c%c%c%c", 0xF0, 0x9F, 0x94, 0x97);
+		if (line[i] >= 48 && line[i] <= 57)
+			ft_handle_numbers(line[i]);
 		else
 			printf("%c", line[i]);
 		i++;
+	}
+}
+
+static void		ft_handle_linkage_rooms_ants(char *line, int flag, int sub_flag)
+{
+	int			i;
+
+	if (flag == 1)
+	{
+		i = 0;
+		while (line[i])
+		{
+			if (line[i] == '-')
+				printf("%c%c%c%c", 0xF0, 0x9F, 0x94, 0x97);
+			else if (line[i] >= 48 && line[i] <= 57)
+				ft_handle_numbers(line[i]);
+			else
+				printf("%c", line[i]);
+			i++;
+		}
+	}
+	else
+	{
+		(sub_flag == 0) ? printf("%c%c%c%c", 0xF0, 0x9F, 0x90, 0x9C) : 0;
+		(sub_flag == 1) ? printf("%c%c%c%c", 0xF0, 0x9F, 0x8F, 0xA0) : 0;
+		ft_print_line(line);
+		(sub_flag == 0) ? printf("%c%c%c%c\n", 0xF0, 0x9F, 0x90, 0x9C) : 0;
+		(sub_flag == 1) ? printf("%c%c%c%c\n", 0xF0, 0x9F, 0x8F, 0xA0) : 0;
 	}
 }
 
@@ -40,13 +74,15 @@ static void		ft_handle_hashes(char *line)
 		if (ft_strcmp(line + 1, "start") == 0)
 		{
 			printf("%c%c%c%c", 0xF0, 0x9F, 0x9A, 0xA9);
-			printf("#%s", line);
+			printf("#");
+			ft_print_line(line);
 			printf("%c%c%c%c\n", 0xF0, 0x9F, 0x9A, 0xA9);
 		}
 		else if (ft_strcmp(line + 1, "end") == 0)
 		{
 			printf("%c%c%c%c", 0xF0, 0x9F, 0x8F, 0x81);
-			printf("#%s", line);
+			printf("#");
+			ft_print_line(line);
 			printf("%c%c%c%c\n", 0xF0, 0x9F, 0x94, 0x9A);
 		}
 	}
@@ -59,15 +95,15 @@ int			main(void)
 	while (get_next_line(0, &line))
 	{
 		if (ft_is_numeric(line))
-			ft_handle_rooms_ants(line, 0);
+			ft_handle_linkage_rooms_ants(line, 0, 0);
 		else if (line[0] == '#')
 			ft_handle_hashes(line + 1);
 		else if (ft_words_count(line, ' ') == 3 && ft_is_numeric(ft_strsplit(line, ' ')[1])
 			&& ft_is_numeric(ft_strsplit(line, ' ')[2]))
-			ft_handle_rooms_ants(line, 1);
+			ft_handle_linkage_rooms_ants(line, 0, 1);
 		else if (ft_words_count(line, '-') > 1)
 		{
-			ft_handle_linkage(line);
+			ft_handle_linkage_rooms_ants(line, 1, 0);
 			printf("\n");
 		}
 		else if (ft_strcmp(line, "ERROR") == 0)
