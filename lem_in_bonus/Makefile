@@ -24,6 +24,5 @@ clean:
 fclean: clean
 	@make fclean -C ../libft
 	@rm -rf $(NAME)
-	@echo "Cleaned ..."
 
 re: fclean all

@@ -67,24 +67,6 @@ int           ft_get_color(char *str)
     return (0);
 }
 
-// int            ft_get_path_num(t_bonus *bonus, char *line)
-// {
-//   intmax_t      arg;
-
-//   if (ft_str_num(line) || (ft_strcmp(line, "all") == 0))
-//   {
-//     if (ft_str_num(line))
-//     {
-//       arg = ft_atoi_base(line);
-//       bonus->paths_num = (arg >= 0) ? arg : bonus->paths_num;
-//     }
-//     else
-//       bonus->paths_num = 0;
-//     return (0);
-//   }
-//   return (1);
-// }
-
 int            ft_set_colors(t_bonus *bonus, char *line)
 {
   if (ft_strstr(line, "#cmap_"))

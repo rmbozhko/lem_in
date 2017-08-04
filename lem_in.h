@@ -44,7 +44,6 @@ typedef	struct s_validation
 	int			errors;
 	int			start_point;
 	int			end_point;
-	char		**coords_arr;
 }				t_validation;
 
 # define BUFF_SIZE 9999
@@ -60,7 +59,7 @@ typedef	struct s_validation
 
 # define ENTRY_POINTS (valid->start_point == 1 && valid->end_point == 1)
 # define ENTRY_ROOMS (ft_strlen(farmer->start_room) > 0 && ft_strlen(farmer->end_room) > 0)
-# define NO_ERRORS (status != -1 || ENTRY_ROOMS || farmer->ants_num != -1 || ENTRY_POINTS || ft_any_links(farmer->adj_matrix, '1'))
+# define NO_ERRORS (status != -1 && ENTRY_ROOMS && farmer->ants_num != -1 && ENTRY_POINTS && ft_any_links(farmer->adj_matrix, '1'))
 
 // # define NO_ENTRY_POINTS (valid->start_point != 1 || valid->end_point != 1)
 // # define NO_ENTRY_ROOMS (ft_strlen(farmer->start_room) == 0 && ft_strlen(farmer->end_room) == 0)
@@ -77,4 +76,5 @@ int           		ft_get_color(char *str);
 char      			**ft_init_colors_arr(void);
 int 				ft_push_new_rooms(char **temp, t_lemin *farmer, int flag, t_validation *valid);
 int            		ft_set_colors(t_bonus *bonus, char *line);
+int					dfs(t_lemin *farmer);
 #endif

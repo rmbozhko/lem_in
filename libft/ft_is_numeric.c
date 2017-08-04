@@ -14,7 +14,7 @@
 
 int			ft_is_numeric(char *str)
 {
-	int			i;
+	size_t		i;
 
 	i = 0;
 	while (str[i])

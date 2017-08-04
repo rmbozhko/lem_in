@@ -25,6 +25,5 @@ clean:
 fclean: clean
 	@make fclean -C libft
 	@rm -rf $(NAME)
-	@echo "Lem-in is cleaned ..."
 
 re: fclean all

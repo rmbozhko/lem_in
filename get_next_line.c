@@ -77,7 +77,7 @@ int				get_next_line(const int fd, char **line, t_validation *valid)
 				if (ft_rtn_line(temp, buff, line, valid) == 1)
 					return (1);
 		}
-		else if (bytes == 0)
+		else if (bytes == 0 || (bytes == 1 && buff[0] == '\n'))
 			return (0);
 	}
 	return (0);

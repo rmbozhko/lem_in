@@ -15,40 +15,13 @@ int	ft_get_rooms_coord(char *room, char **temp)
 	return (-1);
 }
 
-int 			ft_check_coords(char **arr, char **coords)
-{
-	int 		counter;
-	size_t		i;
-	char		**temp;
-
-	i = 0;
-	counter = 0;
-	while (arr[i] != NULL)
-	{
-		temp = ft_strsplit(arr[i], ' ');
-		if (ft_strcmp(coords[1], temp[1]) == 0 && ft_strcmp(coords[2], temp[2]) == 0)
-		{
-			counter = 1;
-		}
-		i++;
-		// free(temp[2]);
-		// free(temp[1]);
-		// free(temp[0]);
-		// free(temp);
-	}
-	// free(coords[1]);
-	// free(coords[0]);
-	// free(coords);
-	return ((counter) ? 1 : 0);
-}
-
 int 	ft_push_new_rooms(char **temp, t_lemin *farmer, int flag, t_validation *valid)
 {
 	size_t		i;
 	int 		counter;
 
 	counter = 1;
-	if (ft_is_numeric(temp[1]) && ft_is_numeric(temp[2]))
+	if (ft_is_numeric(temp[1]) && ft_is_numeric(temp[2]) && (temp[0][0] != '#' && temp[0][0] != 'L'))
 	{
 		counter = 0;
 		i = 1;
@@ -196,6 +169,7 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 
 	while ((status = get_next_line(0, &line, valid)) > 0)
 	{
+		printf("line:%s\n", line);
 		if (ft_is_numeric(line))
 			valid->errors += (farmer->ants_num == -1) ? ft_validate_ants_num(line, farmer) : 1;
 		else if (line[0] == '#')
@@ -214,7 +188,21 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 			valid->errors += 1;
 		}
 		if (valid->errors != 0)
+		{
+			// printf("YO!\n");
 			return (0);
+		}
 	}
-	return ((NO_ERRORS) ? dfs_iter(farmer, 0, 0, ft_strnew(0)) : 0);
+	if (NO_ERRORS)
+	{
+		// printf("MAN\n");
+		// return (dfs(farmer));
+		return (dfs_iter(farmer, 0, 0, ft_strnew(0)));
+	}
+	else
+	{
+		// printf("WTF?!\n");
+		return (0);
+	}
+	// return ((NO_ERRORS) ? dfs(farmer) : 0);
 }
