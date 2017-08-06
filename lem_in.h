@@ -77,4 +77,6 @@ char      			**ft_init_colors_arr(void);
 int 				ft_push_new_rooms(char **temp, t_lemin *farmer, int flag, t_validation *valid);
 int            		ft_set_colors(t_bonus *bonus, char *line);
 int					dfs(t_lemin *farmer);
+void				ft_print_paths(t_graph **paths, t_bonus *bonus, int flag);
+void				ft_handle_path(char *str);
 #endif

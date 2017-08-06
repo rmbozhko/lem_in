@@ -108,6 +108,10 @@ void      ants_travel(t_lemin *farmer, t_bonus *bonus)
   size_t    ants_num;
   char      **ants_arr;
   
+  ft_determine_best_path(farmer, farmer->rooms_counter);
+  ft_putstr("For debugg:\n");
+  ft_handle_path(farmer->paths[0]->path_str);
+  ft_putstr("\n");
   ft_putstr("\033[35;3;2;3mRun Forest run:\033[0m\n");
   ft_determine_best_path(farmer, farmer->rooms_counter);
   ants_num = 0;

@@ -37,7 +37,7 @@ int		ft_any_links(char **link, char c)
 	return (((counter % 2 == 0) && counter != 0) ? 1 : 0);
 }
 
-static	void		ft_handle_path(char *str)
+void		ft_handle_path(char *str)
 {
 	size_t		i;
 
@@ -54,7 +54,7 @@ static	void		ft_handle_path(char *str)
 	ft_putstr("]\n");
 }
 
-static	void		ft_print_paths(t_graph **paths, t_bonus *bonus)
+void		ft_print_paths(t_graph **paths, t_bonus *bonus, int flag)
 {
 	size_t		i;
 
@@ -101,8 +101,6 @@ static	void		ft_print_adj_matrix(char **arr)
 	}
 }
 
-// IF there is short path(2 rooms: start and end room) lem-in got fucked up :( 
-
 static	void		ft_help_ants(t_lemin *farmer, t_validation *valid, t_bonus *bonus)
 {
 	if (lem_in_validation(valid, farmer, bonus, ft_strdup("\0")))
@@ -111,8 +109,8 @@ static	void		ft_help_ants(t_lemin *farmer, t_validation *valid, t_bonus *bonus)
 		ft_putstr(valid->file);
 		ft_putstr("\033[0m\n");
 		ft_print_adj_matrix(farmer->adj_matrix);
-		dfs_iter(farmer, 0, 0, ft_strnew(0)); // determine whether to use dfs_iter here and raw dfs in validation or throw raw dfs away
-		ft_print_paths(farmer->paths, bonus);
+		//dfs_iter(farmer, 0, 0, ft_strnew(0)); // determine whether to use dfs_iter here and raw dfs in validation or throw raw dfs away
+		ft_print_paths(farmer->paths, bonus, 1);
 		ants_travel(farmer, bonus);
 	}
 	else
