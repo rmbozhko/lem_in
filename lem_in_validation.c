@@ -27,13 +27,12 @@ int 	ft_push_new_rooms(char **temp, t_lemin *farmer, int flag, t_validation *val
 		i = 1;
 		if (ft_strcmp(temp[0], farmer->start_room) == 0 || ft_strcmp(temp[0], farmer->end_room) == 0)
 			return (1);
+		// printf("temp:%s\n", temp[0]);
 		while (farmer->rooms_arr[i] != NULL)
 		{
 			if (CHECKING_ROOMS(0, i) == 0 || ft_strcmp(temp[0], farmer->start_room) == 0
 				|| ft_strcmp(temp[0], farmer->end_room) == 0)
-			{
 				return (1);
-			}
 			i++;
 		}
 		if (flag == 1)
@@ -60,7 +59,6 @@ static	char	*get_in_out_rooms(t_lemin *farmer, t_validation *valid)
 			continue ;
 		else if (line[0] != '#' && (ft_words_count(line, ' ') == 3)) // ft_words_count(line, ' ') == 3) //is better than current one, as we check [0] char in line in ft_push_new_room function
 		{
-			// printf("line:%s\n", line);
 			if (!ft_push_new_rooms(ft_strsplit(line, ' '), farmer, 0, valid))
 				return (ft_strsplit(line, ' ')[0]);
 			return (NULL);
@@ -80,21 +78,12 @@ static	int 	ft_hash_case(char *line, t_validation *valid, t_lemin *farmer, t_bon
 		if (ft_strcmp(line, "#start") == 0)
 		{
 			valid->start_point += 1;
-			if ((farmer->start_room = get_in_out_rooms(farmer, valid)) == NULL)
-			{
-				return (1);
-			}
-			return (0);
+			return (((farmer->start_room = get_in_out_rooms(farmer, valid)) == NULL) ? (1) : (0));
 		}
 		else if (ft_strcmp(line, "#end") == 0)
 		{
 			valid->end_point += 1;
-			if ((farmer->end_room = get_in_out_rooms(farmer, valid)) == NULL)
-			{
-				return (1);
-			}
-			return (0);
-			// return (((farmer->end_room = get_in_out_rooms(farmer, valid)) == NULL) ? (1) : (0));
+			return (((farmer->end_room = get_in_out_rooms(farmer, valid)) == NULL) ? (1) : (0));
 		}
 	   	else if (ft_strstr(line, "#cmap_") || ft_strstr(line, "#cants_") || ft_strstr(line, "#cerror_") || ft_strstr(line, "#cpaths_"))
 	      return (ft_set_colors(bonus, line));
@@ -133,7 +122,7 @@ static	int	ft_push_link(char *link1, char *link2, t_lemin *farmer)
 	return (0);
 }
 
-static	int		ft_initialize_adj_matrix(t_lemin *farmer)
+static	int		ft_init_adj_matrix(t_lemin *farmer)
 {
 	free(farmer->rooms_arr[0]);
 	farmer->rooms_arr[0] = ft_strdup(farmer->start_room);
@@ -151,13 +140,15 @@ static	int 	ft_find_rooms(char **temp, t_lemin *farmer)
 
 	i = 0;
 	counter = 0;
-	counter += ((ft_bidlen(farmer->adj_matrix)) == 0) ? ft_initialize_adj_matrix(farmer) : 0;
+	((ft_bidlen(farmer->adj_matrix)) == 0) ? ft_init_adj_matrix(farmer) : 0;
+	// printf("temp[0]-%s:temp[1]:%s\n", temp[0], temp[1]);
 	while (farmer->rooms_arr[i])
 	{
 		if (!CHECKING_ROOMS(0, i) || !CHECKING_ROOMS(1, i))
 			counter++;
 		i++;
 	}
+	// printf("counter:%d\n", counter);
 	counter += (counter == 2) ? ft_push_link(temp[0], temp[1], farmer) : 0;
 	free(temp[1]);
 	free(temp[0]);
@@ -193,27 +184,42 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 			// printf("errors:%d:%s:%s\n", valid->errors, farmer->end_room, farmer->start_room);
 		}
 		else if (ft_words_count(line, ' ') == 3)
+		{
+			// printf("old_errors:%d\n", valid->errors);
 			valid->errors += ft_push_new_rooms(ft_strsplit(line, ' '), farmer, 1, valid);
+			// printf("errors:%d\n", valid->errors);
+		}
 		else if (ft_words_count(line, '-') == 2 && ENTRY_ROOMS)
+		{
+			// printf("ERRORS:%d\n", valid->errors);
 			valid->errors += ft_find_rooms(ft_strsplit(line, '-'), farmer);
+			// printf("UPDATED ERRORS:%d\n", valid->errors);
+		}
 		else
 		{
 			if (NO_ERRORS)
 			{
+				// printf("HERE!\n");
 				ft_errors_handling(1, bonus);
 				break ;
 			}
+			// printf("HERE123!\n");
 			valid->errors += 1;
 		}
 		if (valid->errors != 0)
+		{
+			// printf("YO!\n");
 			return (0);
+		}
 	}
 	if (NO_ERRORS)
 	{
+		// printf("MAN\n");
 		return (dfs_iter(farmer, 0, 0, ft_strnew(0)));
 	}
 	else
 	{
+		// printf("WTF?!\n");
 		return (0);
 	}
 	// return ((NO_ERRORS) ? dfs(farmer) : 0);

@@ -66,6 +66,21 @@ static int			ft_count_visited(char *str, char *temp, char **arr)
 	return (counter);
 }
 
+static	int			ft_check_paths(t_graph **graps, char *path)
+{
+	size_t		i;
+
+	i = 0;
+	while (graps[i] != NULL)
+	{
+		if (ft_strcmp(graps[i]->path_str, path) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+//SAME PATHS OPARIY's second testcase
 static void			dfs_rec(t_lemin *farmer, int i, char *str)
 {
 	int			j;
@@ -77,10 +92,11 @@ static void			dfs_rec(t_lemin *farmer, int i, char *str)
 		{
 			if (farmer->adj_matrix[i][ft_strlen(farmer->adj_matrix[i]) - 1] == '1')
 			{
-				str = ft_strjoin(str, " ");
+				// str = ft_strjoin(str, " "); // ACHTUNG!!!!! do we need this one?!
 				str = ft_strjoin(str, farmer->end_room);
+				// printf("YO:%s\n", str);
 			}
-			farmer->paths[farmer->rooms_counter++] = ft_create_path_node(str);
+			(ft_check_paths(farmer->paths, str)) ? farmer->paths[farmer->rooms_counter++] = ft_create_path_node(str) : 0;
 			farmer->paths[farmer->rooms_counter] = NULL;
 			return (ft_memdel((void**)&str));
 		}

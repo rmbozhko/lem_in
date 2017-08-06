@@ -62,8 +62,10 @@ static	void		ft_print_paths(t_graph **paths, t_bonus *bonus)
 	ft_putstr("\n\033[36;5;1;3mFound ways:\033[0m\n");
 	ft_putstr(bonus->color_arr[bonus->cpaths]);
 	while (paths[i])
+	{
 		ft_handle_path(paths[i++]->path_str);
-	ft_putstr("\033[0m\n");
+	}
+	ft_putstr((i > 1) ? "\033[0m\n" : "\033[0m");
 }
 
 static	void		ft_count_down(int end)
@@ -98,6 +100,8 @@ static	void		ft_print_adj_matrix(char **arr)
 		ft_putchar('\n');
 	}
 }
+
+// IF there is short path(2 rooms: start and end room) lem-in got fucked up :( 
 
 static	void		ft_help_ants(t_lemin *farmer, t_validation *valid, t_bonus *bonus)
 {
