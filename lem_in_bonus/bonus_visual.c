@@ -39,11 +39,9 @@ static	void		ft_print_line(char *line)
 	}
 }
 
-static void		ft_l_r_a(char *line, int flag, int sub_flag)
+static void		ft_l_r_a(char *line, int flag, int sub_flag, int i)
 {
-	int			i;
-
-	if (flag == 1 && (i = -1))
+	if (flag == 1)
 	{
 		printf("%c%c%c%c  ", 0xF0, 0x9F, 0x9B, 0xA3);
 		while (line[++i])
@@ -55,8 +53,9 @@ static void		ft_l_r_a(char *line, int flag, int sub_flag)
 		(ft_strcmp(line + 1, "end") == 0) ? printf("%c%c%c%c", 0xF0, 0x9F, 0x8F, 0x81) : 0;
 		printf("#");
 		ft_print_line(line);
-		(ft_strcmp(line + 1, "start") == 0) ? printf("%c%c%c%c\n", 0xF0, 0x9F, 0x9A, 0xA9) : 0;
-		(ft_strcmp(line + 1, "end") == 0) ? printf("%c%c%c%c\n", 0xF0, 0x9F, 0x8F, 0x81) : 0;
+		(ft_strcmp(line + 1, "start") == 0) ? printf("%c%c%c%c", 0xF0, 0x9F, 0x9A, 0xA9) : 0;
+		(ft_strcmp(line + 1, "end") == 0) ? printf("%c%c%c%c", 0xF0, 0x9F, 0x8F, 0x81) : 0;
+		printf("\n");
 	}
 	else if (flag == 0)
 	{
@@ -71,10 +70,10 @@ static void		ft_l_r_a(char *line, int flag, int sub_flag)
 void		ft_handle_ansi_color_codes(char *line)
 {
 	if (ft_is_numeric(ft_strchr(line, 'm') + 1))
-		ft_l_r_a(ft_strchr(line, 'm') + 1, 0, 0);
+		ft_l_r_a(ft_strchr(line, 'm') + 1, 0, 0, -1);
 	else if (ft_words_count(ft_strchr(line, 'm') + 1, '-') > 1)
 	{
-		ft_l_r_a(line, 1, 0);
+		ft_l_r_a(line, 1, 0, -1);
 		printf("\n");
 	}
 	else if (ft_strstr((ft_strchr(line, 'm') + 1), "ERROR"))
@@ -95,13 +94,13 @@ int			main(void)
 		if (ft_strchr(line, 'm'))
 			ft_handle_ansi_color_codes(line);
 		else if (line[0] == '#')
-			ft_l_r_a(line + 1, 2, 0);
+			ft_l_r_a(line + 1, 2, 0, -1);
 		else if (ft_words_count(line, ' ') == 3 && ft_is_numeric(ft_strsplit(line, ' ')[1])
 			&& ft_is_numeric(ft_strsplit(line, ' ')[2]))
-			ft_l_r_a(line, 0, 1);
+			ft_l_r_a(line, 0, 1, -1);
 		else if (ft_words_count(line, '-') > 1)
 		{
-			ft_l_r_a(line, 1, 0);
+			ft_l_r_a(line, 1, 0, -1);
 			printf("\n");
 		}
 		else if (ft_strstr(line, "ERROR"))

@@ -52,13 +52,13 @@ typedef	struct s_validation
 # define IF_FP ((fd < 0 || fd > 4096) || ((read(fd, buff, 0)) == -1 && !(head)))
 # define IF_SP (!(line) || !(ft_memset(buff, 0, BUFF_SIZE + 1)))
 
-# define CHECKING_ROOMS(x) ft_strcmp(temp[x], farmer->rooms_arr[i])
+# define CHECKING_ROOMS(x, i) ft_strcmp(temp[x], farmer->rooms_arr[i])
 # define SNG_HASH_CMNT (line[0] == '#' && line[1] != '#')
 # define RESV_COMMD (line[0] == '#' && line[1] == '#')
 # define TRPL_HASH_CMNT (line[0] == '#' && line[1] == '#' && line[2] == '#')
 
 # define ENTRY_POINTS (valid->start_point == 1 && valid->end_point == 1)
-# define ENTRY_ROOMS (ft_strlen(farmer->start_room) > 0 && ft_strlen(farmer->end_room) > 0)
+# define ENTRY_ROOMS (ft_strlen(farmer->start_room) > 0 && ft_strlen(farmer->end_room) > 0 /*&& ft_strcmp(farmer->start_room, farmer->end_room) != 0*/)
 # define NO_ERRORS (status != -1 && ENTRY_ROOMS && farmer->ants_num != -1 && ENTRY_POINTS && ft_any_links(farmer->adj_matrix, '1'))
 
 // # define NO_ENTRY_POINTS (valid->start_point != 1 || valid->end_point != 1)

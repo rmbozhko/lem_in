@@ -105,9 +105,9 @@ static	void		ft_help_ants(t_lemin *farmer, t_validation *valid, t_bonus *bonus)
 	{
 		ft_putstr(bonus->color_arr[bonus->cmap]);
 		ft_putstr(valid->file);
-		ft_putstr("\033[0m");
+		ft_putstr("\033[0m\n");
 		ft_print_adj_matrix(farmer->adj_matrix);
-		// dfs_iter(farmer, 0, 0, ft_strnew(0)); // determine whether to use dfs_iter here and raw dfs in validation or throw raw dfs away
+		dfs_iter(farmer, 0, 0, ft_strnew(0)); // determine whether to use dfs_iter here and raw dfs in validation or throw raw dfs away
 		ft_print_paths(farmer->paths, bonus);
 		ants_travel(farmer, bonus);
 	}
