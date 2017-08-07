@@ -17,6 +17,8 @@ int			ft_is_numeric(char *str)
 	size_t		i;
 
 	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))

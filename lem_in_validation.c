@@ -15,7 +15,60 @@ int	ft_get_rooms_coord(char *room, char **temp)
 	return (-1);
 }
 
-int 	ft_push_new_rooms(char **temp, t_lemin *farmer, int flag, t_validation *valid)
+int 		ft_check_coords(char *x_coord, char *y_coord, t_lemin *farmer)
+{
+	size_t			i;
+
+	i = 0;
+	while (farmer->x_coords[i] && farmer->y_coords[i])
+	{
+		if (ft_strcmp(x_coord, farmer->x_coords[i]) == 0 &&
+			ft_strcmp(y_coord, farmer->y_coords[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+size_t		ft_update_arr(char **arr)
+{
+	size_t		i;
+
+	i = 0;
+	// printf("Reviewing array:\n");
+	// ft_putbidstr(arr);
+	while (arr[i])
+	{
+		i++;
+	}
+	// printf("I over here:%zu\n", i);
+	return (i);
+}
+
+void		ft_add_room_coords(char *elem, t_lemin *farmer, int i)
+{
+	int 		temp;
+
+	if (i == -2)
+	{
+		temp = ft_update_arr(farmer->x_coords);
+		farmer->x_coords[temp] = ft_strdup(elem);
+		farmer->x_coords[temp + 1] = NULL;
+	}
+	else if (i == -1)
+	{
+		temp = ft_update_arr(farmer->y_coords);
+		farmer->y_coords[temp] = ft_strdup(elem);
+		farmer->y_coords[temp + 1] = NULL;
+	}
+	else
+	{
+		farmer->rooms_arr[i] = ft_strdup(elem);
+		farmer->rooms_arr[i + 1] = NULL;
+	}
+}
+
+int 		ft_push_new_rooms(char **temp, t_lemin *farmer, int flag, t_validation *valid)
 {
 	size_t		i;
 	int 		counter;
@@ -24,27 +77,26 @@ int 	ft_push_new_rooms(char **temp, t_lemin *farmer, int flag, t_validation *val
 	if (ft_is_numeric(temp[1]) && ft_is_numeric(temp[2]) && (temp[0][0] != '#' && temp[0][0] != 'L'))
 	{
 		counter = 0;
-		i = 1;
+		i = 0;
 		if (ft_strcmp(temp[0], farmer->start_room) == 0 || ft_strcmp(temp[0], farmer->end_room) == 0)
 			return (1);
-		// printf("temp:%s\n", temp[0]);
-		while (farmer->rooms_arr[i] != NULL)
+		while (farmer->rooms_arr[++i] != NULL)
 		{
 			if (CHECKING_ROOMS(0, i) == 0 || ft_strcmp(temp[0], farmer->start_room) == 0
 				|| ft_strcmp(temp[0], farmer->end_room) == 0)
 				return (1);
-			i++;
 		}
-		if (flag == 1)
-		{
-			farmer->rooms_arr[i] = ft_strdup(temp[0]);
-			farmer->rooms_arr[i + 1] = NULL;
-		}
+		counter = (ft_check_coords(temp[1], temp[2], farmer)) ? counter : 1;
+		if (flag == 1 && counter == 0)
+			ft_add_room_coords(temp[0], farmer, i);
+		(counter == 0) ? ft_add_room_coords(temp[1], farmer, -2) : 0;
+		(counter == 0) ? ft_add_room_coords(temp[2], farmer, -1) : 0;
 	}
 	free(temp[2]);
 	free(temp[1]);
 	free(temp[0]);
 	free(temp);
+	// printf("TOTAL COUNTER:%d\n", counter);
 	return ((counter) ? 1 : 0);
 }
 
@@ -64,7 +116,9 @@ static	char	*get_in_out_rooms(t_lemin *farmer, t_validation *valid)
 			return (NULL);
 		}
 		else
+		{
 			return (NULL);
+		}
 	}
 	return (NULL);
 }
@@ -114,11 +168,16 @@ static	int	ft_push_link(char *link1, char *link2, t_lemin *farmer)
 {
 	int		x;
 	int		y;
+	static	int 	temp = 0;
 
 	x = ft_get_rooms_coord(link1, farmer->rooms_arr);
 	y = ft_get_rooms_coord(link2, farmer->rooms_arr);
-	farmer->adj_matrix[x][y] = '1';
-	farmer->adj_matrix[y][x] = '1';
+	if (x != y)
+	{
+		farmer->adj_matrix[x][y] = '1';
+		farmer->adj_matrix[y][x] = '1';
+	}
+	// printf("link1-%s|link2-%s|BUGAGAGA:%d|links:%d\n", link1, link2, temp++, ft_any_links(farmer->adj_matrix, '1'));
 	return (0);
 }
 
@@ -144,7 +203,11 @@ static	int 	ft_find_rooms(char **temp, t_lemin *farmer)
 	// printf("temp[0]-%s:temp[1]:%s\n", temp[0], temp[1]);
 	while (farmer->rooms_arr[i])
 	{
-		if (!CHECKING_ROOMS(0, i) || !CHECKING_ROOMS(1, i))
+		// if (!CHECKING_ROOMS(0, i) || !CHECKING_ROOMS(1, i)) // i have commented it, as if there are links like 3-3 or start-start we got ERROR as counter is incremented only once
+		//	counter++;
+		if (!CHECKING_ROOMS(0, i))
+			counter++;
+		if (!CHECKING_ROOMS(1, i))
 			counter++;
 		i++;
 	}
@@ -158,14 +221,16 @@ static	int 	ft_find_rooms(char **temp, t_lemin *farmer)
 
 static	int 	ft_validate_ants_num(char *line, t_lemin *farmer)
 {
-	int		temp;
+	intmax_t	temp;
 
-	temp = ft_atoi(line);
+	temp = ft_atoi_base(line, 10);
 	if (temp >= 1 && temp <= 2147483647)
 	{
 		farmer->ants_num = temp;
+		// printf("BamBoleio!\n");
 		return (0);
 	}
+	// printf("NIGGA!\n");
 	return (1);
 }
 
@@ -175,8 +240,13 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 
 	while ((status = get_next_line(0, &line, valid)) > 0)
 	{
+		// printf("line:%s\n", line);
 		if (ft_is_numeric(line))
+		{
+			// printf("ants_num error:%d%s\n", valid->errors, line);
 			valid->errors += (farmer->ants_num == -1) ? ft_validate_ants_num(line, farmer) : 1;
+			// printf("ants_num error:%d%s\n", valid->errors, line);
+		}
 		else if (line[0] == '#')
 		{
 			// printf("errors:%d\n", valid->errors);
@@ -191,7 +261,7 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 		}
 		else if (ft_words_count(line, '-') == 2 && ENTRY_ROOMS)
 		{
-			// printf("ERRORS:%d\n", valid->errors);
+			// printf("ERRORS:%d%s\n", valid->errors, line);
 			valid->errors += ft_find_rooms(ft_strsplit(line, '-'), farmer);
 			// printf("UPDATED ERRORS:%d\n", valid->errors);
 		}
@@ -199,11 +269,9 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 		{
 			if (NO_ERRORS)
 			{
-				// printf("HERE!\n");
 				ft_errors_handling(1, bonus);
 				break ;
 			}
-			// printf("HERE123!\n");
 			valid->errors += 1;
 		}
 		if (valid->errors != 0)
@@ -212,6 +280,7 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 			return (0);
 		}
 	}
+	// printf("status:%d|start_room:%s|end_room:%s|ants_num:%d|start_point:%d|end_point:%d|adj_matrix:%d\n", status, farmer->start_room, farmer->end_room, farmer->ants_num, valid->start_point, valid->end_point, ft_any_links(farmer->adj_matrix, '1'));
 	if (NO_ERRORS)
 	{
 		// printf("MAN\n");

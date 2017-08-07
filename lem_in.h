@@ -28,6 +28,7 @@ typedef	struct 	s_graph
 
 typedef	struct 	s_lemin
 {
+	char		**x_coords;
 	int			ants_num;
 	int 		rooms_counter;
 	char		*start_room;
@@ -35,6 +36,7 @@ typedef	struct 	s_lemin
 	char		**rooms_arr;
 	char		**adj_matrix;
 	char        **visited_rooms;
+	char		**y_coords;
 	t_graph		**paths;
 }				t_lemin;
 

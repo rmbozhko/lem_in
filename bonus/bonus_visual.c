@@ -69,13 +69,13 @@ static void		ft_l_r_a(char *line, int flag, int sub_flag, int i)
 
 void		ft_handle_ansi_color_codes(char *line)
 {
-	if (ft_is_numeric(ft_strchr(line, 'm') + 1))
-		ft_l_r_a(ft_strchr(line, 'm') + 1, 0, 0, -1);
-	else if (ft_words_count(ft_strchr(line, 'm') + 1, '-') > 1)
+	if (ft_words_count(line, '-') > 1)
 	{
 		ft_l_r_a(line, 1, 0, -1);
 		printf("\n");
 	}
+	else if (ft_is_numeric(ft_strchr(line, 'm') + 1))
+		ft_l_r_a(ft_strchr(line, 'm') + 1, 0, 0, -1);
 	else if (ft_strstr((ft_strchr(line, 'm') + 1), "ERROR"))
 	{
 		ft_handle_error();

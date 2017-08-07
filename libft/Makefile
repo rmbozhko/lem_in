@@ -6,7 +6,7 @@
 #    By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/30 13:42:51 by rbozhko           #+#    #+#              #
-#    Updated: 2017/08/01 11:03:48 by rbozhko          ###   ########.fr        #
+#    Updated: 2017/08/07 13:42:07 by rbozhko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRC = ft_atoi.c ft_bzero.c ft_is_whitespace.c ft_isalnum.c ft_isalpha.c \
 	  ft_strmapi.c ft_strncat.c ft_strncmp.c ft_strncpy.c ft_strnequ.c \
 	  ft_strnew.c ft_strnstr.c ft_strrchr.c ft_strsplit.c ft_strstr.c \
 	  ft_strsub.c ft_strtrim.c ft_tolower.c ft_toupper.c ft_wordlen.c \
-	  ft_words_count.c ft_is_numeric.c ft_putbidstr.c ft_bidlen.c
+	  ft_words_count.c ft_is_numeric.c ft_putbidstr.c ft_bidlen.c \
+	  ft_atoi_base.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -21,23 +21,26 @@ static t_node	*ft_create(void)
 	return (temp);
 }
 
-// static t_node	*ft_cmp_fd(int fd, t_node *demo)
-// {
-// 	t_node	*temp;
-
-// 	temp = demo;
-// 	while (temp)
-// 	{
-// 		if (temp->fd == fd)
-// 			break ;
-// 		(!(temp->next)) ? temp->next = ft_create(fd) : 0;
-// 		temp = temp->next;
-// 	}
-// 	return (temp);
-// }
-
 static int		ft_rtn_line(t_node *temp, char buff[], char **line, t_validation *valid)
 {
+	if (NL_CODE)
+	{	
+		*line = ft_strsub(temp->str, 0, S_C_SUB);
+		valid->file = ft_strjoin(valid->file, *line);
+		valid->file = ft_strjoin(valid->file, "\n");
+		temp->str += S_C_SUB;
+		return (1);
+	}
+	else if ((!(NL_CODE)) && ft_strlen(buff) == 0)
+	{
+		valid->file = ft_strjoin(valid->file, temp->str);
+		valid->file = ft_strjoin(valid->file, "\n");
+		*line = ft_strdup(temp->str);
+		ft_memset(temp->str, 0, ft_strlen(temp->str));
+		return (1);
+	}
+	return (0);
+	/*
 	if (NL_CODE)
 	{
 		valid->file = ft_strjoin(valid->file, ft_strsub(temp->str, 0, S_C_SUB + 1));
@@ -52,7 +55,7 @@ static int		ft_rtn_line(t_node *temp, char buff[], char **line, t_validation *va
 		ft_memset(temp->str, 0, ft_strlen(temp->str));
 		return (1);
 	}
-	return (0);
+	return (0);*/
 }
 
 int				get_next_line(const int fd, char **line, t_validation *valid)

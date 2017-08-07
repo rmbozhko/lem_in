@@ -34,6 +34,7 @@ int		ft_any_links(char **link, char c)
 		}
 		y++;
 	}
+	printf("counter:%d\n", counter);
 	return (((counter % 2 == 0) && counter != 0) ? 1 : 0);
 }
 
@@ -63,42 +64,56 @@ void		ft_print_paths(t_graph **paths, t_bonus *bonus, int flag)
 	ft_putstr(bonus->color_arr[bonus->cpaths]);
 	while (paths[i])
 	{
-		ft_handle_path(paths[i++]->path_str);
+		ft_handle_path(paths[i]->path_str);
+		i++;
 	}
-	ft_putstr((i > 1) ? "\033[0m\n" : "\033[0m");
+	ft_putstr("\033[0m\n");
+}
+
+static	int 		ft_erase_decimal_part(int num)
+{
+	while (num > 10)
+		num %= 10;
+	return (num);
 }
 
 static	void		ft_count_down(int end)
 {
-	int 		i;
-
-	i = 0;
-	while (i < end)
-		ft_putnbr(i++);
+	if (end == 0)
+		return ;
+	ft_count_down(--end);
+	// if (end > 10)
+		// ft_putnbr(ft_erase_decimal_part(end));
+	// else
+		ft_putnbr(end);
 }
 
 static	void		ft_print_adj_matrix(char **arr)
 {
-	size_t		len;
 	size_t		i;
 
-	ft_putstr("\n\033[35;1mAdjecency matrix\033[0m\n");
-	len = ft_bidlen(arr);
 	i = 0;
-	ft_putstr("\t|");
-	ft_putstr("\033[34m");
-	ft_count_down(len);
-	ft_putstr("\033[0m");
-	ft_putchar('\n');
+	ft_putstr("\n\033[35;1mAdjecency matrix\033[0m\n\t\033[34m|");
+	ft_count_down(ft_bidlen(arr));
+	ft_putstr("\033[0m\n");
 	while (arr[i])
 	{
 		ft_putstr("\033[33m");
 		ft_putnbr(i);
 		ft_putstr("\t|");
 		ft_putstr(arr[i++]);
-		ft_putstr("\033[0m");
-		ft_putchar('\n');
+		ft_putstr("\033[0m\n");
 	}
+}
+
+static	size_t		ft_len(void	**resource)
+{
+	size_t		i;
+
+	i = 0;
+	while (resource[i])
+		i++;
+	return (i);
 }
 
 static	void		ft_help_ants(t_lemin *farmer, t_validation *valid, t_bonus *bonus)
@@ -107,9 +122,9 @@ static	void		ft_help_ants(t_lemin *farmer, t_validation *valid, t_bonus *bonus)
 	{
 		ft_putstr(bonus->color_arr[bonus->cmap]);
 		ft_putstr(valid->file);
-		ft_putstr("\033[0m\n");
+		ft_putstr("\033[0m");
 		ft_print_adj_matrix(farmer->adj_matrix);
-		//dfs_iter(farmer, 0, 0, ft_strnew(0)); // determine whether to use dfs_iter here and raw dfs in validation or throw raw dfs away
+		// dfs_iter(farmer, 0, 0, ft_strnew(0)); // determine whether to use dfs_iter here and raw dfs in validation or throw raw dfs away
 		ft_print_paths(farmer->paths, bonus, 1);
 		ants_travel(farmer, bonus);
 	}
@@ -134,6 +149,10 @@ static	void				ft_init_valid_farmer(t_validation *valid, t_lemin *farmer)
 	farmer->adj_matrix[0] = NULL;
 	farmer->paths = (t_graph**)malloc(sizeof(t_graph**));
 	farmer->paths[0] = NULL;
+	farmer->x_coords = (char**)malloc(sizeof(char*) * 1000000);
+	farmer->y_coords = (char**)malloc(sizeof(char*) * 1000000);
+	farmer->x_coords[0] = NULL;
+	farmer->y_coords[0] = NULL;
 }
 
 int					main(void)

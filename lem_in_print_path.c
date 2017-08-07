@@ -2,8 +2,8 @@
 
 static void      ft_free_ndarr(t_graph **arr, size_t i)
 {
-  // while (arr[i] != NULL)
-  //   ft_memdel(arr[i++]);
+  while (arr[i] != NULL)
+    ft_memdel((void**)arr[i++]);
 }
 
 static void      ft_determine_best_path(t_lemin *farmer, int len)
@@ -36,8 +36,8 @@ size_t          ft_update_ants_arr(char **arr)
     size_t      i;
     
     i = 0;
-    while (ft_strcmp(arr[i], "\0") == 0)//== NULL)
-        i++;
+    while (ft_strcmp(arr[i], "\0") == 0)
+      i++;
     return (i);
 }     
 
@@ -109,11 +109,11 @@ void      ants_travel(t_lemin *farmer, t_bonus *bonus)
   char      **ants_arr;
   
   ft_determine_best_path(farmer, farmer->rooms_counter);
-  ft_putstr("For debugg:\n");
-  ft_handle_path(farmer->paths[0]->path_str);
-  ft_putstr("\n");
+  // ft_putstr("For debugg:\n");
+  // ft_handle_path(farmer->paths[0]->path_str);
+  // ft_putstr("\n");
   ft_putstr("\033[35;3;2;3mRun Forest run:\033[0m\n");
-  ft_determine_best_path(farmer, farmer->rooms_counter);
+  // ft_determine_best_path(farmer, farmer->rooms_counter);
   ants_num = 0;
   ants_arr = ft_init_ants(ft_strchr(farmer->paths[0]->path_str, ' ') + 1, farmer->ants_num);
   while (ants_num < farmer->ants_num)
