@@ -61,7 +61,7 @@ typedef	struct s_validation
 
 # define ENTRY_POINTS (valid->start_point == 1 && valid->end_point == 1)
 # define ENTRY_ROOMS (ft_strlen(farmer->start_room) > 0 && ft_strlen(farmer->end_room) > 0 /*&& ft_strcmp(farmer->start_room, farmer->end_room) != 0*/)
-# define NO_ERRORS (status != -1 && ENTRY_ROOMS && farmer->ants_num != -1 && ENTRY_POINTS && ft_any_links(farmer->adj_matrix, '1'))
+# define NO_ERRORS (status != -1 && ENTRY_ROOMS && farmer->ants_num != -1 && ENTRY_POINTS && ((ft_any_links(farmer->adj_matrix, '1') % 2 == 0) ? 1 : 0))
 
 // # define NO_ENTRY_POINTS (valid->start_point != 1 || valid->end_point != 1)
 // # define NO_ENTRY_ROOMS (ft_strlen(farmer->start_room) == 0 && ft_strlen(farmer->end_room) == 0)
@@ -81,4 +81,6 @@ int            		ft_set_colors(t_bonus *bonus, char *line);
 int					dfs(t_lemin *farmer);
 void				ft_print_paths(t_graph **paths, t_bonus *bonus, int flag);
 void				ft_handle_path(char *str);
+int					ft_count_char(char *str, char c);
+size_t				ft_factorial(size_t size);
 #endif

@@ -74,6 +74,7 @@ int 		ft_push_new_rooms(char **temp, t_lemin *farmer, int flag, t_validation *va
 	int 		counter;
 
 	counter = 1;
+	// printf("temp[1]:%s|temp[2]:%s|temp[0]%s\n", temp[1], temp[2], temp[0]);
 	if (ft_is_numeric(temp[1]) && ft_is_numeric(temp[2]) && (temp[0][0] != '#' && temp[0][0] != 'L'))
 	{
 		counter = 0;
@@ -91,6 +92,7 @@ int 		ft_push_new_rooms(char **temp, t_lemin *farmer, int flag, t_validation *va
 			ft_add_room_coords(temp[0], farmer, i);
 		(counter == 0) ? ft_add_room_coords(temp[1], farmer, -2) : 0;
 		(counter == 0) ? ft_add_room_coords(temp[2], farmer, -1) : 0;
+		// printf("OVER HERE:%d\n", counter);
 	}
 	free(temp[2]);
 	free(temp[1]);
@@ -234,6 +236,13 @@ static	int 	ft_validate_ants_num(char *line, t_lemin *farmer)
 	return (1);
 }
 
+size_t	ft_factorial(size_t size)
+{
+	if (size == 1)
+		return (size);
+	return (size * ft_factorial(1 - size));
+}
+
 int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, char *line)
 {
 	int 		status;
@@ -255,9 +264,9 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 		}
 		else if (ft_words_count(line, ' ') == 3)
 		{
-			// printf("old_errors:%d\n", valid->errors);
+			// printf("old_errors:%d|%s\n", valid->errors, line);
 			valid->errors += ft_push_new_rooms(ft_strsplit(line, ' '), farmer, 1, valid);
-			// printf("errors:%d\n", valid->errors);
+			// printf("errors:%d|%s\n", valid->errors, line);
 		}
 		else if (ft_words_count(line, '-') == 2 && ENTRY_ROOMS)
 		{
@@ -272,18 +281,22 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 				ft_errors_handling(1, bonus);
 				break ;
 			}
+			// printf("YO!\n");
 			valid->errors += 1;
 		}
 		if (valid->errors != 0)
 		{
-			// printf("YO!\n");
+			// printf("YO123!\n");
 			return (0);
 		}
 	}
+	// ft_putbidstr(farmer->adj_matrix);
 	// printf("status:%d|start_room:%s|end_room:%s|ants_num:%d|start_point:%d|end_point:%d|adj_matrix:%d\n", status, farmer->start_room, farmer->end_room, farmer->ants_num, valid->start_point, valid->end_point, ft_any_links(farmer->adj_matrix, '1'));
 	if (NO_ERRORS)
 	{
-		// printf("MAN\n");
+		// free(farmer->paths);
+		// farmer->paths = (t_graph**)malloc(sizeof(t_graph**) * ft_factorial(ft_bidlen(farmer->rooms_arr)) * ft_factorial(ft_any_links(farmer->adj_matrix, '1') / 2));
+		// farmer->paths[0] = NULL;
 		return (dfs_iter(farmer, 0, 0, ft_strnew(0)));
 	}
 	else

@@ -10,7 +10,7 @@ static	t_graph		*ft_create_path_node(char *str)
 	return (path);
 }
 
-static	int		ft_count_char(char *str, char c)
+int		ft_count_char(char *str, char c)
 {
 	int			i;
 	int			counter;
@@ -101,12 +101,15 @@ static void			dfs_rec(t_lemin *farmer, int i, char *str)
 		else if (ft_strchr(farmer->adj_matrix[i] + j, '1'))
 		{
 			str = (str[ft_strlen(str) - 1] != ' ') ? ft_strjoin(str, " ") : str;
+			// printf("current_vertex:%d|next_vertex:%d\n", i, j);
 			dfs_rec(farmer, j, ft_strjoin(str, farmer->rooms_arr[j]));
+			// printf("previous_vertex:%d|current_vertex:%d\n", i, j);
 		}
 		if (ft_strchr(farmer->adj_matrix[i] + j + 1, '1') != NULL)
 		{
 			j = ft_strchr(farmer->adj_matrix[i] + j + 1, '1') - farmer->adj_matrix[i];
 			j = ft_update_room(farmer, str, i, j);
+			// printf("HERE we are: %d\n", j);
 			if (j == -1)
 				break ;
 		}
@@ -137,7 +140,9 @@ int			dfs_iter(t_lemin *farmer, int i, int j, char *str)
 		return (ft_push_path_node(str, farmer));
 	else if (ft_strchr(farmer->adj_matrix[i], '1'))
 	{
+		// printf("Going deep!\n");
 		dfs_rec(farmer, i, str);
+		// printf("Go up, as fast as only possible!\n");
 		return ((farmer->rooms_counter > 0) ? 1 : 0);
 	}
 	return (0);

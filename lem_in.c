@@ -18,24 +18,12 @@ int		ft_any_links(char **link, char c)
 {
 	int		counter;
 	size_t		y;
-	size_t		x;
 	
 	y = 0;
-	x = 0;
 	counter = 0;
 	while (link[y])
-	{
-		x = 0;
-		while (link[y][x])
-		{
-			if (link[y][x] == c)
-				counter++;
-			x++;
-		}
-		y++;
-	}
-	printf("counter:%d\n", counter);
-	return (((counter % 2 == 0) && counter != 0) ? 1 : 0);
+		counter += ft_count_char(link[y++], c);
+	return ((counter == 0) ? (1) : (counter));
 }
 
 void		ft_handle_path(char *str)
@@ -147,7 +135,7 @@ static	void				ft_init_valid_farmer(t_validation *valid, t_lemin *farmer)
 	farmer->rooms_arr[1] = NULL;
 	farmer->adj_matrix = (char**)malloc(sizeof(char*));
 	farmer->adj_matrix[0] = NULL;
-	farmer->paths = (t_graph**)malloc(sizeof(t_graph**));
+	farmer->paths = (t_graph**)malloc(sizeof(t_graph**) * 1000000);
 	farmer->paths[0] = NULL;
 	farmer->x_coords = (char**)malloc(sizeof(char*) * 1000000);
 	farmer->y_coords = (char**)malloc(sizeof(char*) * 1000000);

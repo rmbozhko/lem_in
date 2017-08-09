@@ -91,9 +91,14 @@ void            ft_mv_ants(char **ants_arr, size_t ant_num, int flag)
   size_t      j;
   
   j = ft_update_ants_arr(ants_arr);
-  (flag == 1) ? ant_num += j - 1 : 0;
+  if (flag == 1)
+  {
+    ant_num += j - 1; //+ ft_count_unfinished(ants_arr);//- 1 : 0;
+  }
+  // printf("\nAt the beginning ants_num:%zu|j:%zu\n", ant_num, j);
   while (j <= ant_num)
   {
+    // printf("\nants_num:%zu|j:%zu\n", ant_num, j);
     ft_putchar('L');
     ft_putstr(ft_itoa(j + 1));
     ft_putchar('-');
@@ -125,8 +130,10 @@ void      ants_travel(t_lemin *farmer, t_bonus *bonus)
   ants_num = ft_count_unfinished(ants_arr);
   while (ants_num != 0)
   {
+    // printf("\nYO!:%zu\n", ants_num);
     ft_putstr(bonus->color_arr[bonus->cants]);
-    ft_mv_ants(ants_arr, ants_num--, 1);
+    ft_mv_ants(ants_arr, ants_num, 1);
     ft_putstr("\033[0m\n");
+    ants_num = ft_count_unfinished(ants_arr);
   }
 }
