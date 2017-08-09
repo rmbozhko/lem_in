@@ -6,28 +6,36 @@ static void      ft_free_ndarr(t_graph **arr, size_t i)
     ft_memdel((void**)arr[i++]);
 }
 
-static void      ft_determine_best_path(t_lemin *farmer, int len)
+static char      *ft_determine_best_path(t_lemin *farmer, int len)
 {
   size_t      i;
   char        *path;
   size_t      p_len;
 
   i = 0;
-  while (i < (len - 1))
+  path = farmer->paths[i++]->path_str;
+  while (farmer->paths[i])
   {
-    if (farmer->paths[i]->path_len > farmer->paths[i + 1]->path_len)
-    {
+    if (ft_strlen(farmer->paths[i]->path_str) < ft_strlen(path))
       path = farmer->paths[i]->path_str;
-      p_len = farmer->paths[i]->path_len;
-      farmer->paths[i]->path_str = farmer->paths[i + 1]->path_str;
-      farmer->paths[i]->path_len = farmer->paths[i + 1]->path_len;
-      farmer->paths[i + 1]->path_str = path;
-      farmer->paths[i + 1]->path_len = p_len;
-      i = 0;
-    }
-    else
-      i++;
+    i++;
   }
+  return (path);
+  // while (i < (len - 1))
+  // {
+  //   if (farmer->paths[i]->path_len > farmer->paths[i + 1]->path_len)
+  //   {
+  //     path = farmer->paths[i]->path_str;
+  //     p_len = farmer->paths[i]->path_len;
+  //     farmer->paths[i]->path_str = farmer->paths[i + 1]->path_str;
+  //     farmer->paths[i]->path_len = farmer->paths[i + 1]->path_len;
+  //     farmer->paths[i + 1]->path_str = path;
+  //     farmer->paths[i + 1]->path_len = p_len;
+  //     i = 0;
+  //   }
+  //   else
+  //     i++;
+  // }
   // ft_free_ndarr(farmer->paths, 1);  
 }
 
@@ -113,14 +121,11 @@ void      ants_travel(t_lemin *farmer, t_bonus *bonus)
   size_t    ants_num;
   char      **ants_arr;
   
-  ft_determine_best_path(farmer, farmer->rooms_counter);
-  // ft_putstr("For debugg:\n");
-  // ft_handle_path(farmer->paths[0]->path_str);
-  // ft_putstr("\n");
+  //ft_determine_best_path(farmer, farmer->rooms_counter); //-> we don't sort rest of routes as the only thing we need is the shortest path
   ft_putstr("\033[35;3;2;3mRun Forest run:\033[0m\n");
   // ft_determine_best_path(farmer, farmer->rooms_counter);
   ants_num = 0;
-  ants_arr = ft_init_ants(ft_strchr(farmer->paths[0]->path_str, ' ') + 1, farmer->ants_num);
+  ants_arr = ft_init_ants(ft_strchr(ft_determine_best_path(farmer, farmer->rooms_counter), ' ') + 1, farmer->ants_num);//ft_init_ants(ft_strchr(farmer->paths[0]->path_str, ' ') + 1, farmer->ants_num);
   while (ants_num < farmer->ants_num)
   {
       ft_putstr(bonus->color_arr[bonus->cants]);
