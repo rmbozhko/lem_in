@@ -14,7 +14,7 @@ void		ft_errors_handling(int flag, t_bonus *bonus)
 	ft_putstr("\033[0m\n");
 }
 
-int		ft_any_links(char **link, char c)
+int		ft_bidcount(char **link, char c)
 {
 	int		counter;
 	size_t		y;
@@ -56,25 +56,7 @@ void		ft_print_paths(t_graph **paths, t_bonus *bonus, int flag)
 		i++;
 	}
 	ft_putstr("\033[0m\n");
-}
-
-static	int 		ft_erase_decimal_part(int num)
-{
-	while (num > 10)
-		num %= 10;
-	return (num);
-}
-
-static	void		ft_count_down(int end)
-{
-	if (end == 0)
-		return ;
-	ft_count_down(--end);
-	// if (end > 10)
-		// ft_putnbr(ft_erase_decimal_part(end));
-	// else
-		ft_putnbr(end);
-}
+}	
 
 static	void		ft_print_adj_matrix(char **arr)
 {
@@ -82,7 +64,7 @@ static	void		ft_print_adj_matrix(char **arr)
 
 	i = 0;
 	ft_putstr("\n\033[35;1mAdjecency matrix\033[0m\n\t\033[34m|");
-	ft_count_down(ft_bidlen(arr));
+	ft_countdown(ft_bidlen(arr));
 	ft_putstr("\033[0m\n");
 	while (arr[i])
 	{

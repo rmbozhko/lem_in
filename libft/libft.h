@@ -6,7 +6,7 @@
 /*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 16:53:46 by rbozhko           #+#    #+#             */
-/*   Updated: 2017/08/07 13:41:25 by rbozhko          ###   ########.fr       */
+/*   Updated: 2017/08/09 18:26:31 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,5 @@ int				ft_is_numeric(char *str);
 void			ft_putbidstr(char **arr);
 size_t			ft_bidlen(char **arr);
 intmax_t		ft_atoi_base(char *str, int base);
+void			ft_countdown(int end);
 #endif

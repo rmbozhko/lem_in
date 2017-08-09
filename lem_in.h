@@ -61,16 +61,16 @@ typedef	struct s_validation
 
 # define ENTRY_POINTS (valid->start_point == 1 && valid->end_point == 1)
 # define ENTRY_ROOMS (ft_strlen(farmer->start_room) > 0 && ft_strlen(farmer->end_room) > 0 /*&& ft_strcmp(farmer->start_room, farmer->end_room) != 0*/)
-# define NO_ERRORS (status != -1 && ENTRY_ROOMS && farmer->ants_num != -1 && ENTRY_POINTS && ((ft_any_links(farmer->adj_matrix, '1') % 2 == 0) ? 1 : 0))
+# define NO_ERRORS (status != -1 && ENTRY_ROOMS && farmer->ants_num != -1 && ENTRY_POINTS && ((ft_bidcount(farmer->adj_matrix, '1') % 2 == 0) ? 1 : 0))
 
 // # define NO_ENTRY_POINTS (valid->start_point != 1 || valid->end_point != 1)
 // # define NO_ENTRY_ROOMS (ft_strlen(farmer->start_room) == 0 && ft_strlen(farmer->end_room) == 0)
-// # define ERRORS (status == -1 || NO_ENTRY_ROOMS || farmer->ants_num == -1 || NO_ENTRY_POINTS || ft_any_links(farmer->adj_matrix, '1') == 0)
+// # define ERRORS (status == -1 || NO_ENTRY_ROOMS || farmer->ants_num == -1 || NO_ENTRY_POINTS || ft_bidcount(farmer->adj_matrix, '1') == 0)
 
 void				ft_errors_handling(int flag, t_bonus *bonus);
 int					lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, char *line);
 int					get_next_line(const int fd, char **line, t_validation *valid);
-int					ft_any_links(char **link, char c);
+int					ft_bidcount(char **link, char c);
 int					dfs_iter(t_lemin *farmer, int i, int j, char *str);
 int					ft_get_rooms_coord(char *room, char **temp);
 void      			ants_travel(t_lemin *farmer, t_bonus *bonus);
