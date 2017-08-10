@@ -5,6 +5,7 @@
 # include <errno.h>
 # include <string.h>
 # include <stdio.h>
+# include <fcntl.h>
 
 typedef	struct	s_node
 {
@@ -48,9 +49,18 @@ typedef	struct s_validation
 	int			end_point;
 }				t_validation;
 
+/*
+//MACROS fo GNL with leaks
 # define BUFF_SIZE 9999
 # define NL_CODE ft_strchr(temp->str, 10)
 # define S_C_SUB (NL_CODE - temp->str)
+# define IF_FP ((fd < 0 || fd > 4096) || ((read(fd, buff, 0)) == -1 && !(head)))
+# define IF_SP (!(line) || !(ft_memset(buff, 0, BUFF_SIZE + 1)))
+*/
+
+# define BUFF_SIZE 1
+# define NL_CODE ft_strchr(temp, '\n')
+# define S_C_SUB (NL_CODE - temp)
 # define IF_FP ((fd < 0 || fd > 4096) || ((read(fd, buff, 0)) == -1 && !(head)))
 # define IF_SP (!(line) || !(ft_memset(buff, 0, BUFF_SIZE + 1)))
 

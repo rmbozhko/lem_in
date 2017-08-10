@@ -1,11 +1,10 @@
 #include "lem_in.h"
 
-int	ft_get_rooms_coord(char *room, char **temp)
+int 		ft_get_rooms_coord(char *room, char **temp)
 {
-	size_t		i;
+	int		i;
 	
 	i = 0;
-
 	while (temp[i])
 	{
 		if (ft_strcmp(room, temp[i]) == 0)
@@ -30,20 +29,17 @@ int 		ft_check_coords(char *x_coord, char *y_coord, t_lemin *farmer)
 	return (1);
 }
 
-size_t		ft_update_arr(char **arr)
-{
-	size_t		i;
+// size_t		ft_update_arr(char **arr)
+// {
+// 	size_t		i;
 
-	i = 0;
-	// printf("Reviewing array:\n");
-	// ft_putbidstr(arr);
-	while (arr[i])
-	{
-		i++;
-	}
-	// printf("I over here:%zu\n", i);
-	return (i);
-}
+// 	i = 0;
+// 	while (arr[i])
+// 	{
+// 		i++;
+// 	}
+// 	return (i);
+// }
 
 void		ft_add_room_coords(char *elem, t_lemin *farmer, int i)
 {
@@ -51,15 +47,19 @@ void		ft_add_room_coords(char *elem, t_lemin *farmer, int i)
 
 	if (i == -2)
 	{
-		temp = ft_update_arr(farmer->x_coords);
-		farmer->x_coords[temp] = ft_strdup(elem);
-		farmer->x_coords[temp + 1] = NULL;
+		// temp = ft_update_arr(farmer->x_coords);
+		// farmer->x_coords[temp] = ft_strdup(elem);
+		// farmer->x_coords[temp + 1] = NULL;
+		farmer->x_coords[ft_bidlen(farmer->x_coords)] = ft_strdup(elem);
+		farmer->x_coords[ft_bidlen(farmer->x_coords) + 1] = NULL;
 	}
 	else if (i == -1)
 	{
-		temp = ft_update_arr(farmer->y_coords);
-		farmer->y_coords[temp] = ft_strdup(elem);
-		farmer->y_coords[temp + 1] = NULL;
+		// temp = ft_update_arr(farmer->y_coords);
+		// farmer->y_coords[temp] = ft_strdup(elem);
+		// farmer->y_coords[temp + 1] = NULL;
+		farmer->y_coords[ft_bidlen(farmer->y_coords)] = ft_strdup(elem);
+		farmer->y_coords[ft_bidlen(farmer->y_coords) + 1] = NULL;
 	}
 	else
 	{
@@ -105,44 +105,77 @@ int 		ft_push_new_rooms(char **temp, t_lemin *farmer, int flag, t_validation *va
 static	char	*get_in_out_rooms(t_lemin *farmer, t_validation *valid)
 {
 	char		*line;
+	char		*temp;
 
-	line = ft_strdup("\0");
-	while (get_next_line(0, &line, valid))
+	// line = ft_strnew(0);
+	temp = NULL;
+	line = NULL;
+	while (get_next_line(0, &line, valid) > 0)
 	{
 		if (line[0] == '#')
+		{
+			ft_memdel((void**)&line);
 			continue ;
+		}
 		else if (line[0] != '#' && (ft_words_count(line, ' ') == 3)) // ft_words_count(line, ' ') == 3) //is better than current one, as we check [0] char in line in ft_push_new_room function
 		{
 			if (!ft_push_new_rooms(ft_strsplit(line, ' '), farmer, 0, valid))
-				return (ft_strsplit(line, ' ')[0]);
+			{
+				// arr = ft_strsplit(line, ' ');
+				// ft_memdel((void**)&arr[1]);
+				// ft_memdel((void**)&arr[2]);
+				// // line = ft_strdup(arr[0]);
+				// ft_memdel((void**)&arr[0]);
+			 	temp = ft_strsub(line, 0, ft_strchr(line, ' ') - line);
+			 	ft_memdel((void**)&line);
+			 	return (temp);//(ft_strsub(line, 0, ft_strchr(line, ' ') - line));
+			}
+			ft_memdel((void**)&line);
 			return (NULL);
 		}
 		else
 		{
+			ft_memdel((void**)&line);
 			return (NULL);
 		}
 	}
+	ft_memdel((void**)&line);
 	return (NULL);
 }
 
 static	int 	ft_hash_case(char *line, t_validation *valid, t_lemin *farmer, t_bonus *bonus)
 {
+	char		*temp;
+
 	if (SNG_HASH_CMNT && (ft_strstr(line, "#start") || ft_strstr(line, "#end") || ft_strstr(line, "#cpaths_")
   || ft_strstr(line, "#cmap_") || ft_strstr(line, "#cants_") || ft_strstr(line, "#cerror_") ))
 	{
-		
 		if (ft_strcmp(line, "#start") == 0)
 		{
 			valid->start_point += 1;
-			return (((farmer->start_room = get_in_out_rooms(farmer, valid)) == NULL) ? (1) : (0));
+			if ((temp = get_in_out_rooms(farmer, valid)) != NULL)
+			{
+				ft_memdel((void**)&farmer->start_room);
+				farmer->start_room = temp;
+				return (0);
+			}
+			// return (((farmer->start_room = get_in_out_rooms(farmer, valid)) != NULL) ? 0 : 1);
 		}
 		else if (ft_strcmp(line, "#end") == 0)
 		{
 			valid->end_point += 1;
-			return (((farmer->end_room = get_in_out_rooms(farmer, valid)) == NULL) ? (1) : (0));
+			// ft_memdel((void**)&farmer->end_room);
+			// return (((farmer->end_room = get_in_out_rooms(farmer, valid)) != NULL) ? 0 : 1);
+			if ((temp = get_in_out_rooms(farmer, valid)) != NULL)
+			{
+				ft_memdel((void**)&farmer->end_room);
+				farmer->end_room = temp;
+				// ft_memdel((void**)&line);
+				return (0);
+			}
 		}
-	   	else if (ft_strstr(line, "#cmap_") || ft_strstr(line, "#cants_") || ft_strstr(line, "#cerror_") || ft_strstr(line, "#cpaths_"))
-	      return (ft_set_colors(bonus, line));
+		// else if (ft_strstr(line, "#cmap_") || ft_strstr(line, "#cants_") || ft_strstr(line, "#cerror_") || ft_strstr(line, "#cpaths_"))
+			// return (ft_set_colors(bonus, line));
 		return (1);
 	}
 	return (0);
@@ -170,7 +203,6 @@ static	int	ft_push_link(char *link1, char *link2, t_lemin *farmer)
 {
 	int		x;
 	int		y;
-	static	int 	temp = 0;
 
 	x = ft_get_rooms_coord(link1, farmer->rooms_arr);
 	y = ft_get_rooms_coord(link2, farmer->rooms_arr);
@@ -246,10 +278,10 @@ size_t	ft_factorial(size_t size)
 int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, char *line)
 {
 	int 		status;
+	char		*temp;
 
 	while ((status = get_next_line(0, &line, valid)) > 0)
 	{
-		// printf("line:%s\n", line);
 		if (ft_is_numeric(line))
 		{
 			// printf("ants_num error:%d%s\n", valid->errors, line);
@@ -281,27 +313,29 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 				ft_errors_handling(1, bonus);
 				break ;
 			}
-			// printf("YO!\n");
 			valid->errors += 1;
 		}
 		if (valid->errors != 0)
 		{
-			// printf("YO123!\n");
+			ft_memdel((void**)&valid->file);
+			ft_memdel((void**)&line);
 			return (0);
 		}
 	}
-	// ft_putbidstr(farmer->adj_matrix);
 	// printf("status:%d|start_room:%s|end_room:%s|ants_num:%d|start_point:%d|end_point:%d|adj_matrix:%d\n", status, farmer->start_room, farmer->end_room, farmer->ants_num, valid->start_point, valid->end_point, ft_any_links(farmer->adj_matrix, '1'));
 	if (NO_ERRORS)
 	{
 		// free(farmer->paths);
 		// farmer->paths = (t_graph**)malloc(sizeof(t_graph**) * ft_factorial(ft_bidlen(farmer->rooms_arr)) * ft_factorial(ft_any_links(farmer->adj_matrix, '1') / 2));
 		// farmer->paths[0] = NULL;
-		return (dfs_iter(farmer, 0, 0, ft_strnew(0)));
+		// return (dfs_iter(farmer, 0, 0, ft_strnew(0)));
+		ft_memdel((void**)&line);
+		return (1);
 	}
 	else
 	{
-		// printf("WTF?!\n");
+		ft_memdel((void**)&valid->file);
+		ft_memdel((void**)&line);
 		return (0);
 	}
 	// return ((NO_ERRORS) ? dfs(farmer) : 0);

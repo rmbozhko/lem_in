@@ -12,61 +12,57 @@
 
 #include "lem_in.h"
 
-static int		ft_rtn_line(char *temp, char buff[], char **line, t_validation *valid)
+static int		ft_rtn_line(char *temp, char buff[], char **line/*, t_validation *valid*/)
 {
 	char		*str;
 	char		*string;
-	char		*def;
-	// static	int		i = 0;
+	static	int		i = 0;
 
-	// if (i == 0)
-	// {
-	// 	// valid->file = ft_strnew(0);
-	// 	// ft_memdel((void**)&line);
-	// 	// *line = ft_strnew(0); // because lem_in allocate memory for line
-	// }
-	def = valid->file;
+	// printf("ft_rtn_line:%s\n", temp);
+	if (i == 0)
+	{
+		// ft_memdel((void**)&line);
+		*line = ft_strnew(0);//(char*)malloc(sizeof(char*));
+		// printf("i:%d\n", i);
+		string = ft_strnew(0);
+	}
+	// // str = valid->file;
 	str = temp;
 	string = *line;
-	printf("temp:%s|%zu", temp, ft_strlen(buff));
 	if (NL_CODE)
 	{
-		// ft_memdel((void**)&string);
+		// printf("YO, Wassup?!\n");
 		*line = ft_strsub(temp, 0, S_C_SUB);
 		ft_memdel((void**)&string);
 		string = *line;
-		// (i == 0) ? ft_memdel((void**)&valid->file) : 0;
-		def = valid->file;
-		valid->file = ft_strjoin(valid->file, *line);
-		ft_memdel((void**)&def);
-		def = valid->file;
-		valid->file = ft_strjoin(valid->file, "\n");
-		ft_memdel((void**)&def);
-		def = valid->file;
-		// temp = ft_strsub(temp, S_C_SUB, ft_strlen(temp)); // 10 leaks wegen diese Instruktion
+		// valid->file = ft_strjoin(valid->file, *line);
+		// free(str);
+		// str = valid->file;
+		// valid->file = ft_strjoin(valid->file, "\n");
+		// free(str);
+		temp = ft_strsub(temp, S_C_SUB, ft_strlen(temp));
 		ft_memdel((void**)&str);
-		// i++;
+		i++;
 		return (1);
 	}
 	else if ((!(NL_CODE)) && ft_strlen(buff) == 0)
 	{
 		ft_memdel((void**)&string);
-		valid->file = ft_strjoin(valid->file, temp);
-		ft_memdel((void**)&def);
-		def = valid->file;
-		valid->file = ft_strjoin(valid->file, "\n");
-		ft_memdel((void**)&def);
+		// valid->file = ft_strjoin(valid->file, temp);
+		// free(str);
+		// str = valid->file;
+		// valid->file = ft_strjoin(valid->file, "\n");
+		// free(str);
 		*line = ft_strdup(temp);
 		ft_memset(temp, 0, ft_strlen(temp));
 		ft_memdel((void**)&str);
-		ft_memdel((void**)&def);
-		// i++;
+		i++;
 		return (1);
 	}
 	return (0);
 }
 
-int				get_next_line(const int fd, char **line, t_validation *valid)
+int				get_next_line(const int fd, char **line/*, t_validation *valid*/)
 {
 	static	char		*head = NULL;
 	char				*temp;
@@ -84,34 +80,24 @@ int				get_next_line(const int fd, char **line, t_validation *valid)
 		// printf("str:%s\n", str);
 		ft_memdel((void**)&str); // here
 		str = temp;
-		// (bytes < BUFF_SIZE) ? buff[bytes] = '\0' : 0;
+		(bytes < BUFF_SIZE) ? buff[bytes] = '\0' : 0;
 		temp = ft_strjoin(temp, buff);
 		// printf("temp:%s\n", temp);
 		str = temp;
 		// ft_memdel((void**)&str); // here but no visible output
 		// ft_memdel((void**)&str);
-		
-		//(temp[0] == '\n') ? temp += 1 : 0; // proper one
-		if (temp[0] == '\n')
-		{
-			ft_memdel((void**)&str);
-			temp = ft_strsub(temp, 1, ft_strlen(temp));
-			str = temp;
-		}
+		(temp[0] == '\n') ? temp += 1 : 0;
 		if (ft_strlen(temp) > 0)
 		{
 			if ((NL_CODE) || (!NL_CODE && ft_strlen(buff) == 0))
 			{
 				// printf("strlen:%s\n", temp);
-				if (ft_rtn_line(temp, buff, line, valid) == 1)
+				if (ft_rtn_line(temp, buff, line/*, valid*/) == 1)
 					return (1);
 			}
 		}
 		else if (bytes == 0 || (bytes == 1 && buff[0] == '\n'))
-		{
-			// ft_memdel((void**)&valid->file);
 			return (0);
-		}
 	}
 	// return (-1);
 	return (0);
