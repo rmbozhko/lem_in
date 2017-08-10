@@ -147,6 +147,7 @@ static	int 	ft_hash_case(char *line, t_validation *valid, t_lemin *farmer, t_bon
 {
 	char		*temp;
 
+	temp = NULL;
 	if (SNG_HASH_CMNT && (ft_strstr(line, "#start") || ft_strstr(line, "#end") || ft_strstr(line, "#cpaths_")
   || ft_strstr(line, "#cmap_") || ft_strstr(line, "#cants_") || ft_strstr(line, "#cerror_") ))
 	{
@@ -164,13 +165,16 @@ static	int 	ft_hash_case(char *line, t_validation *valid, t_lemin *farmer, t_bon
 		else if (ft_strcmp(line, "#end") == 0)
 		{
 			valid->end_point += 1;
-			// ft_memdel((void**)&farmer->end_room);
-			// return (((farmer->end_room = get_in_out_rooms(farmer, valid)) != NULL) ? 0 : 1);
+			// // ft_memdel((void**)&farmer->end_room);
+			// // return (((farmer->end_room = get_in_out_rooms(farmer, valid)) != NULL) ? 0 : 1);
 			if ((temp = get_in_out_rooms(farmer, valid)) != NULL)
 			{
+
 				ft_memdel((void**)&farmer->end_room);
+				// ft_memdel((void**)&temp);
+				// farmer->end_room = ft_strnew(0);
 				farmer->end_room = temp;
-				// ft_memdel((void**)&line);
+				// ft_memdel((void**)&temp);
 				return (0);
 			}
 		}
