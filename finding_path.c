@@ -101,6 +101,7 @@ static void			dfs_rec(t_lemin *farmer, int i, char *str)
 	int			j;
 	char 		*temp;
 
+	temp = NULL;
 	j = ft_update_room(farmer, str, i, 0);
 	while (42)
 	{
@@ -110,10 +111,10 @@ static void			dfs_rec(t_lemin *farmer, int i, char *str)
 			{
 				temp = str;
 				str = ft_strjoin(str, " ");
-				// ft_memdel((void**)&temp);
+				ft_memdel((void**)&temp);
 				temp = str;
 				str = ft_strjoin(str, farmer->end_room);
-				// ft_memdel((void**)&temp);
+				ft_memdel((void**)&temp);
 			}
 
 			(ft_check_repeating_paths(farmer->paths, str)) ? ft_push_path_node(str, farmer, 0) : 0;
@@ -123,8 +124,16 @@ static void			dfs_rec(t_lemin *farmer, int i, char *str)
 			return (ft_memdel((void**)&str));
 		else if (ft_strchr(farmer->adj_matrix[i] + j, '1'))
 		{
-			str = (str[ft_strlen(str) - 1] != ' ') ? ft_strjoin(str, " ") : str;
+			
+			if (str[ft_strlen(str) - 1] != ' ')
+			{
+				temp = str;
+				str = ft_strjoin(str, " ");
+				ft_memdel((void**)&temp);
+			}
+			// str = (str[ft_strlen(str) - 1] != ' ') ? ft_strjoin(str, " ") : str;
 			// printf("current_vertex:%d|next_vertex:%d\n", i, j);
+			
 			dfs_rec(farmer, j, ft_strjoin(str, farmer->rooms_arr[j]));
 			// printf("previous_vertex:%d|current_vertex:%d\n", i, j);
 		}
@@ -178,7 +187,7 @@ int			dfs_iter(t_lemin *farmer, int i, int j, char *str)
 	}
 	else if (ft_strchr(farmer->adj_matrix[i], '1'))
 	{
-		// printf("Going deep!\n");
+		printf("Going deep!\n");
 		dfs_rec(farmer, i, str);
 
 		// ft_memdel((void**)&temp);
