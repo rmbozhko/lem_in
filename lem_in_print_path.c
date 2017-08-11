@@ -109,10 +109,31 @@ void            ft_mv_ants(char **ants_arr, size_t ant_num, int flag)
   {
     // printf("\nants_num:%zu|j:%zu\n", ant_num, j);
     ft_putchar('L');
-    ft_putstr(ft_itoa(j + 1));
+    temp = ft_itoa(j + 1);
+    ft_putstr(temp);
+    ft_memdel((void**)&temp);
     ft_putchar('-');
-    ft_putstr((ft_strchr(ants_arr[j], ' ')) ? temp = ft_strsub(ants_arr[j], 0, ft_strchr(ants_arr[j], ' ') - ants_arr[j]) : ants_arr[j]);
-    ants_arr[j] = (ft_strchr(ants_arr[j] , ' ') == NULL) ? "\0" : ft_strchr(ants_arr[j], ' ') + 1;
+    if (ft_strchr(ants_arr[j], ' '))
+    {
+      temp = ft_strsub(ants_arr[j], 0, ft_strchr(ants_arr[j], ' ') - ants_arr[j]);
+      ft_putstr(temp);
+      ft_memdel((void**)&temp);
+    }
+    else
+      ft_putstr(ants_arr[j]);
+    // ft_putstr((ft_strchr(ants_arr[j], ' ')) ? temp = ft_strsub(ants_arr[j], 0, ft_strchr(ants_arr[j], ' ') - ants_arr[j]) : ants_arr[j]);
+    // ants_arr[j] = (ft_strchr(ants_arr[j] , ' ') == NULL) ? "\0" : ft_strchr(ants_arr[j], ' ') + 1;
+    if (ft_strchr(ants_arr[j] , ' ') == NULL)
+    {
+      temp = ants_arr[j];
+      ants_arr[j] = "\0";
+    }
+    else
+    {
+      temp = ants_arr[j];
+      ants_arr[j] = ft_strsub(ants_arr[j], ft_strchr(ants_arr[j], ' ') - ants_arr[j] + 1, ft_strlen(ants_arr[j]));//ft_strchr(ants_arr[j], ' ') + 1;
+    }
+    ft_memdel((void**)&temp);
     ((++j) <= ant_num) ? ft_putchar(' ') : 0;
   }
 }
@@ -132,7 +153,6 @@ void      ants_travel(t_lemin *farmer, t_bonus *bonus)
       ft_putstr(bonus->color_arr[bonus->cants]);
       ft_mv_ants(ants_arr, ants_num++, 0);
       ft_putstr("\033[0m\n");
-      while (1);
   }
   ants_num = ft_count_unfinished(ants_arr);
   while (ants_num != 0)
@@ -143,4 +163,10 @@ void      ants_travel(t_lemin *farmer, t_bonus *bonus)
     ft_putstr("\033[0m\n");
     ants_num = ft_count_unfinished(ants_arr);
   }
+  // ft_free_bidarr(farmer->x_coords, ft_bidlen(farmer->x_coords));
+  // ft_free_bidarr(farmer->y_coords, ft_bidlen(farmer->y_coords));
+  // ft_free_bidarr(ants_arr, ft_bidlen(ants_arr));
+  free(ants_arr);
+  // ft_putbidstr(ants_arr);
+  // while (1);
 }

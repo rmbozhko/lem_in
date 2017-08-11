@@ -168,7 +168,7 @@ static	int 	ft_hash_case(char *line, t_validation *valid, t_lemin *farmer, t_bon
 					farmer->start_room = temp;
 				else
 					farmer->end_room = temp;
-				printf("start_room:%s|end_room:%s\n", farmer->start_room, farmer->end_room);
+				// printf("start_room:%s|end_room:%s\n", farmer->start_room, farmer->end_room);
 				return (0);
 			}
 		}
@@ -217,15 +217,15 @@ static	int	ft_push_link(char *link1, char *link2, t_lemin *farmer)
 
 static	int		ft_init_adj_matrix(t_lemin *farmer)
 {
-	printf("farmer->start_room:%s\n", farmer->start_room);
+	// printf("farmer->start_room:%s\n", farmer->start_room);
 	ft_memdel((void**)&farmer->rooms_arr[0]);
 	farmer->rooms_arr[0] = ft_strdup(farmer->start_room);//farmer->start_room;
-	printf("II-farmer->start_room:%s|[0] place:%s\n", farmer->start_room, farmer->rooms_arr[0]);
+	// printf("II-farmer->start_room:%s|[0] place:%s\n", farmer->start_room, farmer->rooms_arr[0]);
 	// ft_memdel((void**)&farmer->start_room); // no leaks
 	// farmer->start_room = farmer->rooms_arr[0];
 
 	// ft_memdel((void**)&farmer->rooms_arr[ft_bidlen(farmer->rooms_arr)]);
-	printf("-----------------------------------------------last_elem:%s\n", farmer->rooms_arr[ft_bidlen(farmer->rooms_arr)]);
+	// printf("-----------------------------------------------last_elem:%s\n", farmer->rooms_arr[ft_bidlen(farmer->rooms_arr)]);
 	farmer->rooms_arr[ft_bidlen(farmer->rooms_arr)] = ft_strdup(farmer->end_room);
 	// ree(farmer->end_room);
 	// farmer->end_room = farmer->rooms_arr[ft_bidlen(farmer->rooms_arr)];
@@ -235,7 +235,7 @@ static	int		ft_init_adj_matrix(t_lemin *farmer)
 	// while (1);
 	free(farmer->adj_matrix);
 	// while (1);
-	printf("III-farmer->start_room:%s|[0] place:%s|%d\n", farmer->start_room, farmer->rooms_arr[0], ft_bidlen(farmer->rooms_arr));
+	// printf("III-farmer->start_room:%s|[0] place:%s|%d\n", farmer->start_room, farmer->rooms_arr[0], ft_bidlen(farmer->rooms_arr));
 	farmer->adj_matrix = ft_create_adjecent_matrix(ft_bidlen(farmer->rooms_arr), '0');
 	// while (1);
 	return (0);
@@ -249,7 +249,7 @@ static	int 	ft_find_rooms(char **temp, t_lemin *farmer)
 	i = 0;
 	counter = 0;
 	((ft_bidlen(farmer->adj_matrix)) == 0) ? ft_init_adj_matrix(farmer) : 0;
-	printf("temp[0]-%s:temp[1]:%s:farmer->start_room:%s\n", temp[0], temp[1], farmer->start_room);
+	// printf("temp[0]-%s:temp[1]:%s:farmer->start_room:%s\n", temp[0], temp[1], farmer->start_room);
 	while (farmer->rooms_arr[i])
 	{
 		// if (!CHECKING_ROOMS(0, i) || !CHECKING_ROOMS(1, i)) // i have commented it, as if there are links like 3-3 or start-start we got ERROR as counter is incremented only once
@@ -260,7 +260,7 @@ static	int 	ft_find_rooms(char **temp, t_lemin *farmer)
 			counter++;
 		i++;
 	}
-	printf("counter:%d\n", counter);
+	// printf("counter:%d\n", counter);
 	counter += (counter == 2) ? ft_push_link(temp[0], temp[1], farmer) : 0;
 	free(temp[1]);
 	free(temp[0]);
@@ -297,7 +297,7 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 
 	while ((status = get_next_line(0, &line, valid)) > 0)
 	{
-		printf("line:%s\n", line);
+		// printf("line:%s\n", line);
 		if (ft_is_numeric(line))
 		{
 			// printf("ants_num error:%d%s\n", valid->errors, line);
@@ -318,25 +318,25 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 		}
 		else if (ft_words_count(line, '-') == 2 && ENTRY_ROOMS)
 		{
-			printf("ERRORS:%d%s\n", valid->errors, line);
-			printf("1.2.farmer->start_room:%s\n", farmer->start_room);
+			// printf("ERRORS:%d%s\n", valid->errors, line);
+			// printf("1.2.farmer->start_room:%s\n", farmer->start_room);
 
 			valid->errors += ft_find_rooms(ft_strsplit(line, '-'), farmer);
-			printf("1.2.3farmer->start_room:%s\n", farmer->start_room);
-			printf("UPDATED ERRORS:%d\n", valid->errors);
+			// printf("1.2.3farmer->start_room:%s\n", farmer->start_room);
+			// printf("UPDATED ERRORS:%d\n", valid->errors);
 
 		}
 		else
 		{
 			if (NO_ERRORS)
 			{
-				printf("OVER HERE!\n");
+				// printf("OVER HERE!\n");
 				ft_errors_handling(1, bonus);
 				break ;
 			}
 			valid->errors += 1;
 		}
-		printf("OLAOALOAL!\n");
+		// printf("OLAOALOAL!\n");
 		if (valid->errors != 0)
 		{
 			
@@ -352,20 +352,20 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 	// free(farmer->start_room);
 		// while (1);
 	// int u = ft_bidcount(farmer->adj_matrix, '1');
-	printf("TREE FALLS!\n");
+	// printf("TREE FALLS!\n");
 	// while (1);
 	if (ft_strlen(farmer->start_room) > 0 && ft_strlen(farmer->end_room) > 0)//(NO_ERRORS)
 	{
 		// ft_memdel((void**)&farmer->start_room);
 				// ft_memdel((void**)&farmer->end_room);
 		// while (1);
-		printf("status:%d|start_room:%s|end_room:%s|ants_num:%d|start_point:%d|end_point:%d|adj_matrix:%d\n", status, farmer->start_room, farmer->end_room, farmer->ants_num, valid->start_point, valid->end_point, ft_bidcount(farmer->adj_matrix, '1'));
+		// printf("status:%d|start_room:%s|end_room:%s|ants_num:%d|start_point:%d|end_point:%d|adj_matrix:%d\n", status, farmer->start_room, farmer->end_room, farmer->ants_num, valid->start_point, valid->end_point, ft_bidcount(farmer->adj_matrix, '1'));
 		
 		if (valid->start_point == 1 && valid->end_point == 1)
 		{
 			if ((status != -1 && farmer->ants_num != -1 && ((ft_bidcount(farmer->adj_matrix, '1') % 2 == 0) ? 1 : 0)))
 			{
-				printf("YO! DIMA!\n");
+				// printf("YO! DIMA!\n");
 				// while (1);
 				
 				

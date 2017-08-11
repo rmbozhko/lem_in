@@ -1,7 +1,7 @@
 #include "lem_in.h"
 
 
-static	void		ft_free_bidarr(char **arr, size_t len)
+void		ft_free_bidarr(char **arr, size_t len)
 {
 	size_t		i;
 
@@ -172,13 +172,13 @@ int			dfs_iter(t_lemin *farmer, int i, int j, char *str)
 	}
 	if (ft_strstr(str, farmer->end_room))
 	{
-		printf("HELLO!\n");
+		// printf("HELLO!\n");
 		ft_push_path_node(str, farmer, 1);
 		return (1);//(ft_push_path_node(str, farmer));
 	}
 	else if (ft_strchr(farmer->adj_matrix[i], '1'))
 	{
-		printf("Going deep!\n");
+		// printf("Going deep!\n");
 		dfs_rec(farmer, i, str);
 
 		// ft_memdel((void**)&temp);

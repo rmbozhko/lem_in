@@ -92,4 +92,5 @@ void				ft_print_paths(t_graph **paths, t_bonus *bonus, int flag);
 void				ft_handle_path(char *str);
 int					ft_count_char(char *str, char c);
 size_t				ft_factorial(size_t size);
+void				ft_free_bidarr(char **arr, size_t len);
 #endif

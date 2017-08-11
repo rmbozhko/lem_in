@@ -28,7 +28,7 @@ static int		ft_rtn_line(char *temp, char buff[], char **line, t_validation *vali
 	def = valid->file;
 	str = temp;
 	string = *line;
-	printf("temp:%s|%zu", temp, ft_strlen(buff));
+	// printf("temp:%s|%zu", temp, ft_strlen(buff));
 	if (NL_CODE)
 	{
 		// ft_memdel((void**)&string);
@@ -82,7 +82,7 @@ int				get_next_line(const int fd, char **line, t_validation *valid)
 	str = ft_strnew(0);
 	while ((bytes = read(fd, buff, BUFF_SIZE)) >= 0)					
 	{
-		printf("str:%s\n", buff);
+		// printf("str:%s\n", buff);
 		ft_memdel((void**)&str); // here
 		str = temp;
 		// (bytes < BUFF_SIZE) ? buff[bytes] = '\0' : 0;
