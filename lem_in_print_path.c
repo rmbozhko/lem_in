@@ -97,6 +97,7 @@ char        **ft_init_ants(char *path, int ants_num)
 void            ft_mv_ants(char **ants_arr, size_t ant_num, int flag)
 {
   size_t      j;
+  char        *temp;
   
   j = ft_update_ants_arr(ants_arr);
   if (flag == 1)
@@ -110,7 +111,7 @@ void            ft_mv_ants(char **ants_arr, size_t ant_num, int flag)
     ft_putchar('L');
     ft_putstr(ft_itoa(j + 1));
     ft_putchar('-');
-    ft_putstr((ft_strchr(ants_arr[j], ' ')) ? ft_strsub(ants_arr[j], 0, ft_strchr(ants_arr[j], ' ') - ants_arr[j]) : ants_arr[j]);
+    ft_putstr((ft_strchr(ants_arr[j], ' ')) ? temp = ft_strsub(ants_arr[j], 0, ft_strchr(ants_arr[j], ' ') - ants_arr[j]) : ants_arr[j]);
     ants_arr[j] = (ft_strchr(ants_arr[j] , ' ') == NULL) ? "\0" : ft_strchr(ants_arr[j], ' ') + 1;
     ((++j) <= ant_num) ? ft_putchar(' ') : 0;
   }
@@ -131,6 +132,7 @@ void      ants_travel(t_lemin *farmer, t_bonus *bonus)
       ft_putstr(bonus->color_arr[bonus->cants]);
       ft_mv_ants(ants_arr, ants_num++, 0);
       ft_putstr("\033[0m\n");
+      while (1);
   }
   ants_num = ft_count_unfinished(ants_arr);
   while (ants_num != 0)

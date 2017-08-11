@@ -1,12 +1,29 @@
 #include "lem_in.h"
 
-static	t_graph		*ft_create_path_node(char *str)
+
+static	void		ft_free_bidarr(char **arr, size_t len)
+{
+	size_t		i;
+
+	i = 0;
+	while (i < len)
+	{
+		ft_memdel((void**)&arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+static	t_graph		*ft_create_path_node(char *str, int flag)
 {
 	t_graph		*path;
+	char 		**arr;
 
 	path = (t_graph*)malloc(sizeof(t_graph*));
-	path->path_str = ft_strdup(str);
-	path->path_len = ft_bidlen(ft_strsplit(str, ' '));
+	path->path_str = ft_strdup(str); // if we don't strdup here we than get unproper output due to luck of info about str, as we memdel it lower
+	path->path_len = ft_bidlen(arr = ft_strsplit(str, ' '));
+	ft_free_bidarr(arr, path->path_len);
+	(flag) ? ft_memdel((void**)&str) : 0;
 	return (path);
 }
 
@@ -38,9 +55,9 @@ static int			ft_update_room(t_lemin *farmer, char *str, int i, int step)
 	return (-1);
 }
 
-static	int			ft_push_path_node(char *str, t_lemin *farmer)
+static	int			ft_push_path_node(char *str, t_lemin *farmer, int flag)
 {
-	farmer->paths[farmer->rooms_counter++] = ft_create_path_node(str);
+	farmer->paths[farmer->rooms_counter++] = ft_create_path_node(str, flag);
 	farmer->paths[farmer->rooms_counter] = NULL;
 	return (1);
 }
@@ -82,6 +99,7 @@ static	int			ft_check_repeating_paths(t_graph **graps, char *path)
 static void			dfs_rec(t_lemin *farmer, int i, char *str)
 {
 	int			j;
+	char 		*temp;
 
 	j = ft_update_room(farmer, str, i, 0);
 	while (42)
@@ -90,10 +108,15 @@ static void			dfs_rec(t_lemin *farmer, int i, char *str)
 		{
 			if (farmer->adj_matrix[i][ft_strlen(farmer->adj_matrix[i]) - 1] == '1')
 			{
+				temp = str;
 				str = ft_strjoin(str, " ");
+				// ft_memdel((void**)&temp);
+				temp = str;
 				str = ft_strjoin(str, farmer->end_room);
+				// ft_memdel((void**)&temp);
 			}
-			(ft_check_repeating_paths(farmer->paths, str)) ? ft_push_path_node(str, farmer) : 0;
+
+			(ft_check_repeating_paths(farmer->paths, str)) ? ft_push_path_node(str, farmer, 0) : 0;
 		 	return (ft_memdel((void**)&str));
 		}
 		else if ((ft_count_char(farmer->adj_matrix[i], '1') - ft_count_visited(str, farmer->adj_matrix[i], farmer->rooms_arr)) == 0)
@@ -121,27 +144,45 @@ static void			dfs_rec(t_lemin *farmer, int i, char *str)
 
 int			dfs_iter(t_lemin *farmer, int i, int j, char *str)
 {
+	char 		*temp;
+
+	temp = str;
 	while (ft_strchr(farmer->adj_matrix[i] + j, '1'))
 	{
+		ft_memdel((void**)&temp);
 		str = ft_strjoin(str, farmer->rooms_arr[i]);
+		temp = str;
 		if (ft_strcmp(farmer->rooms_arr[i], farmer->end_room) == 0)
+		{
 			break ;
+		}
 		if ((ft_count_char(farmer->adj_matrix[i] + j, '1') - ft_count_visited(str, farmer->adj_matrix[i], farmer->rooms_arr)) == 1)
 		{
+			ft_memdel((void**)&temp);
 			str = ft_strjoin(str, " ");
+			temp = str;
 			j = (ft_count_char(farmer->adj_matrix[i] + j, '1') == 2) ? ft_update_room(farmer, str, i, 0) : j;
 			i = ft_strchr(farmer->adj_matrix[i] + j, '1') - farmer->adj_matrix[i];
 			j = 0;
 		}
 		else
+		{
 			break ;
+		}
 	}
 	if (ft_strstr(str, farmer->end_room))
-		return (ft_push_path_node(str, farmer));
+	{
+		printf("HELLO!\n");
+		ft_push_path_node(str, farmer, 1);
+		return (1);//(ft_push_path_node(str, farmer));
+	}
 	else if (ft_strchr(farmer->adj_matrix[i], '1'))
 	{
-		// printf("Going deep!\n");
+		printf("Going deep!\n");
 		dfs_rec(farmer, i, str);
+
+		// ft_memdel((void**)&temp);
+		// while (1);
 		// printf("Go up, as fast as only possible!\n");
 		return ((farmer->rooms_counter > 0) ? 1 : 0);
 	}

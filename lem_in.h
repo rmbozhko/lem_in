@@ -36,7 +36,6 @@ typedef	struct 	s_lemin
 	char		*end_room;
 	char		**rooms_arr;
 	char		**adj_matrix;
-	char        **visited_rooms;
 	char		**y_coords;
 	t_graph		**paths;
 }				t_lemin;

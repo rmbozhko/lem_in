@@ -92,16 +92,21 @@ static	void		ft_help_ants(t_lemin *farmer, t_validation *valid, t_bonus *bonus)
 
 	if (lem_in_validation(valid, farmer, bonus, ft_strnew(0)))
 	{
-		/*ft_putstr(bonus->color_arr[bonus->cmap]);
+		ft_putstr(bonus->color_arr[bonus->cmap]);
 		ft_putstr(valid->file);
 		ft_putstr("\033[0m");
 		ft_print_adj_matrix(farmer->adj_matrix);
-		// dfs_iter(farmer, 0, 0, ft_strnew(0)); // determine whether to use dfs_iter here and raw dfs in validation or throw raw dfs away
+		dfs_iter(farmer, 0, 0, ft_strnew(0)); // determine whether to use dfs_iter here and raw dfs in validation or throw raw dfs away
+		
 		ft_print_paths(farmer->paths, bonus, 1);
-		ants_travel(farmer, bonus);*/
+
+		ants_travel(farmer, bonus);
+		while (1);
 	}
 	else
+	{
 		ft_errors_handling(1, bonus);
+	}
 }
 
 static	void				ft_init_valid_farmer(t_validation *valid, t_lemin *farmer)
@@ -138,7 +143,11 @@ int					main(void)
 	bonus.cmap = 0;
 	bonus.cpaths = 0;
 	bonus.color_arr = ft_init_colors_arr();
+	// no leaks
+	// while (1);
 	ft_init_valid_farmer(&valid, &farmer);
+	// no leaks
+	// while (1);
 	ft_help_ants(&farmer, &valid, &bonus);
 	while (1);
 	return (0);

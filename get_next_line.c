@@ -46,6 +46,7 @@ static int		ft_rtn_line(char *temp, char buff[], char **line, t_validation *vali
 		// temp = ft_strsub(temp, S_C_SUB, ft_strlen(temp)); // 10 leaks wegen diese Instruktion
 		ft_memdel((void**)&str);
 		// i++;
+		// printf("return\n");
 		return (1);
 	}
 	else if ((!(NL_CODE)) && ft_strlen(buff) == 0)
@@ -81,7 +82,7 @@ int				get_next_line(const int fd, char **line, t_validation *valid)
 	str = ft_strnew(0);
 	while ((bytes = read(fd, buff, BUFF_SIZE)) >= 0)					
 	{
-		// printf("str:%s\n", str);
+		printf("str:%s\n", buff);
 		ft_memdel((void**)&str); // here
 		str = temp;
 		// (bytes < BUFF_SIZE) ? buff[bytes] = '\0' : 0;
