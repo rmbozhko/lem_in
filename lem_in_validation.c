@@ -297,55 +297,57 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 
 	while ((status = get_next_line(0, &line, valid)) > 0)
 	{
-		// printf("line:%s\n", line);
+		printf("line:%s\n", line);
 		if (ft_is_numeric(line))
 		{
-			// printf("ants_num error:%d%s\n", valid->errors, line);
+			printf("ants_num error:%d%s\n", valid->errors, line);
 			valid->errors += (farmer->ants_num == -1) ? ft_validate_ants_num(line, farmer) : 1;
-			// printf("ants_num error:%d%s\n", valid->errors, line);
+			printf("ants_num error:%d%s\n", valid->errors, line);
 		}
 		else if (line[0] == '#')
 		{
-			// printf("errors:%d\n", valid->errors);
+			printf("errors:%d\n", valid->errors);
 			valid->errors += ft_hash_case(line + 1, valid, farmer, bonus);
-			// printf("errors:%d:%s:%s\n", valid->errors, farmer->end_room, farmer->start_room);
+			printf("errors:%d:%s:%s\n", valid->errors, farmer->end_room, farmer->start_room);
 		}
 		else if (ft_words_count(line, ' ') == 3)
 		{
-			// printf("old_errors:%d|%s\n", valid->errors, line);
+			printf("old_errors:%d|%s\n", valid->errors, line);
 			valid->errors += ft_push_new_rooms(ft_strsplit(line, ' '), farmer, 1, valid);
-			// printf("errors:%d|%s\n", valid->errors, line);
+			printf("errors:%d|%s\n", valid->errors, line);
 		}
 		else if (ft_words_count(line, '-') == 2 && ENTRY_ROOMS)
 		{
-			// printf("ERRORS:%d%s\n", valid->errors, line);
-			// printf("1.2.farmer->start_room:%s\n", farmer->start_room);
+			printf("ERRORS:%d%s\n", valid->errors, line);
+			printf("1.2.farmer->start_room:%s\n", farmer->start_room);
 
 			valid->errors += ft_find_rooms(ft_strsplit(line, '-'), farmer);
-			// printf("1.2.3farmer->start_room:%s\n", farmer->start_room);
-			// printf("UPDATED ERRORS:%d\n", valid->errors);
+			printf("1.2.3farmer->start_room:%s\n", farmer->start_room);
+			printf("UPDATED ERRORS:%d\n", valid->errors);
 
 		}
 		else
 		{
 			if (NO_ERRORS)
 			{
-				// printf("OVER HERE!\n");
+				printf("OVER HERE!\n");
 				ft_errors_handling(1, bonus);
 				break ;
 			}
+			printf("Oooooo NNOOOOONNNOOO!\n");
 			valid->errors += 1;
 		}
-		// printf("OLAOALOAL!\n");
+		printf("Tadadaad!\n");
 		if (valid->errors != 0)
 		{
-			
+			printf("OLAOALOAL!\n");
 			ft_memdel((void**)&valid->file);
 			ft_memdel((void**)&line);
 			return (0);
 		}
-		ft_putstr(farmer->end_room);
 	}
+	printf("OUT!\n");
+	// while (1);
 	// printf("%s\n", farmer->start_room);
 	// int k = 3;
 	// ft_strlen(farmer->start_room);

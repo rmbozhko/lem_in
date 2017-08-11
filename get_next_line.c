@@ -82,17 +82,15 @@ int				get_next_line(const int fd, char **line, t_validation *valid)
 	str = ft_strnew(0);
 	while ((bytes = read(fd, buff, BUFF_SIZE)) >= 0)					
 	{
-		// printf("str:%s\n", buff);
 		ft_memdel((void**)&str); // here
 		str = temp;
 		// (bytes < BUFF_SIZE) ? buff[bytes] = '\0' : 0;
 		temp = ft_strjoin(temp, buff);
-		// printf("temp:%s\n", temp);
 		str = temp;
 		// ft_memdel((void**)&str); // here but no visible output
 		// ft_memdel((void**)&str);
 		
-		//(temp[0] == '\n') ? temp += 1 : 0; // proper one
+		// (temp[0] == '\n') ? temp += 1 : 0; // proper one
 		if (temp[0] == '\n')
 		{
 			ft_memdel((void**)&str);
@@ -103,7 +101,6 @@ int				get_next_line(const int fd, char **line, t_validation *valid)
 		{
 			if ((NL_CODE) || (!NL_CODE && ft_strlen(buff) == 0))
 			{
-				// printf("strlen:%s\n", temp);
 				if (ft_rtn_line(temp, buff, line, valid) == 1)
 					return (1);
 			}
@@ -114,6 +111,6 @@ int				get_next_line(const int fd, char **line, t_validation *valid)
 			return (0);
 		}
 	}
-	// return (-1);
-	return (0);
+	return (-1);
+	// return (0);
 }
