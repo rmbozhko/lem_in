@@ -121,14 +121,9 @@ static	char	*get_in_out_rooms(t_lemin *farmer, t_validation *valid)
 		{
 			if (!ft_push_new_rooms(ft_strsplit(line, ' '), farmer, 0, valid))
 			{
-				// arr = ft_strsplit(line, ' ');
-				// ft_memdel((void**)&arr[1]);
-				// ft_memdel((void**)&arr[2]);
-				// // line = ft_strdup(arr[0]);
-				// ft_memdel((void**)&arr[0]);
 			 	temp = ft_strsub(line, 0, ft_strchr(line, ' ') - line);
 			 	ft_memdel((void**)&line);
-			 	return (temp);//(ft_strsub(line, 0, ft_strchr(line, ' ') - line));
+			 	return (temp);
 			}
 			ft_memdel((void**)&line);
 			return (NULL);
@@ -151,37 +146,50 @@ static	int 	ft_hash_case(char *line, t_validation *valid, t_lemin *farmer, t_bon
 	if (SNG_HASH_CMNT && (ft_strstr(line, "#start") || ft_strstr(line, "#end") || ft_strstr(line, "#cpaths_")
   || ft_strstr(line, "#cmap_") || ft_strstr(line, "#cants_") || ft_strstr(line, "#cerror_") ))
 	{
-		if (ft_strcmp(line, "#start") == 0)
-		{
-			valid->start_point += 1;
-			if ((temp = get_in_out_rooms(farmer, valid)) != NULL)
-			{
-				ft_memdel((void**)&farmer->start_room);
-				farmer->start_room = temp;
-				return (0);
-			}
-			// return (((farmer->start_room = get_in_out_rooms(farmer, valid)) != NULL) ? 0 : 1);
-		}
-		else if (ft_strcmp(line, "#end") == 0)
-		{
-			valid->end_point += 1;
-			// // ft_memdel((void**)&farmer->end_room);
-			// // return (((farmer->end_room = get_in_out_rooms(farmer, valid)) != NULL) ? 0 : 1);
-			if ((temp = get_in_out_rooms(farmer, valid)) != NULL)
-			{
+		// if (ft_strcmp(line, "#start") == 0)
+		// {
+		// 	valid->start_point += 1;
+		// 	if ((temp = get_in_out_rooms(farmer, valid)) != NULL)
+		// 	{
+		// 		ft_memdel((void**)&farmer->start_room);
+		// 		farmer->start_room = temp;
+		// 		return (0);
+		// 	}
+		// 	// return (((farmer->start_room = get_in_out_rooms(farmer, valid)) != NULL) ? 0 : 1);
+		// }
+		// else if (ft_strcmp(line, "#end") == 0)
+		// {
+		// 	valid->end_point += 1;
+		// 	// // ft_memdel((void**)&farmer->end_room);
+		// 	// // return (((farmer->end_room = get_in_out_rooms(farmer, valid)) != NULL) ? 0 : 1);
+		// 	if ((temp = get_in_out_rooms(farmer, valid)) != NULL)
+		// 	{
 
-				ft_memdel((void**)&farmer->end_room);
-				// ft_memdel((void**)&temp);
-				// farmer->end_room = ft_strnew(0);
-				farmer->end_room = temp;
+		// 		ft_memdel((void**)&farmer->end_room);
+		// 		farmer->end_room = temp;
+		// 		// return (0);
+		// 	}
+		// }
+		if (ft_strcmp(line, "#start") == 0 || ft_strcmp(line, "#end") == 0)
+		{
+			(ft_strcmp(line, "#start") == 0) ? valid->start_point++ : valid->end_point++;
+			if ((temp = get_in_out_rooms(farmer, valid)) != NULL)
+			{
+				(ft_strcmp(line, "#start") == 0) ? ft_memdel((void**)&farmer->start_room) : ft_memdel((void**)&farmer->end_room);
+				if (ft_strcmp(line, "#start") == 0)
+					farmer->start_room = temp;
+				else
+					farmer->end_room = temp;
 				// ft_memdel((void**)&temp);
 				return (0);
 			}
 		}
 		// else if (ft_strstr(line, "#cmap_") || ft_strstr(line, "#cants_") || ft_strstr(line, "#cerror_") || ft_strstr(line, "#cpaths_"))
 			// return (ft_set_colors(bonus, line));
+		ft_memdel((void**)&temp);
 		return (1);
 	}
+	ft_memdel((void**)&temp);
 	return (0);
 }
 
@@ -304,12 +312,12 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 			valid->errors += ft_push_new_rooms(ft_strsplit(line, ' '), farmer, 1, valid);
 			// printf("errors:%d|%s\n", valid->errors, line);
 		}
-		else if (ft_words_count(line, '-') == 2 && ENTRY_ROOMS)
-		{
-			// printf("ERRORS:%d%s\n", valid->errors, line);
-			valid->errors += ft_find_rooms(ft_strsplit(line, '-'), farmer);
-			// printf("UPDATED ERRORS:%d\n", valid->errors);
-		}
+		// else if (ft_words_count(line, '-') == 2 && ENTRY_ROOMS)
+		// {
+		// 	// printf("ERRORS:%d%s\n", valid->errors, line);
+		// 	valid->errors += ft_find_rooms(ft_strsplit(line, '-'), farmer);
+		// 	// printf("UPDATED ERRORS:%d\n", valid->errors);
+		// }
 		else
 		{
 			if (NO_ERRORS)
