@@ -62,31 +62,44 @@ int 		ft_push_new_rooms(char **temp, t_lemin *farmer, int flag, t_validation *va
 	int 		counter;
 
 	counter = 1;
-	// printf("temp[1]:%s|temp[2]:%s|temp[0]%s\n", temp[1], temp[2], temp[0]);
 	if (ft_is_numeric(temp[1]) && ft_is_numeric(temp[2]) && (temp[0][0] != '#' && temp[0][0] != 'L'))
 	{
 		counter = 0;
 		i = 0;
+		printf("OVER HERE123456:%d\n", counter);
 		if (ft_strcmp(temp[0], farmer->start_room) == 0 || ft_strcmp(temp[0], farmer->end_room) == 0)
-			return (1);
+		{
+			// if (flag == 1)
+			// {
+			// 	printf("Cycle!\n");
+			// 	while (1);
+			// }
+			counter = 1;
+			//return (1);
+		}
+		printf("OVER HERE:%d | %s\n", counter, temp[0]);
 		while (farmer->rooms_arr[++i] != NULL)
 		{
-			if (CHECKING_ROOMS(0, i) == 0 || ft_strcmp(temp[0], farmer->start_room) == 0
-				|| ft_strcmp(temp[0], farmer->end_room) == 0)
-				return (1);
+			printf("i:%d\n", i);
+			if (CHECKING_ROOMS(0, i) == 0/* || ft_strcmp(temp[0], farmer->start_room) == 0
+				|| ft_strcmp(temp[0], farmer->end_room) == 0*/)
+			{
+				counter = 1;	
+				//return (1);
+			}
 		}
+		printf("OVER HERE123:%d\n", counter);
 		counter = (ft_check_coords(temp[1], temp[2], farmer)) ? counter : 1;
 		if (flag == 1 && counter == 0)
 			ft_add_room_coords(temp[0], farmer, i);
 		(counter == 0) ? ft_add_room_coords(temp[1], farmer, -2) : 0;
 		(counter == 0) ? ft_add_room_coords(temp[2], farmer, -1) : 0;
-		// printf("OVER HERE:%d\n", counter);
+		printf("OVER HERE321:%d\n", counter);
 	}
 	free(temp[2]);
 	free(temp[1]);
 	free(temp[0]);
 	free(temp);
-	// printf("TOTAL COUNTER:%d\n", counter);
 	return ((counter) ? 1 : 0);
 }
 
@@ -167,7 +180,10 @@ static	int 	ft_hash_case(char *line, t_validation *valid, t_lemin *farmer, t_bon
 				if (ft_strcmp(line, "#start") == 0)
 					farmer->start_room = temp;
 				else
+				{
+
 					farmer->end_room = temp;
+				}
 				// printf("start_room:%s|end_room:%s\n", farmer->start_room, farmer->end_room);
 				return (0);
 			}
@@ -265,7 +281,6 @@ static	int 	ft_find_rooms(char **temp, t_lemin *farmer)
 	free(temp[1]);
 	free(temp[0]);
 	free(temp);
-	// while (1);
 	return ((counter == 2) ?  (0) : (1));
 }
 
@@ -298,6 +313,7 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 	while ((status = get_next_line(0, &line, valid)) > 0)
 	{
 		printf("line:%s\n", line);
+		// while (1);
 		if (ft_is_numeric(line))
 		{
 			printf("ants_num error:%d%s\n", valid->errors, line);
@@ -308,15 +324,16 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 		{
 			printf("errors:%d\n", valid->errors);
 			valid->errors += ft_hash_case(line + 1, valid, farmer, bonus);
+			
 			printf("errors:%d:%s:%s\n", valid->errors, farmer->end_room, farmer->start_room);
 		}
 		else if (ft_words_count(line, ' ') == 3)
 		{
-			printf("old_errors:%d|%s\n", valid->errors, line);
+			printf("old_errors:%d|%s\n", valid->errors, line);	
 			valid->errors += ft_push_new_rooms(ft_strsplit(line, ' '), farmer, 1, valid);
 			printf("errors:%d|%s\n", valid->errors, line);
 		}
-		else if (ft_words_count(line, '-') == 2 && ENTRY_ROOMS)
+		else if (ft_words_count(line, '-') == 2 && ENTRY_ROOMS && farmer->ants_num != -1)
 		{
 			printf("ERRORS:%d%s\n", valid->errors, line);
 			printf("1.2.farmer->start_room:%s\n", farmer->start_room);
@@ -324,13 +341,13 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 			valid->errors += ft_find_rooms(ft_strsplit(line, '-'), farmer);
 			printf("1.2.3farmer->start_room:%s\n", farmer->start_room);
 			printf("UPDATED ERRORS:%d\n", valid->errors);
-
 		}
 		else
 		{
+			printf("_____________________________----------------------------\n");
 			if (NO_ERRORS)
 			{
-				printf("OVER HERE!\n");
+				printf("------------------OVER HERE!\n");
 				ft_errors_handling(1, bonus);
 				break ;
 			}
@@ -340,33 +357,29 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 		printf("Tadadaad!\n");
 		if (valid->errors != 0)
 		{
+			// printf("YOMAYO!\n");
+			// 		while (1);
 			printf("OLAOALOAL!\n");
 			ft_memdel((void**)&valid->file);
 			ft_memdel((void**)&line);
 			return (0);
 		}
+		printf("Yo Wassup?! BiTCHES!!\n");
 	}
-	printf("OUT!\n");
 	// while (1);
+	// printf("OUT!\n");
 	// printf("%s\n", farmer->start_room);
 	// int k = 3;
 	// ft_strlen(farmer->start_room);
 	// free(farmer->start_room);
-		// while (1);
 	// int u = ft_bidcount(farmer->adj_matrix, '1');
 	// printf("TREE FALLS!\n");
-	// while (1);
-	if (ft_strlen(farmer->start_room) > 0 && ft_strlen(farmer->end_room) > 0)//(NO_ERRORS)
+	if (NO_ERRORS)
 	{
 		// ft_memdel((void**)&farmer->start_room);
 				// ft_memdel((void**)&farmer->end_room);
 		// while (1);
-		// printf("status:%d|start_room:%s|end_room:%s|ants_num:%d|start_point:%d|end_point:%d|adj_matrix:%d\n", status, farmer->start_room, farmer->end_room, farmer->ants_num, valid->start_point, valid->end_point, ft_bidcount(farmer->adj_matrix, '1'));
-		
-		if (valid->start_point == 1 && valid->end_point == 1)
-		{
-			if ((status != -1 && farmer->ants_num != -1 && ((ft_bidcount(farmer->adj_matrix, '1') % 2 == 0) ? 1 : 0)))
-			{
+		printf("status:%d|start_room:%s|end_room:%s|ants_num:%d|start_point:%d|end_point:%d|adj_matrix:%d\n", status, farmer->start_room, farmer->end_room, farmer->ants_num, valid->start_point, valid->end_point, ft_bidcount(farmer->adj_matrix, '1'));
 				// printf("YO! DIMA!\n");
 				// while (1);
 				
@@ -374,16 +387,18 @@ int				lem_in_validation(t_validation *valid, t_lemin *farmer, t_bonus *bonus, c
 				// free(farmer->paths);
 				// farmer->paths = (t_graph**)malloc(sizeof(t_graph**) * ft_factorial(ft_bidlen(farmer->rooms_arr)) * ft_factorial(ft_any_links(farmer->adj_matrix, '1') / 2));
 				// farmer->paths[0] = NULL;
-				// return (dfs_iter(farmer, 0, 0, ft_strnew(0)));
 				ft_memdel((void**)&line);
-				return (1);
-			}
-		}
+				return (dfs_iter(farmer, 0, 0, ft_strnew(0)));
+				
+				// return (1);
+
 	}
 	else
 	{
+		printf("HERE!\n");
 		ft_memdel((void**)&valid->file);
 		ft_memdel((void**)&line);
+		// ft_memdel((void**)&farmer->rooms_arr[0]);
 		// ft_memdel((void**)&farmer->start_room);
 		// ft_memdel((void**)&farmer->end_room);
 		return (0);

@@ -148,6 +148,7 @@ void      ants_travel(t_lemin *farmer, t_bonus *bonus)
   // ft_determine_best_path(farmer, farmer->rooms_counter);
   ants_num = 0;
   ants_arr = ft_init_ants(ft_strchr(ft_determine_best_path(farmer, farmer->rooms_counter), ' ') + 1, farmer->ants_num);//ft_init_ants(ft_strchr(farmer->paths[0]->path_str, ' ') + 1, farmer->ants_num);
+  
   while (ants_num < farmer->ants_num)
   {
       ft_putstr(bonus->color_arr[bonus->cants]);

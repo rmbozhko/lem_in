@@ -82,21 +82,25 @@ int				get_next_line(const int fd, char **line, t_validation *valid)
 	str = ft_strnew(0);
 	while ((bytes = read(fd, buff, BUFF_SIZE)) >= 0)					
 	{
+		printf("buff:%s | %zu\n", buff, ft_strlen(buff));
 		ft_memdel((void**)&str); // here
 		str = temp;
-		// (bytes < BUFF_SIZE) ? buff[bytes] = '\0' : 0;
+		(bytes < BUFF_SIZE) ? buff[bytes] = '\0' : 0;
 		temp = ft_strjoin(temp, buff);
 		str = temp;
 		// ft_memdel((void**)&str); // here but no visible output
 		// ft_memdel((void**)&str);
-		
+		printf("YO HEERE!%s\n", temp);
 		// (temp[0] == '\n') ? temp += 1 : 0; // proper one
-		if (temp[0] == '\n')
-		{
-			ft_memdel((void**)&str);
-			temp = ft_strsub(temp, 1, ft_strlen(temp));
-			str = temp;
-		}
+		// if (temp[0] == '\n')
+		// {
+		// 	printf("------------GO HERE!\n");
+		// 	ft_memdel((void**)&str);
+		// 	temp = ft_strsub(temp, 1, ft_strlen(temp));
+		// 	str = temp;
+		// 	printf("TEMP %s\n", temp);
+		// 	printf("buff still:%s | %zu\n", buff, ft_strlen(buff));
+		// }
 		if (ft_strlen(temp) > 0)
 		{
 			if ((NL_CODE) || (!NL_CODE && ft_strlen(buff) == 0))
@@ -107,10 +111,11 @@ int				get_next_line(const int fd, char **line, t_validation *valid)
 		}
 		else if (bytes == 0 || (bytes == 1 && buff[0] == '\n'))
 		{
-			// ft_memdel((void**)&valid->file);
+			ft_memdel((void**)&str);
+			printf("GO HERE!\n");
 			return (0);
 		}
 	}
-	return (-1);
-	// return (0);
+	// return (-1);
+	return (0);
 }

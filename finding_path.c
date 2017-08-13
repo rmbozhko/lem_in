@@ -195,5 +195,8 @@ int			dfs_iter(t_lemin *farmer, int i, int j, char *str)
 		// printf("Go up, as fast as only possible!\n");
 		return ((farmer->rooms_counter > 0) ? 1 : 0);
 	}
+	ft_memdel((void**)&temp);
+	// printf("REC%s\n", str);
+	// 	while (1);
 	return (0);
 }
