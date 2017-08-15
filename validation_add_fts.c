@@ -5,14 +5,14 @@ char			*get_in_out_rooms(t_lemin *farmer, t_valid *valid, char *temp)
 	char		*line;
 
 	line = NULL;
-	while (get_next_line(0, &line, valid) > 0)
+	while (get_next_line(0, &line, valid, ft_strnew(0)) > 0)
 	{
 		if (line[0] == '#')
 		{
 			DEL(line);
 			continue ;
 		}
-		else if (/*line[0] != '#' && (*/ft_words_count(line, ' ') == 3) // ft_words_count(line, ' ') == 3) //is better than current one, as we check [0] char in line in ft_push_new_room function
+		else if (ft_words_count(line, ' ') == 3)
 		{
 			if (!ft_push_rooms(ft_strsplit(line, ' '), farmer, 0, valid))
 			{
@@ -21,34 +21,12 @@ char			*get_in_out_rooms(t_lemin *farmer, t_valid *valid, char *temp)
 			 	return (temp);
 			}
 			break ;
-			// DEL(line);
-			// return (NULL);
 		}
 		else
-		{
 			break ;
-			// DEL(line);
-			// return (NULL);
-		}
 	}
 	DEL(line);
 	return (NULL);
-}
-
-char        **ft_create_bid_arr(size_t size, char *str)
-{
-    int         i;
-    char        **temp;
-    
-    temp = (char**)malloc(sizeof(char*) * size + 1);
-    i = 0;
-    while (i < size)
-    {
-        temp[i] = ft_strdup(str);
-        i++;
-    }
-    temp[i] = NULL;
-    return (temp);
 }
 
 void			ft_push_link(char *link1, char *link2, t_lemin *farmer)
@@ -56,8 +34,8 @@ void			ft_push_link(char *link1, char *link2, t_lemin *farmer)
 	int		x;
 	int		y;
 
-	x = ft_get_rooms_coord(link1, farmer->rooms_arr);
-	y = ft_get_rooms_coord(link2, farmer->rooms_arr);
+	x = ft_bid_findstr(link1, farmer->rooms_arr);
+	y = ft_bid_findstr(link2, farmer->rooms_arr);
 	if (x != y)
 	{
 		farmer->adj_matrix[x][y] = '1';
@@ -77,20 +55,6 @@ void			ft_init_adj_matrix(t_lemin *farmer)
 	temp = ft_memset(ft_strnew(sizeof(char) * ft_bidlen(farmer->rooms_arr) + 1), '0', ft_bidlen(farmer->rooms_arr));
 	farmer->adj_matrix = ft_create_bid_arr(ft_bidlen(farmer->rooms_arr), temp);
 	DEL(temp);
-}
-
-int 			ft_get_rooms_coord(char *room, char **temp)
-{
-	int		i;
-	
-	i = 0;
-	while (temp[i])
-	{
-		if (ft_strcmp(room, temp[i]) == 0)
-			return (i);
-		i++;
-	}
-	return (-1);
 }
 
 int 			ft_check_coords(char *x_coord, char *y_coord, t_lemin *farmer)

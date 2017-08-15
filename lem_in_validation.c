@@ -1,6 +1,6 @@
 #include "lem_in.h"
 
-int 		ft_push_rooms(char **temp, t_lemin *farmer, int flag, t_valid *valid)
+int 		ft_push_rooms(char **temp, t_lemin *farmer, int flag)
 {
 	size_t		i;
 	int 		counter;
@@ -39,7 +39,8 @@ static	int 	ft_hash_case(char *line, t_valid *valid, t_lemin *farmer, t_bonus *b
 			(ft_strcmp(line, "#start") == 0) ? valid->start++ : valid->end++;
 			if ((temp = get_in_out_rooms(farmer, valid, NULL)) != NULL)
 			{
-				(ft_strcmp(line, "#start") == 0) ? DEL(farmer->start) : DEL(farmer->end);
+				(ft_strcmp(line, "#start") == 0)
+					? DEL(farmer->start) : DEL(farmer->end);
 				if (ft_strcmp(line, "#start") == 0)
 					farmer->start = temp;
 				else
@@ -52,7 +53,6 @@ static	int 	ft_hash_case(char *line, t_valid *valid, t_lemin *farmer, t_bonus *b
 		DEL(temp);
 		return (1);
 	}
-	// DEL(temp); // check it out
 	return (0);
 }
 
@@ -79,7 +79,7 @@ static	int 	ft_find_rooms(char **temp, t_lemin *farmer)
 	return ((counter == 2) ?  (0) : (1));
 }
 
-static	int 	ft_validate_ants_num(char *line, t_lemin *farmer)
+static	int 	ft_ants_num(char *line, t_lemin *farmer)
 {
 	intmax_t	temp;
 
@@ -92,18 +92,18 @@ static	int 	ft_validate_ants_num(char *line, t_lemin *farmer)
 	return (1);
 }
 
-int				lem_in_validation(t_valid *valid, t_lemin *farmer, t_bonus *bonus, char *line)
+int				validation(t_valid *valid, t_lemin *farmer, t_bonus *bonus, char *line)
 {
 	int 		status;
 
-	while ((status = get_next_line(0, &line, valid)) > 0)
+	while ((status = get_next_line(0, &line, valid, ft_strnew(0))) > 0)
 	{
 		if (ft_is_numeric(line))
-			valid->errors += (farmer->ants_num == -1) ? ft_validate_ants_num(line, farmer) : 1;
+			valid->errors += (farmer->ants_num == -1) ? ft_ants_num(line, farmer) : 1;
 		else if (line[0] == '#')
 			valid->errors += ft_hash_case(line + 1, valid, farmer, bonus);
 		else if (ft_words_count(line, ' ') == 3)
-			valid->errors += ft_push_rooms(ft_strsplit(line, ' '), farmer, 1, valid);
+			valid->errors += ft_push_rooms(ft_strsplit(line, ' '), farmer, 1);
 		else if (ft_words_count(line, '-') == 2 && ENTRY_ROOMS && farmer->ants_num != -1)
 			valid->errors += ft_find_rooms(ft_strsplit(line, '-'), farmer);
 		else

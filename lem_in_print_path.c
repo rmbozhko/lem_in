@@ -1,10 +1,9 @@
 #include "lem_in.h"
 
-static char      *ft_determine_best_path(t_lemin *farmer, int len)
+static char      *ft_determine_best_path(t_lemin *farmer)
 {
   size_t      i;
   char        *path;
-  size_t      p_len;
 
   i = 0;
   path = farmer->paths[i++]->path_str;
@@ -77,8 +76,8 @@ void      ants_travel(t_lemin *farmer, t_bonus *bonus, size_t ants_num)
   char      **ants_arr;
   
   ft_putstr("\033[35;3;2;3mRun Forest run:\033[0m\n");
-  ants_arr = ft_create_bid_arr(farmer->ants_num, ft_strchr(ft_determine_best_path(farmer, farmer->rooms_counter), ' ') + 1);
-  while (ants_num < farmer->ants_num)
+  ants_arr = ft_create_bid_arr(farmer->ants_num, ft_strchr(ft_determine_best_path(farmer), ' ') + 1);
+  while (ants_num < farmer->ants_num) // HERE IS A TROUBLE WHEN WE CHANGE FARMER->ANTS_NUM FROM SIZE_T TO INT!!!!!!!!!!!!
   {
       ft_putstr(bonus->color_arr[bonus->cants]);
       ft_mv_ants(ants_arr, ants_num++, 0);

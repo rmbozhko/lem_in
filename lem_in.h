@@ -30,7 +30,7 @@ typedef	struct 	s_graph
 typedef	struct 	s_lemin
 {
 	char		**x_coords;
-	size_t		ants_num;
+	int			ants_num;
 	int 		rooms_counter;
 	char		*start;
 	char		*end;
@@ -84,27 +84,28 @@ typedef	struct s_validation
 // # define ERRORS (status == -1 || NO_ENTRY_ROOMS || farmer->ants_num == -1 || NO_ENTRY_POINTS || ft_bidcharcount(farmer->adj_matrix, '1') == 0)
 
 void				ft_errors_handling(int flag, t_bonus *bonus);
-int					lem_in_validation(t_valid *valid, t_lemin *farmer, t_bonus *bonus, char *line);
-int					get_next_line(const int fd, char **line, t_valid *valid);
+int					validation(t_valid *valid, t_lemin *farmer, t_bonus *bonus, char *line);
+int					get_next_line(const int fd, char **line, t_valid *valid, char *str);
 int					ft_bidcharcount(char **link, char c);
 int					dfs_iter(t_lemin *farmer, int i, int j, char *str);
 int					ft_get_rooms_coord(char *room, char **temp);
 void      			ants_travel(t_lemin *farmer, t_bonus *bonus, size_t ant_num);
 int           		ft_get_color(char *str);
 char      			**ft_init_colors_arr(void);
-int 				ft_push_rooms(char **temp, t_lemin *farmer, int flag, t_valid *valid);
+int 				ft_push_rooms(char **temp, t_lemin *farmer, int flag);
 int            		ft_set_colors(t_bonus *bonus, char *line);
 char				*get_in_out_rooms(t_lemin *farmer, t_valid *valid, char *temp);
 void				ft_handle_path(char *str);
-int					ft_count_char(char *str, char c);
 void				ft_free_bidarr(char **arr, size_t len);
 void				ft_push_link(char *link1, char *link2, t_lemin *farmer);
-char        		**ft_create_bid_arr(size_t size, char *str);
-int 				ft_get_rooms_coord(char *room, char **temp);
 int 				ft_check_coords(char *x_coord, char *y_coord, t_lemin *farmer);
 void				ft_add_room_coords(char *elem, t_lemin *farmer, int i);
 void				ft_handle_path(char *str);
 void				ft_print_paths(t_graph **paths, t_bonus *bonus);
 void				ft_print_adj_matrix(char **arr);
 void				ft_init_adj_matrix(t_lemin *farmer);
+void				ft_free_bidarr(char **arr, size_t len);
+int					ft_count_visited(char *str, char *temp, char **arr);
+int					ft_check_repeating_paths(t_graph **graps, char *path);
+void				ft_push_path_node(char *str, t_lemin *farmer, int flag);
 #endif

@@ -30,7 +30,7 @@ int		ft_bidcharcount(char **link, char c)
 
 static	void		ft_help_ants(t_lemin *farmer, t_valid *valid, t_bonus *bonus)
 {
-	if (lem_in_validation(valid, farmer, bonus, ft_strnew(0)))
+	if (validation(valid, farmer, bonus, ft_strnew(0)))
 	{
 		ft_putstr(bonus->color_arr[bonus->cmap]);
 		ft_putstr(valid->file);
@@ -79,7 +79,9 @@ int					main(void)
 	bonus.color_arr = ft_init_colors_arr();
 	ft_init_valid_farmer(&valid, &farmer);
 	ft_help_ants(&farmer, &valid, &bonus);
-	printf("HERE we are!\n");
-	while (1);
+
+	/// I HAVE CHANGED ANTS_NUM (FARMER) FROM SIZE_T TO INT! CHECK WHETHER WOULD IT BECOME A PROBLEM SOMEWHERE?
+	// printf("HERE we are!\n");
+	// while (1);
 	return (0);
 }

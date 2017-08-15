@@ -3,8 +3,7 @@
 char      **ft_init_colors_arr(void)
 {
   char      **temp;
-// https://en.wikipedia.org/wiki/ANSI_escape_code
-// https://askubuntu.com/questions/27314/script-to-display-all-terminal-colors
+  
   temp = (char**)malloc((sizeof(char*) * 13) + 1);
   temp[0] = "\033[0;30m";
   temp[1] = "\033[0;31m";
