@@ -6,7 +6,7 @@
 /*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 16:53:46 by rbozhko           #+#    #+#             */
-/*   Updated: 2017/08/15 14:09:35 by rbozhko          ###   ########.fr       */
+/*   Updated: 2017/08/16 14:39:11 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,5 @@ void			ft_countdown(int end);
 int				ft_bid_findstr(char *room, char **temp);
 char			**ft_create_bid_arr(size_t size, char *str);
 size_t			ft_count_char(char *str, char c);
+void			ft_free_bidarr(char **arr, size_t len);
 #endif

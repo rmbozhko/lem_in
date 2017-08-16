@@ -6,16 +6,16 @@
 /*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/15 13:18:49 by rbozhko           #+#    #+#             */
-/*   Updated: 2017/08/15 13:19:53 by rbozhko          ###   ########.fr       */
+/*   Updated: 2017/08/16 15:15:21 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int 			ft_bid_findstr(char *room, char **temp)
+int		ft_bid_findstr(char *room, char **temp)
 {
 	size_t		i;
-	
+
 	i = 0;
 	while (temp[i])
 	{

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bonus_visual.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/08/16 14:41:26 by rbozhko           #+#    #+#             */
+/*   Updated: 2017/08/16 14:41:27 by rbozhko          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in_bonus.h"
 
 static	void		ft_handle_numbers(int num)
@@ -45,25 +57,26 @@ static void		ft_l_r_a(char *line, int flag, int sub_flag, int i)
 	{
 		printf("%c%c%c%c  ", 0xF0, 0x9F, 0x9B, 0xA3);
 		while (line[++i])
-			(line[i] == '-') ? printf("%c%c%c%c", 0xF0, 0x9F, 0x94, 0x97) : printf("%c", line[i]);
+			(line[i] == '-') ? printf(LINK) : printf("%c", line[i]);
 	}
 	else if (flag == 2 && (line[0] == '#' && line[1] != '#'))
 	{
-		(ft_strcmp(line + 1, "start") == 0) ? printf("%c%c%c%c", 0xF0, 0x9F, 0x9A, 0xA9) : 0;
-		(ft_strcmp(line + 1, "end") == 0) ? printf("%c%c%c%c", 0xF0, 0x9F, 0x8F, 0x81) : 0;
+		(ft_strcmp(line + 1, "start") == 0) ? printf(ST_FLAG) : 0;
+		(ft_strcmp(line + 1, "end") == 0) ? printf(FINISH) : 0;
 		printf("#");
 		ft_print_line(line);
-		(ft_strcmp(line + 1, "start") == 0) ? printf("%c%c%c%c", 0xF0, 0x9F, 0x9A, 0xA9) : 0;
-		(ft_strcmp(line + 1, "end") == 0) ? printf("%c%c%c%c", 0xF0, 0x9F, 0x8F, 0x81) : 0;
+		(ft_strcmp(line + 1, "start") == 0) ? printf(ST_FLAG) : 0;
+		(ft_strcmp(line + 1, "end") == 0) ? printf(FINISH) : 0;
 		printf("\n");
 	}
 	else if (flag == 0)
 	{
-		(sub_flag == 0) ? printf("%c%c%c%c", 0xF0, 0x9F, 0x90, 0x9C) : 0;
-		(sub_flag == 1) ? printf("%c%c%c%c", 0xF0, 0x9F, 0x8F, 0xA0) : 0;
+		(sub_flag == 0) ? printf(ANT) : 0;
+		(sub_flag == 1) ? printf(HOUSE) : 0;
 		ft_print_line(line);
-		(sub_flag == 0) ? printf("%c%c%c%c\n", 0xF0, 0x9F, 0x90, 0x9C) : 0;
-		(sub_flag == 1) ? printf("%c%c%c%c\n", 0xF0, 0x9F, 0x8F, 0xA0) : 0;
+		(sub_flag == 0) ? printf(ANT) : 0;
+		(sub_flag == 1) ? printf(HOUSE) : 0;
+		printf("\n");
 	}
 }
 
@@ -77,10 +90,7 @@ void		ft_handle_ansi_color_codes(char *line)
 	else if (ft_is_numeric(ft_strchr(line, 'm') + 1))
 		ft_l_r_a(ft_strchr(line, 'm') + 1, 0, 0, -1);
 	else if (ft_strstr((ft_strchr(line, 'm') + 1), "ERROR"))
-	{
 		ft_handle_error();
-		printf("\n");
-	}
 	else
 		printf("%s\n", line);
 }
@@ -95,7 +105,8 @@ int			main(void)
 			ft_handle_ansi_color_codes(line);
 		else if (line[0] == '#')
 			ft_l_r_a(line + 1, 2, 0, -1);
-		else if (ft_words_count(line, ' ') == 3 && ft_is_numeric(ft_strsplit(line, ' ')[1])
+		else if (ft_words_count(line, ' ') == 3
+			&& ft_is_numeric(ft_strsplit(line, ' ')[1])
 			&& ft_is_numeric(ft_strsplit(line, ' ')[2]))
 			ft_l_r_a(line, 0, 1, -1);
 		else if (ft_words_count(line, '-') > 1)
@@ -104,12 +115,10 @@ int			main(void)
 			printf("\n");
 		}
 		else if (ft_strstr(line, "ERROR"))
-		{
 			ft_handle_error();
-			printf("\n");
-		}
 		else
 			printf("%s\n", line);
 	}
+	while (1);
 	return (0);
 }

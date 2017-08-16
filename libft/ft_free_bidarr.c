@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_free_bidarr.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/10 14:00:00 by rbozhko           #+#    #+#             */
-/*   Updated: 2017/08/10 14:02:53 by rbozhko          ###   ########.fr       */
+/*   Created: 2017/08/16 14:38:51 by rbozhko           #+#    #+#             */
+/*   Updated: 2017/08/16 14:38:54 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "lem_in.h"
+#include "libft.h"
 
-int		main(void)
+void				ft_free_bidarr(char **arr, size_t len)
 {
-	int				fd;
-	char			*line;
-	t_validation	node;
+	size_t		i;
 
-	fd = open("tests/test2", O_RDONLY);
-	while (get_next_line(fd, &line, &node) > 0)
+	i = 0;
+	while (i < len)
 	{
-		// printf("%s\n", line);
+		ft_memdel((void**)&arr[i]);
+		i++;
 	}
-	printf("%s\n", node.file);
-	while (1);
-	return (0);
+	free(arr);
 }

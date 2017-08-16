@@ -6,7 +6,7 @@
 /*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/07 13:53:41 by rbozhko           #+#    #+#             */
-/*   Updated: 2016/12/26 14:52:15 by rbozhko          ###   ########.fr       */
+/*   Updated: 2017/08/16 15:17:00 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	ft_putnbr_fd(int nb, int fd)
 	int		tempnb;
 
 	tempnb = nb;
-	//if (nb == -2147483648)
-	//	nb = -214748364;
+	if (nb == -2147483648)
+		nb = -214748364;
 	i = 0;
 	if (tempnb < 0)
 		nb = -nb;
@@ -35,6 +35,6 @@ void	ft_putnbr_fd(int nb, int fd)
 		rev[++i] = '-';
 	while (i >= 0)
 		ft_putchar_fd(rev[i--], fd);
-	//if (tempnb == -2147483648)
-	//	ft_putchar_fd('8', fd);
+	if (tempnb == -2147483648)
+		ft_putchar_fd('8', fd);
 }

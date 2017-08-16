@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lem_in.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/08/16 12:46:28 by rbozhko           #+#    #+#             */
+/*   Updated: 2017/08/16 16:03:57 by rbozhko          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
-void		ft_errors_handling(int flag, t_bonus *bonus)
+void			ft_errors_handling(int flag, t_bonus *bonus)
 {
 	ft_putstr(bonus->color_arr[bonus->cerror]);
 	if (flag)
@@ -16,11 +28,11 @@ void		ft_errors_handling(int flag, t_bonus *bonus)
 	ft_putstr("\033[0m\n");
 }
 
-int		ft_bidcharcount(char **link, char c)
+int				c_count(char **link, char c)
 {
-	int		counter;
+	int			counter;
 	size_t		y;
-	
+
 	y = 0;
 	counter = 0;
 	while (link[y])
@@ -28,9 +40,9 @@ int		ft_bidcharcount(char **link, char c)
 	return ((counter == 0) ? (1) : (counter));
 }
 
-static	void		ft_help_ants(t_lemin *farmer, t_valid *valid, t_bonus *bonus)
+static	void	ft_help_ants(t_lemin *farmer, t_valid *valid, t_bonus *bonus)
 {
-	if (validation(valid, farmer, bonus, ft_strnew(0)))
+	if (validate(valid, farmer, bonus, ft_strnew(0)))
 	{
 		ft_putstr(bonus->color_arr[bonus->cmap]);
 		ft_putstr(valid->file);
@@ -43,14 +55,15 @@ static	void		ft_help_ants(t_lemin *farmer, t_valid *valid, t_bonus *bonus)
 		ft_errors_handling(1, bonus);
 }
 
-static	void				ft_init_valid_farmer(t_valid *valid, t_lemin *farmer)
+static	void	ft_init_valid_farmer(t_valid *valid, t_lemin *farmer)
 {
+	valid->status = 0;
 	valid->errors = 0;
 	valid->file = ft_strnew(0);
 	valid->start = 0;
 	valid->end = 0;
 	farmer->rooms_counter = 0;
-	farmer->ants_num = -1;
+	farmer->ants = -1;
 	farmer->start = ft_strdup("\0");
 	farmer->end = ft_strdup("\0");
 	farmer->rooms_arr = (char**)malloc(sizeof(char*) * 1000000);
@@ -66,11 +79,11 @@ static	void				ft_init_valid_farmer(t_valid *valid, t_lemin *farmer)
 	farmer->y_coords[0] = NULL;
 }
 
-int					main(void)
+int				main(void)
 {
-	t_lemin 		farmer;
-	t_valid	valid;
-	t_bonus			bonus;
+	t_lemin		farmer;
+	t_valid		valid;
+	t_bonus		bonus;
 
 	bonus.cerror = 0;
 	bonus.cants = 0;
@@ -79,9 +92,5 @@ int					main(void)
 	bonus.color_arr = ft_init_colors_arr();
 	ft_init_valid_farmer(&valid, &farmer);
 	ft_help_ants(&farmer, &valid, &bonus);
-
-	/// I HAVE CHANGED ANTS_NUM (FARMER) FROM SIZE_T TO INT! CHECK WHETHER WOULD IT BECOME A PROBLEM SOMEWHERE?
-	// printf("HERE we are!\n");
-	// while (1);
 	return (0);
 }

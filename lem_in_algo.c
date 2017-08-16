@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lem_in_algo.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/08/16 16:03:06 by rbozhko           #+#    #+#             */
+/*   Updated: 2017/08/16 16:03:41 by rbozhko          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
 static int			ft_update_room(t_lemin *farmer, char *str, int i, int step)
@@ -18,7 +30,7 @@ static int			ft_update_room(t_lemin *farmer, char *str, int i, int step)
 
 static	char		**ft_add_smth(char **str, t_lemin *farmer, int flag)
 {
-	char 		*temp;
+	char		*temp;
 
 	temp = *str;
 	(flag == 2) ? ft_memdel((void**)&temp) : 0;
@@ -40,19 +52,19 @@ static void			dfs_rec(t_lemin *farmer, int i, char *str)
 	j = ft_update_room(farmer, str, i, 0);
 	while (42)
 	{
-		if (ft_strstr(str, farmer->end) || (farmer->adj_matrix[i][ft_strlen(farmer->adj_matrix[i]) - 1] == '1'))
+		if (ft_strstr(str, farmer->end) || GO_TO_END)
 		{
-			(farmer->adj_matrix[i][ft_strlen(farmer->adj_matrix[i]) - 1] == '1') ? ft_add_smth(&str, farmer, 1) : 0;
-			(ft_check_repeating_paths(farmer->paths, str)) ? ft_push_path_node(str, farmer, 0) : 0;
-		 	return (ft_memdel((void**)&str));
+			(GO_TO_END) ? ft_add_smth(&str, farmer, 1) : 0;
+			ft_push_path_node(str, farmer, 0);
+			return (ft_memdel((void**)&str));
 		}
-		else if ((ft_count_char(farmer->adj_matrix[i], '1') - ft_count_visited(str, farmer->adj_matrix[i], farmer->rooms_arr)) == 0)
+		else if ((COUNT_LINKS(0) - VISITED) == 0)
 			return (ft_memdel((void**)&str));
 		else if (ft_strchr(farmer->adj_matrix[i] + j, '1'))
-			dfs_rec(farmer, j, ft_strjoin((str[ft_strlen(str) - 1] != ' ') ? *(ft_add_smth(&str, farmer, 0)) : str, farmer->rooms_arr[j]));
+			dfs_rec(farmer, j, JOIN_RM_SPC);
 		if (ft_strchr(farmer->adj_matrix[i] + j + 1, '1') != NULL)
 		{
-			j = ft_strchr(farmer->adj_matrix[i] + j + 1, '1') - farmer->adj_matrix[i];
+			j = MOVE_RIGHT(farmer->adj_matrix, i, j, 1, '1');
 			if ((j = ft_update_room(farmer, str, i, j)) == -1)
 				break ;
 		}
@@ -64,7 +76,7 @@ static void			dfs_rec(t_lemin *farmer, int i, char *str)
 
 int					dfs_iter(t_lemin *farmer, int i, int j, char *str)
 {
-	char 		*temp;
+	char		*temp;
 
 	temp = str;
 	while (ft_strchr(farmer->adj_matrix[i] + j, '1'))
@@ -72,13 +84,13 @@ int					dfs_iter(t_lemin *farmer, int i, int j, char *str)
 		ft_memdel((void**)&temp);
 		str = ft_strjoin(str, farmer->rooms_arr[i]);
 		temp = str;
-		if (ft_strcmp(farmer->rooms_arr[i], farmer->end) == 0 || (ft_count_char(farmer->adj_matrix[i] + j, '1') - ft_count_visited(str, farmer->adj_matrix[i], farmer->rooms_arr)) != 1)
+		if (ft_strstr(str, farmer->end) || (COUNT_LINKS(j) - VISITED) != 1)
 			break ;
-		else if (ft_count_char(farmer->adj_matrix[i] + j, '1') - ft_count_visited(str, farmer->adj_matrix[i], farmer->rooms_arr) == 1)
+		else if ((COUNT_LINKS(j) - VISITED) == 1)
 		{
 			temp = *(ft_add_smth(&str, farmer, 2));
-			j = (ft_count_char(farmer->adj_matrix[i] + j, '1') == 2) ? ft_update_room(farmer, str, i, 0) : j;
-			i = ft_strchr(farmer->adj_matrix[i] + j, '1') - farmer->adj_matrix[i];
+			j = (COUNT_LINKS(j) == 2) ? ft_update_room(farmer, str, i, 0) : j;
+			i = MOVE_RIGHT(farmer->adj_matrix, i, j, 0, '1');
 			j = 0;
 		}
 	}

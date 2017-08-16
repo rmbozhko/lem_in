@@ -113,4 +113,5 @@ void    ft_handle_error(void)
     printf("%c%c%c", 0xE2, 0x9B, 0x94);
     printf("%c%c%c\n", 0xE2, 0x9B, 0x94);
     second_line();
+    printf("\n");
 }

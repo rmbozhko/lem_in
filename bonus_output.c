@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bonus_output.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/08/16 13:02:50 by rbozhko           #+#    #+#             */
+/*   Updated: 2017/08/16 13:03:12 by rbozhko          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
 void		ft_handle_path(char *str)
@@ -30,7 +42,7 @@ void		ft_print_paths(t_graph **paths, t_bonus *bonus)
 		i++;
 	}
 	ft_putstr("\033[0m\n");
-}	
+}
 
 void		ft_print_adj_matrix(char **arr)
 {

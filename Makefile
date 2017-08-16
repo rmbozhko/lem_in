@@ -1,7 +1,7 @@
 NAME = lem-in
 CC = gcc
 
-SRC = lem_in.c lem_in_validation.c lem_in_gnl.c lem_in_algo.c lem_in_print_path.c bonus_colors.c validation_add_fts.c algo_add_fts.c bonus_output.c
+SRC = lem_in.c lem_in_validation.c lem_in_algo.c lem_in_print.c lem_in_gnl.c bonus_colors.c validation_add_fts.c algo_add_fts.c bonus_output.c
 
 OBJ = $(SRC:.c=.o)
 CFLAGS = -c -Wall -Wextra -Werror

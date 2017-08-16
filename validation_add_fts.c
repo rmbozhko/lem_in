@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validation_add_fts.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/08/16 12:50:17 by rbozhko           #+#    #+#             */
+/*   Updated: 2017/08/16 12:51:24 by rbozhko          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
 char			*get_in_out_rooms(t_lemin *farmer, t_valid *valid, char *temp)
@@ -5,7 +17,7 @@ char			*get_in_out_rooms(t_lemin *farmer, t_valid *valid, char *temp)
 	char		*line;
 
 	line = NULL;
-	while (get_next_line(0, &line, valid, ft_strnew(0)) > 0)
+	while (gnl(0, &line, valid, ft_strnew(0)) > 0)
 	{
 		if (line[0] == '#')
 		{
@@ -14,11 +26,11 @@ char			*get_in_out_rooms(t_lemin *farmer, t_valid *valid, char *temp)
 		}
 		else if (ft_words_count(line, ' ') == 3)
 		{
-			if (!ft_push_rooms(ft_strsplit(line, ' '), farmer, 0, valid))
+			if (!ft_push_rooms(ft_strsplit(line, ' '), farmer, 0))
 			{
-			 	temp = ft_strsub(line, 0, ft_strchr(line, ' ') - line);
-			 	DEL(line);
-			 	return (temp);
+				temp = ft_strsub(line, 0, ft_strchr(line, ' ') - line);
+				DEL(line);
+				return (temp);
 			}
 			break ;
 		}
@@ -52,12 +64,13 @@ void			ft_init_adj_matrix(t_lemin *farmer)
 	farmer->rooms_arr[ft_bidlen(farmer->rooms_arr)] = ft_strdup(farmer->end);
 	farmer->rooms_arr[ft_bidlen(farmer->rooms_arr) + 1] = NULL;
 	free(farmer->adj_matrix);
-	temp = ft_memset(ft_strnew(sizeof(char) * ft_bidlen(farmer->rooms_arr) + 1), '0', ft_bidlen(farmer->rooms_arr));
+	temp = ft_memset(ft_strnew(sizeof(char) * ft_bidlen(farmer->rooms_arr) + 1),
+			'0', ft_bidlen(farmer->rooms_arr));
 	farmer->adj_matrix = ft_create_bid_arr(ft_bidlen(farmer->rooms_arr), temp);
 	DEL(temp);
 }
 
-int 			ft_check_coords(char *x_coord, char *y_coord, t_lemin *farmer)
+int				ft_check_coords(char *x_coord, char *y_coord, t_lemin *farmer)
 {
 	size_t			i;
 
@@ -74,8 +87,6 @@ int 			ft_check_coords(char *x_coord, char *y_coord, t_lemin *farmer)
 
 void			ft_add_room_coords(char *elem, t_lemin *farmer, int i)
 {
-	int 		temp;
-
 	if (i == -2)
 	{
 		farmer->x_coords[ft_bidlen(farmer->x_coords)] = ft_strdup(elem);

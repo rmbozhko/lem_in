@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   lem_in_gnl.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/22 15:58:24 by rbozhko           #+#    #+#             */
-/*   Updated: 2017/02/22 15:58:27 by rbozhko          ###   ########.fr       */
+/*   Created: 2017/08/16 13:03:47 by rbozhko           #+#    #+#             */
+/*   Updated: 2017/08/16 13:05:45 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,18 @@ static int		ft_rtn_line(char *temp, char **line, t_valid *valid)
 		return (ft_no_nl_line(temp, line, valid));
 }
 
-int				get_next_line(const int fd, char **line, t_valid *valid, char *str)
+int				gnl(const int fd, char **line, t_valid *valid, char *str)
 {
 	static	char		*head = NULL;
 	char				*temp;
 	int					bytes;
-	char				buff[BUFF_SIZE + 1];																																													
+	char				buff[BUFF_SIZE + 1];
 
 	if (IF_FP || IF_SP)
 		return (-1);
 	!(head) ? head = ft_strnew(BUFF_SIZE + 1) : 0;
 	temp = head;
-	while ((bytes = read(fd, buff, BUFF_SIZE)) >= 0)					
+	while ((bytes = read(fd, buff, BUFF_SIZE)) >= 0)
 	{
 		DEL(str);
 		(bytes < BUFF_SIZE) ? buff[bytes] = '\0' : 0;

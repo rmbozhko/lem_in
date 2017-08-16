@@ -1,16 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lem_in_validation.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/08/16 12:59:54 by rbozhko           #+#    #+#             */
+/*   Updated: 2017/08/16 13:01:06 by rbozhko          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
-int 		ft_push_rooms(char **temp, t_lemin *farmer, int flag)
+int				ft_push_rooms(char **temp, t_lemin *farmer, int flag)
 {
 	size_t		i;
-	int 		counter;
+	int			counter;
 
 	counter = 1;
-	if (ft_is_numeric(temp[1]) && ft_is_numeric(temp[2]) && (temp[0][0] != '#' && temp[0][0] != 'L'))
+	if (ft_is_numeric(temp[1]) && ft_is_numeric(temp[2]) && FORBIDDEN_CHARS)
 	{
 		counter = 0;
 		i = 0;
-		if (ft_strcmp(temp[0], farmer->start) == 0 || ft_strcmp(temp[0], farmer->end) == 0)
+		if (ft_strcmp(temp[0], farmer->start) == 0
+			|| ft_strcmp(temp[0], farmer->end) == 0)
 			counter = 1;
 		while (farmer->rooms_arr[++i] != NULL)
 			(CHECK_ROOMS(0, i) == 0) ? counter = 1 : 0;
@@ -27,17 +40,17 @@ int 		ft_push_rooms(char **temp, t_lemin *farmer, int flag)
 	return ((counter) ? 1 : 0);
 }
 
-static	int 	ft_hash_case(char *line, t_valid *valid, t_lemin *farmer, t_bonus *bonus)
+static	int		hash_case(char *line, t_valid *v, t_lemin *farmer, t_bonus *b)
 {
 	char		*temp;
 
 	temp = NULL;
-	if (SNG_HASH_CMNT && (ft_strstr(line, "#start") || ft_strstr(line, "#end") || COLOR_CASES))
+	if (SNG_HASH_CMNT && (GEN_ROOMS_CHECK || COLOR_CASES))
 	{
 		if (ft_strcmp(line, "#start") == 0 || ft_strcmp(line, "#end") == 0)
 		{
-			(ft_strcmp(line, "#start") == 0) ? valid->start++ : valid->end++;
-			if ((temp = get_in_out_rooms(farmer, valid, NULL)) != NULL)
+			(ft_strcmp(line, "#start") == 0) ? v->start++ : v->end++;
+			if ((temp = get_in_out_rooms(farmer, v, NULL)) != NULL)
 			{
 				(ft_strcmp(line, "#start") == 0)
 					? DEL(farmer->start) : DEL(farmer->end);
@@ -49,17 +62,17 @@ static	int 	ft_hash_case(char *line, t_valid *valid, t_lemin *farmer, t_bonus *b
 			}
 		}
 		else if (COLOR_CASES)
-			return (ft_set_colors(bonus, line));
+			return (ft_set_colors(b, line));
 		DEL(temp);
 		return (1);
 	}
 	return (0);
 }
 
-static	int 	ft_find_rooms(char **temp, t_lemin *farmer)
+static	int		ft_find_rooms(char **temp, t_lemin *farmer)
 {
 	size_t		i;
-	int 		counter;
+	int			counter;
 
 	i = 0;
 	counter = 0;
@@ -76,41 +89,39 @@ static	int 	ft_find_rooms(char **temp, t_lemin *farmer)
 	free(temp[1]);
 	free(temp[0]);
 	free(temp);
-	return ((counter == 2) ?  (0) : (1));
+	return ((counter == 2) ? (0) : (1));
 }
 
-static	int 	ft_ants_num(char *line, t_lemin *farmer)
+static	int		ants_num(char *line, t_lemin *farmer)
 {
 	intmax_t	temp;
 
 	temp = ft_atoi_base(line, 10);
 	if (temp >= 1 && temp <= 2147483647)
 	{
-		farmer->ants_num = temp;
+		farmer->ants = temp;
 		return (0);
 	}
 	return (1);
 }
 
-int				validation(t_valid *valid, t_lemin *farmer, t_bonus *bonus, char *line)
+int				validate(t_valid *valid, t_lemin *farmer, t_bonus *b, char *l)
 {
-	int 		status;
-
-	while ((status = get_next_line(0, &line, valid, ft_strnew(0))) > 0)
+	while ((valid->status = gnl(0, &l, valid, ft_strnew(0))) > 0)
 	{
-		if (ft_is_numeric(line))
-			valid->errors += (farmer->ants_num == -1) ? ft_ants_num(line, farmer) : 1;
-		else if (line[0] == '#')
-			valid->errors += ft_hash_case(line + 1, valid, farmer, bonus);
-		else if (ft_words_count(line, ' ') == 3)
-			valid->errors += ft_push_rooms(ft_strsplit(line, ' '), farmer, 1);
-		else if (ft_words_count(line, '-') == 2 && ENTRY_ROOMS && farmer->ants_num != -1)
-			valid->errors += ft_find_rooms(ft_strsplit(line, '-'), farmer);
+		if (ft_is_numeric(l))
+			valid->errors += (farmer->ants == -1) ? ants_num(l, farmer) : 1;
+		else if (l[0] == '#')
+			valid->errors += hash_case(l + 1, valid, farmer, b);
+		else if (ft_words_count(l, ' ') == 3)
+			valid->errors += ft_push_rooms(ft_strsplit(l, ' '), farmer, 1);
+		else if (ft_words_count(l, '-') == 2 && GEN_ROOMS && farmer->ants != -1)
+			valid->errors += ft_find_rooms(ft_strsplit(l, '-'), farmer);
 		else
 		{
 			if (NO_ERRORS)
 			{
-				ft_errors_handling(1, bonus);
+				ft_errors_handling(1, b);
 				break ;
 			}
 			valid->errors += 1;
@@ -118,6 +129,6 @@ int				validation(t_valid *valid, t_lemin *farmer, t_bonus *bonus, char *line)
 		if (valid->errors != 0)
 			break ;
 	}
-	DEL(line);
+	DEL(l);
 	return ((NO_ERRORS) ? (dfs_iter(farmer, 0, 0, ft_strnew(0))) : (0));
 }
