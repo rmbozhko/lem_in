@@ -1,117 +1,133 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bonus_visual_err.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/08/17 13:18:47 by rbozhko           #+#    #+#             */
+/*   Updated: 2017/08/17 13:18:48 by rbozhko          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in_bonus.h"
 
-static  void    fifth_line(void)
+static	void		fifth_line(void)
 {
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("    ");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("    ");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("    ");
-    printf("%c%c%c\n", 0xE2, 0x9B, 0x94);
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf("\t");
+	printf(ERROR_SIGN);
+	printf("    ");
+	printf(ERROR_SIGN);
+	printf("\t");
+	printf(ERROR_SIGN);
+	printf("    ");
+	printf(ERROR_SIGN);
+	printf("\t");
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf("\t\t");
+	printf(ERROR_SIGN);
+	printf("    ");
+	printf(ERROR_SIGN);
 }
 
-static  void    forth_line(void)
+static	void		forth_line(void)
 {
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("   ");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("   ");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t       ");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("   ");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("   ");
-    printf("%c%c%c\n", 0xE2, 0x9B, 0x94);
-    fifth_line();
+	printf(ERROR_SIGN);
+	printf("\t\t");
+	printf(ERROR_SIGN);
+	printf("   ");
+	printf(ERROR_SIGN);
+	printf("\t\t");
+	printf(ERROR_SIGN);
+	printf("   ");
+	printf(ERROR_SIGN);
+	printf("\t       ");
+	printf(ERROR_SIGN);
+	printf("   ");
+	printf(ERROR_SIGN);
+	printf("\t\t");
+	printf(ERROR_SIGN);
+	printf("   ");
+	printf(ERROR_SIGN);
+	printf("\n");
+	fifth_line();
 }
 
-static  void    third_line(void)
+static	void		third_line(void)
 {
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t       ");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("   ");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c\n", 0xE2, 0x9B, 0x94);
-    forth_line();
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf("\t\t");
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf("\t\t");
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf("\t       ");
+	printf(ERROR_SIGN);
+	printf("   ");
+	printf(ERROR_SIGN);
+	printf("\t\t");
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf("\n");
+	forth_line();
 }
 
-static  void    second_line(void)
+static	void		second_line(void)
 {
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("   ");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("   ");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t       ");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("   ");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("   ");
-    printf("%c%c%c\n", 0xE2, 0x9B, 0x94);
-    third_line();
+	printf(ERROR_SIGN);
+	printf("\t\t");
+	printf(ERROR_SIGN);
+	printf("   ");
+	printf(ERROR_SIGN);
+	printf("\t\t");
+	printf(ERROR_SIGN);
+	printf("   ");
+	printf(ERROR_SIGN);
+	printf("\t       ");
+	printf(ERROR_SIGN);
+	printf("   ");
+	printf(ERROR_SIGN);
+	printf("\t\t");
+	printf(ERROR_SIGN);
+	printf("   ");
+	printf(ERROR_SIGN);
+	printf("\n");
+	third_line();
 }
 
-void    ft_handle_error(void)
+void				ft_handle_error(void)
 {
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("\t\t");
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c", 0xE2, 0x9B, 0x94);
-    printf("%c%c%c\n", 0xE2, 0x9B, 0x94);
-    second_line();
-    printf("\n");
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf("\t");
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf("\t\t");
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf("\t\t");
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf("\t\t");
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf(ERROR_SIGN);
+	printf("\n");
+	second_line();
+	printf("\n");
 }

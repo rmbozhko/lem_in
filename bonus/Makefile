@@ -3,9 +3,8 @@ CC = gcc
 
 SRC = bonus_visual.c bonus_visual_err.c get_next_line.c 
 OBJ = $(SRC:.c=.o)
-CFLAGS = -c 
-#-Wall -Wextra -Werror
-HEADER = lem_in_bonus.h
+CFLAGS = -c -Wall -Wextra -Werror
+HEADER = bonus.h
 
 all: $(NAME)
 

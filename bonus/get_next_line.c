@@ -12,74 +12,64 @@
 
 #include "get_next_line.h"
 
-static t_node	*ft_create(int fd)
+static	int		ft_no_nl_line(char *temp, char **line)
 {
-	t_node	*temp;
+	char		*str;
+	char		*string;
 
-	temp = (t_node*)malloc(sizeof(t_node));
-	(fd >= 0) ? temp->fd = fd : 0;
-	temp->str = ft_strnew(0);
-	temp->next = NULL;
-	return (temp);
+	str = temp;
+	string = *line;
+	ft_memdel((void**)&string);
+	*line = ft_strdup(temp);
+	ft_memset(temp, 0, ft_strlen(temp));
+	ft_memdel((void**)&str);
+	return (1);
 }
 
-static t_node	*ft_cmp_fd(int fd, t_node *demo)
+static int		ft_rtn_line(char *temp, char **line)
 {
-	t_node	*temp;
+	char		*str;
+	char		*string;
 
-	temp = demo;
-	while (temp)
+	str = temp;
+	string = *line;
+	if (NL_CODE)
 	{
-		if (temp->fd == fd)
-			break ;
-		(!(temp->next)) ? temp->next = ft_create(fd) : 0;
-		temp = temp->next;
-	}
-	return (temp);
-}
-
-static int		ft_rtn_line(t_node *temp, char buff[], char **line)
-{
-	if (ft_strchr(temp->str, '\n'))
-	{
-		*line = ft_strsub(temp->str, 0, S_C_SUB);
-		temp->str += S_C_SUB;
+		*line = ft_strsub(temp, 0, S_C_SUB);
+		ft_memdel((void**)&string);
+		string = *line;
+		ft_memdel((void**)&str);
 		return (1);
 	}
-	else if ((!(ft_strchr(temp->str, '\n'))) && ft_strlen(buff) == 0)
-	{
-		*line = ft_strdup(temp->str);
-		ft_memset(temp->str, 0, ft_strlen(temp->str));
-		return (1);
-	}
-	return (0);
+	else
+		return (ft_no_nl_line(temp, line));
 }
 
-int				get_next_line(const int fd, char **line)
+int				get_next_line(const int fd, char **line, char *str)
 {
-	static	t_node		*head = NULL;
-	t_node				*temp;
+	static	char		*head = NULL;
+	char				*temp;
 	int					bytes;
 	char				buff[BUFF_SIZE + 1];
 
 	if (IF_FP || IF_SP)
 		return (-1);
-	!(head) ? head = ft_create(fd) : 0;
-	temp = ft_cmp_fd(fd, head);
+	!(head) ? head = ft_strnew(BUFF_SIZE + 1) : 0;
+	temp = head;
 	while ((bytes = read(fd, buff, BUFF_SIZE)) >= 0)
 	{
+		ft_memdel((void**)&str);
 		(bytes < BUFF_SIZE) ? buff[bytes] = '\0' : 0;
-		temp->str = ft_strjoin(temp->str, buff);
-		(temp->str[0] == '\n') ? temp->str += 1 : 0;
-		if (ft_strlen(temp->str) > 0)
+		temp = ft_strjoin(temp, buff);
+		str = temp;
+		if (ft_strlen(temp) > 0)
 		{
-			if ((ft_strchr(temp->str, 10)) ||
-				(!ft_strchr(temp->str, 10) && ft_strlen(buff) == 0))
-				if (ft_rtn_line(temp, buff, line) == 1)
-					return (1);
+			if ((NL_CODE) || (!NL_CODE && ft_strlen(buff) == 0))
+				return (ft_rtn_line(temp, line));
 		}
-		else if (bytes == 0)
-			return (0);
+		else if (bytes == 0 || (bytes == 1 && buff[0] == '\n'))
+			break ;
 	}
+	ft_memdel((void**)&str);
 	return (0);
 }
