@@ -77,7 +77,6 @@ static	void	ft_init_valid_farmer(t_valid *valid, t_lemin *farmer)
 	farmer->y_coords = (char**)malloc(sizeof(char*) * 1000000);
 	farmer->x_coords[0] = NULL;
 	farmer->y_coords[0] = NULL;
-	farmer->begin_path = NULL;
 }
 
 int				main(void)
