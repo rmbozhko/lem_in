@@ -94,6 +94,7 @@ int					dfs_iter(t_lemin *farmer, int i, int j, char *str)
 			j = 0;
 		}
 	}
+	farmer->begin_path = (ft_strchr(farmer->adj_matrix[i], '1')) ? ft_strdup(temp) : farmer->begin_path;
 	if (ft_strstr(str, farmer->end))
 		ft_push_path_node(str, farmer, 1);
 	else if (ft_strchr(farmer->adj_matrix[i], '1'))
