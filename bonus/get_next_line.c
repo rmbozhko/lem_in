@@ -6,11 +6,11 @@
 /*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/22 15:58:24 by rbozhko           #+#    #+#             */
-/*   Updated: 2017/02/22 15:58:27 by rbozhko          ###   ########.fr       */
+/*   Updated: 2017/10/13 12:46:15 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "bonus.h"
 
 static	int		ft_no_nl_line(char *temp, char **line)
 {

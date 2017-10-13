@@ -66,15 +66,15 @@ static	void	ft_init_valid_farmer(t_valid *valid, t_lemin *farmer)
 	farmer->ants = -1;
 	farmer->start = ft_strdup("\0");
 	farmer->end = ft_strdup("\0");
-	farmer->rooms_arr = (char**)malloc(sizeof(char*) * 1000000);
+	farmer->rooms_arr = (char**)malloc(sizeof(char*) * 10000000);
 	farmer->rooms_arr[0] = ft_strdup("\0");
 	farmer->rooms_arr[1] = NULL;
 	farmer->adj_matrix = (char**)malloc(sizeof(char*));
 	farmer->adj_matrix[0] = NULL;
-	farmer->paths = (t_graph**)malloc(sizeof(t_graph**) * 1000000);
+	farmer->paths = (t_graph**)malloc(sizeof(t_graph**) * 10000000);
 	farmer->paths[0] = NULL;
-	farmer->x_coords = (char**)malloc(sizeof(char*) * 1000000);
-	farmer->y_coords = (char**)malloc(sizeof(char*) * 1000000);
+	farmer->x_coords = (char**)malloc(sizeof(char*) * 10000000);
+	farmer->y_coords = (char**)malloc(sizeof(char*) * 10000000);
 	farmer->x_coords[0] = NULL;
 	farmer->y_coords[0] = NULL;
 }
@@ -92,5 +92,6 @@ int				main(void)
 	bonus.color_arr = ft_init_colors_arr();
 	ft_init_valid_farmer(&valid, &farmer);
 	ft_help_ants(&farmer, &valid, &bonus);
+	sleep(5);
 	return (0);
 }

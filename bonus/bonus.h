@@ -6,7 +6,7 @@
 /*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 13:20:48 by rbozhko           #+#    #+#             */
-/*   Updated: 2017/08/17 13:20:49 by rbozhko          ###   ########.fr       */
+/*   Updated: 2017/10/13 12:45:08 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/libft.h"
 # include <fcntl.h>
+# include <stdio.h>
 
 # define LINK "%c%c%c%c", 0xF0, 0x9F, 0x94, 0x97
 # define ST_FLAG "%c%c%c%c", 0xF0, 0x9F, 0x9A, 0xA9

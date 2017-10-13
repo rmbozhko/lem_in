@@ -6,11 +6,11 @@
 /*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 13:18:47 by rbozhko           #+#    #+#             */
-/*   Updated: 2017/08/17 13:18:48 by rbozhko          ###   ########.fr       */
+/*   Updated: 2017/10/13 12:45:28 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in_bonus.h"
+#include "bonus.h"
 
 static	void		fifth_line(void)
 {

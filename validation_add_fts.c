@@ -14,22 +14,22 @@
 
 char			*get_in_out_rooms(t_lemin *farmer, t_valid *valid, char *temp)
 {
-	char		*line;
+	char		*l;
 
-	line = NULL;
-	while (gnl(0, &line, valid, ft_strnew(0)) > 0)
+	l = NULL;
+	while (gnl(0, &l, valid, ft_strnew(0)) > 0)
 	{
-		if (line[0] == '#')
+		if (l[0] == '#')
 		{
-			DEL(line);
+			DEL(l);
 			continue ;
 		}
-		else if (ft_words_count(line, ' ') == 3)
+		else if ((ft_words_count(l, ' ') == 3) && (ft_count_char(l, ' ') == 2))
 		{
-			if (!ft_push_rooms(ft_strsplit(line, ' '), farmer, 0))
+			if (!ft_push_rooms(ft_strsplit(l, ' '), farmer, 0))
 			{
-				temp = ft_strsub(line, 0, ft_strchr(line, ' ') - line);
-				DEL(line);
+				temp = ft_strsub(l, 0, ft_strchr(l, ' ') - l);
+				DEL(l);
 				return (temp);
 			}
 			break ;
@@ -37,7 +37,7 @@ char			*get_in_out_rooms(t_lemin *farmer, t_valid *valid, char *temp)
 		else
 			break ;
 	}
-	DEL(line);
+	DEL(l);
 	return (NULL);
 }
 

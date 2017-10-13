@@ -6,11 +6,11 @@
 /*   By: rbozhko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 14:41:26 by rbozhko           #+#    #+#             */
-/*   Updated: 2017/08/16 14:41:27 by rbozhko          ###   ########.fr       */
+/*   Updated: 2017/10/13 12:44:39 by rbozhko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in_bonus.h"
+#include "bonus.h"
 
 static	void		ft_print_line(char *line, int i)
 {

@@ -9,7 +9,7 @@ HEADER = bonus.h
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	make -C ../libft
+	@make -C ../libft
 	@$(CC) $(OBJ) -L../libft -lft -o $(NAME)
 	@echo "\033[0;33mLem-in bonus part is compiled\033[0m"
 

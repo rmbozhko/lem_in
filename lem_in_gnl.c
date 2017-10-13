@@ -62,6 +62,12 @@ static int		ft_rtn_line(char *temp, char **line, t_valid *valid)
 		return (ft_no_nl_line(temp, line, valid));
 }
 
+int				ft_return_error_case(char **str)
+{
+	ft_memdel((void**)str);
+	return (-1);
+}
+
 int				gnl(const int fd, char **line, t_valid *valid, char *str)
 {
 	static	char		*head = NULL;
@@ -70,7 +76,7 @@ int				gnl(const int fd, char **line, t_valid *valid, char *str)
 	char				buff[BUFF_SIZE + 1];
 
 	if (IF_FP || IF_SP)
-		return (-1);
+		return (ft_return_error_case(&str));
 	!(head) ? head = ft_strnew(BUFF_SIZE + 1) : 0;
 	temp = head;
 	while ((bytes = read(fd, buff, BUFF_SIZE)) >= 0)

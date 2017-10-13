@@ -113,7 +113,7 @@ int				validate(t_valid *valid, t_lemin *farmer, t_bonus *b, char *l)
 			valid->errors += (farmer->ants == -1) ? ants_num(l, farmer) : 1;
 		else if (l[0] == '#')
 			valid->errors += hash_case(l + 1, valid, farmer, b);
-		else if (ft_words_count(l, ' ') == 3)
+		else if ((ft_words_count(l, ' ') == 3) && (ft_count_char(l, ' ') == 2))
 			valid->errors += ft_push_rooms(ft_strsplit(l, ' '), farmer, 1);
 		else if (ft_words_count(l, '-') == 2 && GEN_ROOMS && farmer->ants != -1)
 			valid->errors += ft_find_rooms(ft_strsplit(l, '-'), farmer);
